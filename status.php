@@ -182,6 +182,10 @@
 					width: 95% !important;
 				}
 
+				#status_form {
+					font-size: 15px;
+				}
+
 				#mts,
 				#divpdh,
 				#rwyt_penyakit,
@@ -411,7 +415,7 @@
 								<div class="form-group">
 									<!-- <label class="col-md-3 control-label"> PENDAFTARAN UNTUK KELAS<sup style="color: red;">*</sup> : </label> -->
 									<div class="col-md-12">
-										<center> <h1> PENDAFTARAN BERHASIL </h1> </center>
+										<center> <h1 id="status_form"> PENDAFTARAN BERHASIL </h1> </center>
 									</div>
 								</div>
 								
