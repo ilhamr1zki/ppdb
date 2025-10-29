@@ -76,8 +76,11 @@
 								<label class="col-md-4 control-label" id="label_nama_calon_siswa" for="password_lg">
 									PASSWORD :
 								</label>
-								<div class="col-md-8">
+								<div class="col-md-6">
 									<input type="password" required class="form-control" name="password_lg" id="password_lg">
+								</div>
+								<div class="col-md-2" style="border: 0px solid white;">
+									<i class="glyphicon glyphicon-eye-open form-control"></i>
 								</div>
 							</div>
 
