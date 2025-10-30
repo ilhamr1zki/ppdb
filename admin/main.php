@@ -798,19 +798,34 @@ oncontextmenu="return false">
         <!-- Export Data -->
         <li>
           <a href="#" id="export_data">
-            <i class="glyphicon glyphicon-export"></i> <span style="margin-left: 5px;"> IMPORT & EXPORT DATA </span>
+            <i class="glyphicon glyphicon-export"></i> <span> IMPORT & EXPORT DATA </span>
           </a>
           <ul class="treeview-menu">
               <li> <a href="<?= $basead; ?>export_ppdb.php"><i class="glyphicon glyphicon-export"></i> <span style="margin-left: 7px;"> </span> Export PPDB </a> </li>
               <li> <a href="<?= $basead; ?>export_spp.php"><i class="glyphicon glyphicon-export"></i> <span style="margin-left: 7px;"> </span> Export Untuk SPP </a> </li>
               <!-- <li> <a href="<?= $basead; ?>export_tahfidz.php"><i class="glyphicon glyphicon-export"></i> <span style="margin-left: 7px;"> </span> Export Untuk TAHFIDZ </a> </li> -->
-              <li> <a href="<?= $basead; ?>importdatappdbbaru" id="import_baru"><i class="glyphicon glyphicon-download"></i> <span style="margin-left: 7px;"> </span> Import PPDB Baru </a> </li>
+              <!-- <li> <a href="<?= $basead; ?>importdatappdbbaru" id="import_baru"><i class="glyphicon glyphicon-download"></i> <span style="margin-left: 7px;"> </span> Import PPDB Baru </a> </li> -->
               <li> <a href="<?= $basead; ?>importdatappdbditerima" id="import"><i class="glyphicon glyphicon-download"></i> <span style="margin-left: 7px;"> </span> <small> Import PPDB Yang Di Terima </small> </a> </li>
           </ul>
         </li>
 
+        <!-- STATUS -->
+        <li>
+          <a href="#" id="list_status">
+            <i class="glyphicon glyphicon-check"></i> <span id="titleList2"> STATUS </span>
+          </a>
+          <ul class="treeview-menu">
+            
+            <li>
+              <a href="<?= $basead; ?>status_terima" id="status_terima"><i class="glyphicon glyphicon-ok-sign" id="terima"></i> <span style="margin-left: 7px;" id="sp_trm"> Terima </span> </a>
+              <a href="<?= $basead; ?>status_tolak" id="status_tolak"><i class="glyphicon glyphicon-remove-sign" id="tolak"></i> <span style="margin-left: 7px;"> Tolak </span> </a>
+            </li>
+
+          </ul>
+        </li>
+
         <!-- MAINTENANCE -->
-        <!-- <li>
+        <li>
           <a href="#" id="list_maintenance">
             <i class="glyphicon glyphicon-cog"></i> <span id="titleList2"> MAINTENANCE </span>
           </a>
@@ -821,7 +836,7 @@ oncontextmenu="return false">
             </li>
 
           </ul>
-        </li> -->
+        </li>
 
         <!-- Users -->
         <!-- <li>
@@ -901,15 +916,19 @@ oncontextmenu="return false">
     //   require 'view/dashboard/index.php';
     // }
 
-    #region announcement
-    elseif($act == 'createinfo') {
-      require 'view/announcement/index.php';
+    #region status
+    elseif($act == 'status_terima') {
+      require 'view/status/terima/index.php';
+    }
+
+    elseif($act == 'status_tolak') {
+      require 'view/status/tolak/index.php';
     }
 
     #region form maintenance
-    // elseif ($act == 'tahunajaran') {
-    //   require 'view/maintenance/tahun_ajaran/index.php';
-    // } 
+    elseif ($act == 'tahunajaran') {
+      require 'view/maintenance/tahun_ajaran/index.php';
+    } 
 
     else{
       require 'view/404.php';

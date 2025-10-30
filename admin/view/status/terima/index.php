@@ -378,94 +378,75 @@
 
 ?>
 
-<div class="row">
-    
-    <div class="col-xs-12 col-md-12 col-lg-12">
+<div class="box box-info">
 
-    	<?php if ($checkForm == 2): ?>
+    <center> 
+      <h4 id="judul_daily">
+        <strong> <u> DATA CALON SISWA YANG TELAH DITERIMA </u> </strong> 
+      </h4> 
+    </center>
 
-    		<div class="alert alert-danger alert-dismissable"> <span style="color: yellow;"> DATA ATAS NAMA <?= $clnSiswa; ?> SUDAH ADA </span>
-             	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-             	<?php $checkForm = 0; ?>
-          	</div>
-    		
-    	<?php endif ?>
+    <!-- <div class="form-group"> -->
+      
+    <!-- </div> -->
 
-        <?php if(isset($_SESSION['form_success']) && $_SESSION['form_success'] == 'type_fail'){?>
-          <div style="display: none;" class="alert alert-danger alert-dismissable"> Silahkan Masukan file bertipe xls, atau xlsx
-             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-             <?php unset($_SESSION['form_success']); ?>
-          </div>
-        <?php } ?>
+    <div class="box-body table-responsive">
 
-        <?php if(isset($_SESSION['import_success']) && $_SESSION['import_success'] == 'berhasil'){?>
-          <div style="display: none;" class="alert alert-warning alert-dismissable"> <?php echo $total . " Data Berhasil di Import !"; ?>
-             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-             <?php unset($_SESSION['import_success']); ?>
-          </div>
-        <?php } ?>
+      <table id="hightlight_list_siswa" style="text-align: center; width: 200%;" class="table table-bordered table-hover">
 
-        <?php if(isset($_SESSION['form_success']) && $_SESSION['form_success'] == 'type_fail'){?>
-          <div style="display: none;" class="alert alert-danger alert-dismissable"> Silahkan Masukan file bertipe xls, atau xlsx
-             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-             <?php unset($_SESSION['form_success']); ?>
-          </div>
-        <?php } ?>
+        <thead>
+          <tr style="background-color: lightyellow; font-weight: bold;">
+            <th style="text-align: center; border: 1px solid black;" width="5%">NO</th>
+            <th style="text-align: center; border: 1px solid black;"> NAMA CALON SISWA </th>
+            <th style="text-align: center; border: 1px solid black;"> JENIS KELAMIN </th>
+            <th style="text-align: center; border: 1px solid black; width: 220px;"> TEMPAT TANGGAL LAHIR </th>
+            <th style="text-align: center; border: 1px solid black;"> BACAAN TAHSIN </th>
+            <th style="text-align: center; border: 1px solid black; width: 242px;"> BANYAK JUZ YANG DI HAFAL </th>
+            <th style="text-align: center; border: 1px solid black; width: 250px;"> JUZ & SURAT YANG DI HAFAL </th>
+            <th style="text-align: center; border: 1px solid black;"> AKTE KELAHIRAN </th>
+            <th style="text-align: center; border: 1px solid black;"> KARTU KELUARGA </th>
+            <th style="text-align: center; border: 1px solid black;"> KTP AYAH </th>
+            <th style="text-align: center; border: 1px solid black;"> KTP IBU </th>
+            <th style="text-align: center; border: 1px solid black;"> ACTION </th>
+            <!-- <th style="text-align: center;"> DAILY </th> -->
+            <!-- Terdapat Administrasi Pembiayaan Yang Perlu Di Selesaikan -->
+          </tr>
+        </thead>
 
-        <?php if(isset($_SESSION['form_success']) && $_SESSION['form_success'] == 'empty_form'){?>
-          <div style="display: none;" class="alert alert-danger alert-dismissable"> Tidak Ada File Yang Di Upload
-             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-             <?php unset($_SESSION['form_success']); ?>
-          </div>
-        <?php } ?>
+        <tbody>
+          
+        </tbody>
 
-        <?php if(isset($_SESSION['form_success']) && $_SESSION['form_success'] == 'size_too_big'){?>
-          <div style="display: none;" class="alert alert-danger alert-dismissable"> Ukuran File Terlalu Besar
-             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-             <?php unset($_SESSION['form_success']); ?>
-          </div>
-        <?php } ?>
-
+      </table>
     </div>
 
 </div>
 
-<div class="box box-info">
-
-    <form action="<?= $basead; ?>importdatappdbditerima" enctype="multipart/form-data" method="post">
-        <div class="box-body">
-
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label>Import File Excel (xls)</label>
-                        <input type="file" name="isi_file" accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="form-control" id="id_siswa" />
-                        <input type="submit" name="upload_data" style="margin-top: 10px;" class="btn btn-sm btn-success" id="id_siswa" value="Import" />
-                    </div>
-                </div>
-            </div> 
-
-            
-        </div>
-    </form>
-
-</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript"></script>
 
 <script type="text/javascript">
 	
 	let newIcon = document.getElementById("addIcon");
     newIcon.classList.remove("fa");
     newIcon.classList.add("glyphicon");
-    newIcon.classList.add("glyphicon-export");
+    newIcon.classList.add("glyphicon-ok-sign");
 
-	document.getElementById('isiMenu').innerHTML = `IMPORT DATA PPDB YANG DI TERIMA`
+	document.getElementById('isiMenu').innerHTML = `STATUS CALON SISWA DITERIMA`
 
 	$(document).ready( function () {
-        $("#export_data").click();
-        $("#import").css({
+        $("#list_status").click();
+        $("#status_terima").css({
             "background-color" : "#ccc",
             "color" : "black"
         });
+
+        $("#isiMenu").css({
+	        "margin-left" : "5px",
+	        "font-weight" : "bold",
+	        "text-transform": "uppercase"
+	    });
+
     });
 
 </script>

@@ -76,11 +76,9 @@
 								<label class="col-md-4 control-label" id="label_nama_calon_siswa" for="password_lg">
 									PASSWORD :
 								</label>
-								<div class="col-md-6">
+								<div class="col-md-8">
 									<input type="password" required class="form-control" name="password_lg" id="password_lg">
-								</div>
-								<div class="col-md-2" style="border: 0px solid white;">
-									<i class="glyphicon glyphicon-eye-open form-control"></i>
+									<button type="button" id="swp" class="btn btn-light btn-sm" style="margin-top: 10px;"> <i class="glyphicon glyphicon-eye-open" id="icnEye"></i> <span id="text_pw"> Show </span> Password </button>
 								</div>
 							</div>
 

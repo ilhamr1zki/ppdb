@@ -90,17 +90,46 @@
                 $semester    = $_POST['isi_semester'];
                 $status      = "aktif";
 
-                $queryGetDataAktif = mysqli_query($con, "SELECT * FROM tahun_ajaran WHERE c_role = '$c_role' ");
+                $queryGetDataAktif = mysqli_query($con, "SELECT * FROM tahun_ajaran_adm WHERE c_role = '$c_role' ");
 
                 $checkData = mysqli_num_rows($queryGetDataAktif);
 
                 if ($checkData != 0) {
 
-                    mysqli_query($con, "UPDATE `daily_activity`.`tahun_ajaran` SET `tahun`='$tahunAjaran', `semester`='$semester', `status`='$status' WHERE  `c_role`='$c_role'");
+                    $updateThnAjaranADM = mysqli_query($con, "
+                        UPDATE tahun_ajaran_adm 
+                        SET 
+                        tahun       = '$tahunAjaran', 
+                        semester    = '$semester', 
+                        status      = '$status'
+                        WHERE  
+                        c_role      = '$c_role'
+                    ");
 
-                    $reloadPage = 1;
+                    if ($updateThnAjaranADM) {
 
-                    $_SESSION['form_success'] = 'berhasil';
+                        $findThnAjaranADM = mysqli_fetch_assoc(mysqli_query($con, "
+                            SELECT tahun FROM tahun_ajaran_adm
+                            WHERE c_role = '$c_role'
+                        "));
+
+                        $tahunAjaranPPDB = str_replace(["/"], " - ", $findThnAjaranADM['tahun']);
+
+                        $updateThnAjaranFormPPDB = mysqli_query($con, "
+                            UPDATE tahun_ajaran
+                            SET
+                            thn_ajaran = '$tahunAjaranPPDB'
+                        ");
+
+                        if ($updateThnAjaranFormPPDB) {
+
+                            $reloadPage = 1;
+
+                            $_SESSION['form_success'] = 'berhasil';
+
+                        }
+
+                    }
 
                 } else {
                     // echo $countData;

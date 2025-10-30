@@ -1,0 +1,8 @@
+NOTE* : Alur ini hanya bisa di lakukan Ketika pendaftaran PPDB sudah di tutup.
+
+1. Pastikan Pendaftar PPDB sudah tidak yang mengisi form PPDB
+2. Ketika ingin Ekspor data dari hasil pendaftaran PPDB ada dari Aplikasi PPDB role Admin di menu IMPORT & EXPORT DATA di sub menu Export PPDB
+3. Jika guru sudah memfilter calon siswa yang sudah pasti di terima, bisa di lakukan import data di menu IMPORT & EXPORT DATA di sub menu Import PPDB Yang Di Terima
+4. Sebelum melakukan Import data calon siswa yang di terima pastikan format excel dari hasil export ppdb sudah di lakukan perubahan format data date menjadi tahun-bulan-tanggal pada bagian kolom tanggal_lahir, tanggal_lahir_ayah, tanggal_lahir_ibu, dan tanggal_formulir_dibuat.
+5. Jika ada calon siswa yang telat mendaftar (titipan) bisa di lakukan pendaftaran manual VIA WhatsApp dengan format yang telah di buat termasuk kirim file akte, kk, ktp ayah dan ibu, sertifikat Tahsin dan tahfidz (jika ada), kemudian jika sudah mengisi form Via WhatsApp secara manual, baru kemudian bisa di lakukan penginputan via aplikasi ppdb baik yang di local maupun di server (penginputan di lakukan di local terlebih dahulu baru kemudian di server)
+6. Setelah calon siswa yang telat (titipan) sudah terinput ke dalam aplikasi PPDB, baru kemudian bisa di ekspor Kembali hasil pendaftaran PPDB di submenu Export PPDB dan di filter Kembali oleh panitia PPDB dan di import Kembali untuk calon siswa yang sudah di terima

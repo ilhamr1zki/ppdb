@@ -106,6 +106,21 @@
 			errorTemplateClass : 'validetta-inline',
 		});
 
+		$("#swp").click(function(){
+            let x = document.getElementById("password_lg");
+            if (x.type === "password") {
+                $("#icnEye").removeClass("glyphicon-eye-open");
+                $("#icnEye").addClass("glyphicon-eye-close");
+                $("#text_pw").text('Hide')
+                x.type = "text";
+            } else {
+                x.type = "password";
+                $("#icnEye").removeClass("glyphicon-eye-close");
+                $("#icnEye").addClass("glyphicon-eye-open");
+                $("#text_pw").text('Show')
+            }
+        })
+
 	});
 </script>
 <!-- Datatables -->
