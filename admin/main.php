@@ -921,8 +921,8 @@ oncontextmenu="return false">
       require 'view/status/terima/index.php';
     }
 
-    elseif($act == 'status_tolak') {
-      require 'view/status/tolak/index.php';
+    elseif($act == 'status_tolakg') {
+      require 'view/status/tolakg/index.php';
     }
 
     #region form maintenance
@@ -1172,6 +1172,10 @@ oncontextmenu="return false">
     });
 
     $("#hightlight_list_siswa").DataTable();
+    $("#list_siswa_acc").DataTable({
+      "autoWidth" : false
+    });
+    $("#list_siswa_rjc").DataTable();
 
     $('#tabelCariSiswaCheckPembayarans').DataTable({
       "paging": true,

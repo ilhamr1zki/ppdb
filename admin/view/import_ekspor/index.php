@@ -343,24 +343,8 @@
 							$dataSiswaTelahAcc = mysqli_num_rows(mysqli_query($con, "SELECT * FROM data_pendaftaran_siswa_diterima"));
 							// echo "Import data berhasil";
 							$total = $dataSiswaTelahAcc;
-							
-							$success_sess = 1;
 
-							$totalValid = $validDataSiswa + $validDataIbu;
-
-							if ($totalValid == 2) {
-
-								$queryUpdateDatas = mysqli_query($con, '
-									UPDATE status_data_pendaftaran_siswa
-									SET status = 1
-									WHERE nama_calon_siswa = "' . $Row[1] .'"
-									AND nama_ibu = "'. $Row[41] .'"
-								'); 
-
-								$_SESSION['import_success'] = "berhasil";
-							} else {
-								echo $Row[1] . ' ' . $Row[41];exit;
-							}
+							$_SESSION['import_success'] = "berhasil";
 							
 						} else {
 							mysqli_error($con);
