@@ -118,161 +118,7 @@
 					$nominalInfaq 		= mysqli_real_escape_string($con, htmlspecialchars($Row[57]));
 					$nominalTerbilang 	= mysqli_real_escape_string($con, htmlspecialchars($Row[58]));
 
-					// echo "Di Sini " . $Row[1] . ' ' . $Row[41];exit;
-
-					if ($countAcc != 0) {
-
-						$queryFindDataNamaSiswa = mysqli_query($con, ' 
-							SELECT nama_calon_siswa FROM status_data_pendaftaran_siswa
-							WHERE nama_calon_siswa = "'. $Row[1] .'"
-						');
-
-						$countNama = mysqli_num_rows($queryFindDataNamaSiswa);
-
-						$queryFindDataNamaIbu = mysqli_query($con, ' 
-							SELECT nama_ibu FROM status_data_pendaftaran_siswa
-							WHERE nama_ibu = "'. $Row[41] .'"
-						');
-
-						$countIbu = mysqli_num_rows($queryFindDataNamaIbu);
-
-						if ($countNama == 1) 	{
-							$validDataSiswa = 1;
-						}
-
-						if ($countIbu == 1) {
-							$validDataIbu = 1;
-						}
-
-						$checkNamaCalonSiswa = mysqli_query($con, '
-							SELECT 
-							nama_calon_siswa, nomor_hp_ibu 
-							FROM data_pendaftaran_siswa_diterima 
-							WHERE
-							data_pendaftaran_siswa_diterima.nama_calon_siswa = "'. $Row[1] .'" ');
-
-						$countDataCalonSiswa = mysqli_num_rows($checkNamaCalonSiswa);
-
-						if ($countDataCalonSiswa == 0) {
-
-							$query = mysqli_query ($con, "
-								INSERT INTO data_pendaftaran_siswa_diterima
-								SET
-								pendaftaran_kelas 									= '1SD',
-								nama_calon_siswa  									= '$calonNamaSiswa',
-								panggilan_calon_siswa								= '$panggilanClnSiswa',
-								nisn 												= '$nisnCalonSiswa',
-								asal_sekolah 										= '$asalSklhClnSiswa',
-								jenis_kelamin          								= '$jkClnSiswa',
-								tempat_lahir 										= '$tmptLhrClnSiswa',
-								tanggal_lahir  										= '$tglLhrClnSiswa',
-								anak_ke 											= '$anak_ke',
-								dari_berapa_saudara 								= '$dariBrpSdr',
-								kk_atau_adik_di_aiis 								= '$kkAdikDiAiis',
-								tingkat_kelas_kk_atau_adik  						= '$tngktKelaskkAdik',
-								nama_kk_atau_adik 									= '$nama_kk_atau_adik',
-								riwayat_penyakit 									= '$riwayat_penyakit',
-								bacaan_tahsin 										= '$bacaan_tahsin',
-								jumlah_juz_dihafal 									= '$jumlah_juz_dihafal',
-								juz_dihafal   										= '$juz_dihafal',
-								hafalan_surat 										= '$hafalan_surat',
-								dapat_berjalan_pada_usia 							= '$berjalanPdUsia',
-								dapat_berbicara_bermakna_pada_usia					= '$bicaraPdUsia',
-								pernah_menjalani_terapi 							= '$pernahTrapi',
-								jenis_terapi 										= '$jenisTerapi',
-								alasan_menjalani_terapi 							= '$alasanTrapi',
-								durasi_terapi 										= '$durasiTerapi',
-								waktu_mulai_dan_waktu_selesai_terapi				= '$wktAwAkhirTrapi',
-								saat_ini_masih_menjalani_terapi 					= '$masihTerapi',
-								keterlambatan_perkembangan 							= '$lmbtPerkembangan',
-								terbiasa_solat_lima_waktu 							= '$trbSolat',
-								orangtua_sudah_lancar_dalam_tahsin					= '$tahsinOrtua',
-								hafalan_tahfidz_orangtua							= '$tahfidzOrtua',
-								peran_orangtua_membantu_anak_menghafal				= '$peranOrtua',
-								anak_terbiasa_menonton_tv_atau_gadget 				= '$terbiasaGadget',
-								berapa_lama_menonton_tv_atau_gadget_dalam_sehari	= '$brpLamaGadget',
-								nama_ayah 											= '$nama_ayah',
-								tempat_lahir_ayah 									= '$tempat_lahir_ayah',
-								tanggal_lahir_ayah 									= '$tanggal_lahir_ayah',
-								agama_ayah 											= '$agama_ayah',
-								pendidikan_terakhir_ayah							= '$pendAy',
-								pekerjaan_ayah 										= '$pekerjaan_ayah',
-								domisili_ayah_saat_ini 								= '$domisiliAyah',
-								nomor_hp_ayah 										= '$hpAyah',
-								nama_ibu 											= '$nama_ibu',
-								tempat_lahir_ibu 									= '$tempat_lahir_ibu',
-								tanggal_lahir_ibu 									= '$tanggal_lahir_ibu',
-								agama_ibu 											= '$agama_ibu',
-								pendidikan_terakhir_ibu								= '$pendIbu',
-								pekerjaan_ibu 										= '$pekerjaan_ibu',
-								domisili_ibu_saat_ini 								= '$domisili_ibu',
-								nomor_hp_ibu 										= '$hpIbu',
-								pendapatan_orangtua 								= '$pendapatanOrtu',
-								rencana_mutasi 										= '$rencana_mutasi',
-								file_pdf_akte 										= '$file_pdf_akte',
-								file_pdf_kk 										= '$file_pdf_kk',
-								ktp_ayah 											= '$ktp_ayah',
-								ktp_ibu 											= '$ktp_ibu',
-								sertif_tahsin  										= '$sertif_tahsin',
-								sertif_tahfidz  									= '$sertif_tahfidz',
-								nominal_infaq										= '$nominalInfaq',
-								nominal_terbilang 									= '$nominalTerbilang'
-							");
-
-							if ($query) {
-
-								$dataSiswaTelahAcc = mysqli_num_rows(mysqli_query($con, "SELECT * FROM data_pendaftaran_siswa_diterima"));
-								// echo "Import data berhasil";
-								$total = $dataSiswaTelahAcc - $countAcc;
-								$_SESSION['import_success'] = "berhasil";
-								$success_sess = 1;
-								
-								$totalValid = $validDataSiswa + $validDataIbu;
-
-								if ($totalValid == 2) {
-
-									$queryUpdateDatas = mysqli_query($con, '
-										UPDATE status_data_pendaftaran_siswa
-										SET status = 1
-										WHERE nama_calon_siswa = "' . $Row[1] .'"
-										AND nama_ibu = "'. $Row[41] .'"
-									'); 
-
-									$_SESSION['import_success'] = "berhasil";
-								} else {
-									echo $Row[1] . ' ' . $Row[41];exit;
-								}
-
-							} else {
-								mysqli_error($con);
-								echo "Gagal";
-							}
-
-						}
-
-					} else if ($countAcc == 0) {
-
-						$queryFindDataNamaSiswa = mysqli_query($con, ' 
-							SELECT nama_calon_siswa FROM status_data_pendaftaran_siswa
-							WHERE nama_calon_siswa = "'. $Row[1] .'"
-						');
-
-						$countNama = mysqli_num_rows($queryFindDataNamaSiswa);
-
-						$queryFindDataNamaIbu = mysqli_query($con, ' 
-							SELECT nama_ibu FROM status_data_pendaftaran_siswa
-							WHERE nama_ibu = "'. $Row[41] .'"
-						');
-
-						$countIbu = mysqli_num_rows($queryFindDataNamaIbu);
-
-						if ($countNama == 1) 	{
-							$validDataSiswa = 1;
-						}
-
-						if ($countIbu == 1) {
-							$validDataIbu = 1;
-						}
+					if ($countAcc == 0) {
 
 						$query = mysqli_query ($con, "
 							INSERT INTO data_pendaftaran_siswa_diterima
@@ -351,6 +197,95 @@
 							echo "Gagal";
 						}
 
+					} else if ($countAcc != 0) {
+
+						$queryFindDataDuplicate = mysqli_query($con, "
+							SELECT nama_ibu FROM data_pendaftaran_siswa_diterima
+							WHERE
+							nama_calon_siswa = '$calonNamaSiswa'
+							AND 
+							nama_ibu LIKE '%$nama_ibu%'
+						");
+
+						$findDataDuplicate  = mysqli_num_rows($queryFindDataDuplicate);
+
+						if ($findDataDuplicate == 1) {
+							$_SESSION['import_success'] = "gagal";
+						} else {
+
+    						$countAcc  		= mysqli_num_rows($dataSiswaAcc);
+
+							$query = mysqli_query ($con, "
+								INSERT INTO data_pendaftaran_siswa_diterima
+								SET
+								pendaftaran_kelas 									= '1SD',
+								nama_calon_siswa  									= '$calonNamaSiswa',
+								panggilan_calon_siswa								= '$panggilanClnSiswa',
+								nisn 												= '$nisnCalonSiswa',
+								asal_sekolah 										= '$asalSklhClnSiswa',
+								jenis_kelamin          								= '$jkClnSiswa',
+								tempat_lahir 										= '$tmptLhrClnSiswa',
+								tanggal_lahir  										= '$tglLhrClnSiswa',
+								anak_ke 											= '$anak_ke',
+								dari_berapa_saudara 								= '$dariBrpSdr',
+								kk_atau_adik_di_aiis 								= '$kkAdikDiAiis',
+								tingkat_kelas_kk_atau_adik  						= '$tngktKelaskkAdik',
+								nama_kk_atau_adik 									= '$nama_kk_atau_adik',
+								riwayat_penyakit 									= '$riwayat_penyakit',
+								bacaan_tahsin 										= '$bacaan_tahsin',
+								jumlah_juz_dihafal 									= '$jumlah_juz_dihafal',
+								juz_dihafal   										= '$juz_dihafal',
+								hafalan_surat 										= '$hafalan_surat',
+								dapat_berjalan_pada_usia 							= '$berjalanPdUsia',
+								dapat_berbicara_bermakna_pada_usia					= '$bicaraPdUsia',
+								pernah_menjalani_terapi 							= '$pernahTrapi',
+								jenis_terapi 										= '$jenisTerapi',
+								alasan_menjalani_terapi 							= '$alasanTrapi',
+								durasi_terapi 										= '$durasiTerapi',
+								waktu_mulai_dan_waktu_selesai_terapi				= '$wktAwAkhirTrapi',
+								saat_ini_masih_menjalani_terapi 					= '$masihTerapi',
+								keterlambatan_perkembangan 							= '$lmbtPerkembangan',
+								terbiasa_solat_lima_waktu 							= '$trbSolat',
+								orangtua_sudah_lancar_dalam_tahsin					= '$tahsinOrtua',
+								hafalan_tahfidz_orangtua							= '$tahfidzOrtua',
+								peran_orangtua_membantu_anak_menghafal				= '$peranOrtua',
+								anak_terbiasa_menonton_tv_atau_gadget 				= '$terbiasaGadget',
+								berapa_lama_menonton_tv_atau_gadget_dalam_sehari	= '$brpLamaGadget',
+								nama_ayah 											= '$nama_ayah',
+								tempat_lahir_ayah 									= '$tempat_lahir_ayah',
+								tanggal_lahir_ayah 									= '$tanggal_lahir_ayah',
+								agama_ayah 											= '$agama_ayah',
+								pendidikan_terakhir_ayah							= '$pendAy',
+								pekerjaan_ayah 										= '$pekerjaan_ayah',
+								domisili_ayah_saat_ini 								= '$domisiliAyah',
+								nomor_hp_ayah 										= '$hpAyah',
+								nama_ibu 											= '$nama_ibu',
+								tempat_lahir_ibu 									= '$tempat_lahir_ibu',
+								tanggal_lahir_ibu 									= '$tanggal_lahir_ibu',
+								agama_ibu 											= '$agama_ibu',
+								pendidikan_terakhir_ibu								= '$pendIbu',
+								pekerjaan_ibu 										= '$pekerjaan_ibu',
+								domisili_ibu_saat_ini 								= '$domisili_ibu',
+								nomor_hp_ibu 										= '$hpIbu',
+								pendapatan_orangtua 								= '$pendapatanOrtu',
+								rencana_mutasi 										= '$rencana_mutasi',
+								file_pdf_akte 										= '$file_pdf_akte',
+								file_pdf_kk 										= '$file_pdf_kk',
+								ktp_ayah 											= '$ktp_ayah',
+								ktp_ibu 											= '$ktp_ibu',
+								sertif_tahsin  										= '$sertif_tahsin',
+								sertif_tahfidz  									= '$sertif_tahfidz',
+								nominal_infaq										= '$nominalInfaq',
+								nominal_terbilang 									= '$nominalTerbilang'
+							");
+
+							$dataSiswaTelahAccInputBaru = mysqli_num_rows(mysqli_query($con, "SELECT * FROM data_pendaftaran_siswa_diterima"));
+							$total = $dataSiswaTelahAccInputBaru - $countAcc;
+
+							$_SESSION['import_success'] = "berhasil";
+
+						}
+
 					}
 
 				}
@@ -384,6 +319,13 @@
 
         <?php if(isset($_SESSION['import_success']) && $_SESSION['import_success'] == 'berhasil'){?>
           <div style="display: none;" class="alert alert-warning alert-dismissable"> <?php echo $total . " Data Berhasil di Import !"; ?>
+             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+             <?php unset($_SESSION['import_success']); ?>
+          </div>
+        <?php } ?>
+
+        <?php if(isset($_SESSION['import_success']) && $_SESSION['import_success'] == 'gagal'){?>
+          <div style="display: none;" class="alert alert-danger alert-dismissable"> <?php echo " Data Gagal di Import !"; ?>
              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
              <?php unset($_SESSION['import_success']); ?>
           </div>
@@ -423,7 +365,7 @@
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label>Import File Excel (xls)</label>
-                        <input type="file" name="isi_file" accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="form-control" id="id_siswa" />
+                        <input type="file" name="isi_file" accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required class="form-control" id="id_siswa" />
                         <input type="submit" name="upload_data" style="margin-top: 10px;" class="btn btn-sm btn-success" id="id_siswa" value="Import" />
                     </div>
                 </div>
@@ -441,6 +383,11 @@
     newIcon.classList.remove("fa");
     newIcon.classList.add("glyphicon");
     newIcon.classList.add("glyphicon-export");
+
+    // mencegah user ketika refresh halaman dan mengirim data yang sama pada halaman yang sama
+  	if (window.history.replaceState) {
+	    window.history.replaceState(null, null, window.location.href);
+  	}
 
 	document.getElementById('isiMenu').innerHTML = `IMPORT DATA PPDB YANG DI TERIMA`
 
