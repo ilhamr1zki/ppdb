@@ -805,7 +805,7 @@ oncontextmenu="return false">
               <li> <a href="<?= $basead; ?>export_spp.php"><i class="glyphicon glyphicon-export"></i> <span style="margin-left: 7px;"> </span> Export Untuk SPP </a> </li>
               <!-- <li> <a href="<?= $basead; ?>export_tahfidz.php"><i class="glyphicon glyphicon-export"></i> <span style="margin-left: 7px;"> </span> Export Untuk TAHFIDZ </a> </li> -->
               <!-- <li> <a href="<?= $basead; ?>importdatappdbbaru" id="import_baru"><i class="glyphicon glyphicon-download"></i> <span style="margin-left: 7px;"> </span> Import PPDB Baru </a> </li> -->
-              <li> <a href="<?= $basead; ?>importdatappdbditerima" id="import"><i class="glyphicon glyphicon-download"></i> <span style="margin-left: 7px;"> </span> <small> Import PPDB Yang Di Terima </small> </a> </li>
+              <li> <a href="<?= $basead; ?>importdatappdb" id="import"><i class="glyphicon glyphicon-download"></i> <span style="margin-left: 7px;"> </span> <small> Import PPDB </small> </a> </li>
           </ul>
         </li>
 
@@ -904,7 +904,7 @@ oncontextmenu="return false">
     }
 
     #region import data
-    elseif($act == 'importdatappdbditerima') {
+    elseif($act == 'importdatappdb') {
       require 'view/import_ekspor/index.php';
     } elseif($act == 'importdatappdbbaru') {
       require 'view/import_ppdb_baru/index.php';
@@ -921,8 +921,8 @@ oncontextmenu="return false">
       require 'view/status/terima/index.php';
     }
 
-    elseif($act == 'status_tolakg') {
-      require 'view/status/tolakg/index.php';
+    elseif($act == 'status_tolak') {
+      require 'view/status/tolak/index.php';
     }
 
     #region form maintenance

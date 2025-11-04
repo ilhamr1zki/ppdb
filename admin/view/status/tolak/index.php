@@ -9,374 +9,214 @@
     $validDataIbu 	= 0; 
     $totalValid    	= 0;
 
-    $dataSiswaAcc   = mysqli_query($con, "SELECT * FROM data_pendaftaran_siswa_diterima");
-    $countAcc  		= mysqli_num_rows($dataSiswaAcc);
-    $checkForm      = "";
+    $dataSiswaReject   	= mysqli_query($con, "
+    	SELECT 
+	    data_pendaftaran_siswa_ditolak.id, 
+	    data_pendaftaran_siswa_ditolak.nama_calon_siswa, 
+	    data_pendaftaran_siswa_ditolak.jenis_kelamin,
+	    data_pendaftaran_siswa_ditolak.tempat_lahir,
+	    data_pendaftaran_siswa_ditolak.tanggal_lahir,
+	    upload_file.nama_file  
+	    FROM data_pendaftaran_siswa_ditolak
+	    LEFT JOIN upload_file
+	    ON data_pendaftaran_siswa_ditolak.id = upload_file.id_siswa_diterima_ditolak
+	    ORDER BY data_pendaftaran_siswa_ditolak.tanggal_formulir_dibuat ASC
+    ");
 
-    if (isset($_POST['upload_data'])) {
+  	$no      		    = 1;
 
-		// echo "SINI";exit;
-		// session_start();
-		require('spreadsheet-reader-master/php-excel-reader/excel_reader2.php');
-		require('spreadsheet-reader-master/SpreadsheetReader.php');
+  	function generateRandomString($length = 10) {
+	    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	    $charactersLength = strlen($characters);
+	    $randomString = '';
 
-		// Validasi apakah type file ber type xlsx, xls
-		$namaFile 			= $_FILES['isi_file']['name'];
-		$ekstensiFileValid 	= ['xlsx', 'xls'];
-		$ekstensiFile 		= explode('.', $namaFile);
-		$ekstensiFile 		= strtolower(end($ekstensiFile) );
-		$checkForm          = 0; 
+	    for ($i = 0; $i < $length; $i++) {
+	      $randomString .= $characters[random_int(0, $charactersLength - 1)];
+	    }
 
-		if ($ekstensiFile == '') {
-			$checkForm = 1;
-		}
+	    return $randomString;
+  	}
 
-		if ($checkForm == 1) {
+    if (isset($_POST['upload_file'])) {
+	    // Check if a file was uploaded
+	    if (isset($_FILES['up_file']) && $_FILES['up_file']['error'] == 0) {
+	      $file         = $_FILES['up_file'];
+	      $id_diterima  = $_POST['id_siswa_terima'];
+	      // echo $id_diterima;exit;
+	      $nama_siswa   = mysqli_real_escape_string($con, htmlspecialchars($_POST['siswa_diterima']));
+	      // Set the maximum file size (5 MB = 5 * 1024 * 1024 bytes)
+	      $maxSize = 5 * 1024 * 1024;
 
-			$_SESSION['form_success'] = "empty_form";
+	      // Get file extension and MIME type
+	      $fileExtension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+	      $fileMimeType = mime_content_type($file['tmp_name']);
 
-		} else {
+	      // Validate file type (only PDF allowed)
+	      if ($fileExtension !== 'pdf' || $fileMimeType !== 'application/pdf') {
+	          echo "Invalid file type. Only PDF files are allowed.";
+	          exit; // Stop further processing
+	      }
 
-			if( !in_array($ekstensiFile, $ekstensiFileValid) ) {
-				// echo "Type File Invalid. Yang Anda Masukan File Ber Type " . $ekstensiFile;
-				$_SESSION['form_success'] = "type_fail";
-				// return true;
-			} else {
+	      // Validate file size (must be less than or equal to 5 MB)
+	      if ($file['size'] > $maxSize) {
+	          echo "File size exceeds the 5 MB limit. Please upload a smaller file.";
+	          exit; // Stop further processing
+	      }
 
-				//upload data excel kedalam folder uploads
-				$target_dir = "uploads/".basename($_FILES['isi_file']['name']);
-				
-				move_uploaded_file($_FILES['isi_file']['tmp_name'],$target_dir);
+	      // Define the upload directory
+	      $uploadDir = 'uploads/ppdb_ditolak/';
+	      // Make sure the upload directory exists
+	      if (!is_dir($uploadDir)) {
+	          mkdir($uploadDir, 0777, true); // Create the directory if it doesn't exist
+	      }
 
-				$Reader = new SpreadsheetReader($target_dir);
+	      // Define the path to store the uploaded file
+	      $filePath = $uploadDir . basename(generateRandomString() . "-". $file['name']);
+	      $nameFile = mysqli_real_escape_string($con, htmlspecialchars(str_replace(['uploads/ppdb_ditolak/'], '', $filePath)));
 
-				foreach ($Reader as $Key => $Row) {
-					// import data excel mulai baris ke-2 (karena ada header pada baris 1)
-					// echo "Nomer KEY : " . $Key . "<br>";
-					if ($Key < 1) continue;
-						
-						// echo "Nama : " . $Row[4] . " ". $jadi;exit;
+	      // Attempt to move the uploaded file to the desired directory
+	      if (move_uploaded_file($file['tmp_name'], $filePath)) {
+	        
+	        // Check Jika file PDF belum pernah di upload
+	        $queryCheckFile = mysqli_query($con, "
+	          SELECT id_siswa_diterima_ditolak, nama_siswa 
+	          FROM upload_file
+	          WHERE id_siswa_diterima_ditolak = '$id_diterima'
+	        ");
 
-					// echo "<br> Isinya : " . mysqli_real_escape_string($con,htmlspecialchars($Row[1]));exit;
-					$jenjangSekolah 	= mysqli_real_escape_string($con,htmlspecialchars($Row[0]));
-					$calonNamaSiswa 	= mysqli_real_escape_string($con, strtoupper(htmlspecialchars($Row[1])));
-					$panggilanClnSiswa	= mysqli_real_escape_string($con, strtoupper(htmlspecialchars($Row[2])));
-					$nisnCalonSiswa 	= mysqli_real_escape_string($con, htmlspecialchars($Row[3]));
-					$asalSklhClnSiswa 	= mysqli_real_escape_string($con, strtoupper(htmlspecialchars($Row[4])));
-					$jkClnSiswa 		= mysqli_real_escape_string($con, strtoupper(htmlspecialchars($Row[5])));
-					$tmptLhrClnSiswa 	= mysqli_real_escape_string($con, strtoupper(htmlspecialchars($Row[6])));
-					$tglLhrClnSiswa 	= htmlspecialchars($Row[7]);
-					$anak_ke 			= mysqli_real_escape_string($con, htmlspecialchars($Row[8]));
-					$dariBrpSdr 		= mysqli_real_escape_string($con, strtoupper(htmlspecialchars($Row[9])));
-					$kkAdikDiAiis 		= mysqli_real_escape_string($con, htmlspecialchars($Row[10]));
-					$tngktKelaskkAdik 	= mysqli_real_escape_string($con, htmlspecialchars($Row[11]));
-					$nama_kk_atau_adik 	= mysqli_real_escape_string($con, strtoupper(htmlspecialchars($Row[12])));
-					$riwayat_penyakit 	= mysqli_real_escape_string($con, htmlspecialchars($Row[13]));
-					$bacaan_tahsin 		= mysqli_real_escape_string($con, htmlspecialchars($Row[14]));
-					$jumlah_juz_dihafal = htmlspecialchars($Row[15]);
-					$juz_dihafal 		= mysqli_real_escape_string($con, htmlspecialchars($Row[16]));
-					$hafalan_surat  	= mysqli_real_escape_string($con, htmlspecialchars($Row[17]));
-					$berjalanPdUsia 	= mysqli_real_escape_string($con, htmlspecialchars($Row[18]));
-					$bicaraPdUsia 		= mysqli_real_escape_string($con, htmlspecialchars($Row[19]));
-					$pernahTrapi 		= mysqli_real_escape_string($con, htmlspecialchars($Row[20]));
-					$jenisTerapi 		= mysqli_real_escape_string($con, strtoupper(htmlspecialchars($Row[21])));
-					$alasanTrapi 		= mysqli_real_escape_string($con, htmlspecialchars($Row[22]));
-					$durasiTerapi 		= mysqli_real_escape_string($con, htmlspecialchars($Row[23]));
-					$wktAwAkhirTrapi    = mysqli_real_escape_string($con, htmlspecialchars($Row[24]));
-					$masihTerapi        = mysqli_real_escape_string($con, htmlspecialchars($Row[25]));
-					$lmbtPerkembangan   = mysqli_real_escape_string($con, htmlspecialchars($Row[26]));
-					$trbSolat 			= mysqli_real_escape_string($con, htmlspecialchars($Row[27]));
-					$tahsinOrtua        = mysqli_real_escape_string($con, htmlspecialchars($Row[28]));
-					$tahfidzOrtua 		= mysqli_real_escape_string($con, htmlspecialchars($Row[29]));
-					$peranOrtua 		= mysqli_real_escape_string($con, htmlspecialchars($Row[30]));
-					$terbiasaGadget 	= mysqli_real_escape_string($con, htmlspecialchars($Row[31]));
-					$brpLamaGadget      = mysqli_real_escape_string($con, htmlspecialchars($Row[32]));
-					$nama_ayah 			= mysqli_real_escape_string($con, strtoupper(htmlspecialchars($Row[33])));
-					$tempat_lahir_ayah 	= mysqli_real_escape_string($con, strtoupper(htmlspecialchars($Row[34])));
-					$tanggal_lahir_ayah = htmlspecialchars($Row[35]);
-					$agama_ayah 		= mysqli_real_escape_string($con, strtoupper(htmlspecialchars($Row[36])));
-					$pendAy 			= mysqli_real_escape_string($con, strtoupper(htmlspecialchars($Row[37])));
-					$pekerjaan_ayah     = mysqli_real_escape_string($con, strtoupper(htmlspecialchars($Row[38])));
-					$domisiliAyah 		= mysqli_real_escape_string($con, htmlspecialchars($Row[39]));
-					$hpAyah      		= htmlspecialchars($Row[40]);
-					$nama_ibu 			= mysqli_real_escape_string($con, strtoupper(htmlspecialchars($Row[41])));
-					$tempat_lahir_ibu   = mysqli_real_escape_string($con, strtoupper(htmlspecialchars($Row[42])));
-					$tanggal_lahir_ibu  = htmlspecialchars($Row[43]);
-					$agama_ibu          = mysqli_real_escape_string($con, strtoupper(htmlspecialchars($Row[44])));
-					$pendIbu 			= mysqli_real_escape_string($con, strtoupper(htmlspecialchars($Row[45])));
-					$pekerjaan_ibu      = mysqli_real_escape_string($con, strtoupper(htmlspecialchars($Row[46])));
-					$domisili_ibu 		= mysqli_real_escape_string($con, htmlspecialchars($Row[47]));
-					$hpIbu 				= htmlspecialchars($Row[48]);
-					$pendapatanOrtu     = mysqli_real_escape_string($con, strtoupper(htmlspecialchars($Row[49])));
-					$rencana_mutasi     = mysqli_real_escape_string($con, strtoupper(htmlspecialchars($Row[50])));
-					$file_pdf_akte      = mysqli_real_escape_string($con, htmlspecialchars($Row[51]));
-					$file_pdf_kk   		= mysqli_real_escape_string($con, htmlspecialchars($Row[52]));
-					$ktp_ayah			= mysqli_real_escape_string($con, htmlspecialchars($Row[53]));
-					$ktp_ibu 			= mysqli_real_escape_string($con, htmlspecialchars($Row[54]));
-					$sertif_tahsin 		= mysqli_real_escape_string($con, htmlspecialchars($Row[55]));
-					$sertif_tahfidz 	= mysqli_real_escape_string($con, htmlspecialchars($Row[56]));
-					$nominalInfaq 		= mysqli_real_escape_string($con, htmlspecialchars($Row[57]));
-					$nominalTerbilang 	= mysqli_real_escape_string($con, htmlspecialchars($Row[58]));
+	        $countCheckFile = mysqli_num_rows($queryCheckFile);
 
-					// echo "Di Sini " . $Row[1] . ' ' . $Row[41];exit;
+	        if ($countCheckFile == 0) {
 
-					if ($countAcc != 0) {
+	          $insertFileUpload = mysqli_query($con, "
+	            INSERT INTO upload_file 
+	            SET 
+	            id_siswa_diterima_ditolak 	= '$id_diterima',
+	            nama_siswa        			= '$nama_siswa',
+	            nama_file         			= '$nameFile',
+	            status            			= 2
+	          ");
 
-						$queryFindDataNamaSiswa = mysqli_query($con, ' 
-							SELECT nama_calon_siswa FROM status_data_pendaftaran_siswa
-							WHERE nama_calon_siswa = "'. $Row[1] .'"
-						');
+	          if ($insertFileUpload) {
 
-						$countNama = mysqli_num_rows($queryFindDataNamaSiswa);
+	            $_SESSION['import_success'] = "status_tolak";
 
-						$queryFindDataNamaIbu = mysqli_query($con, ' 
-							SELECT nama_ibu FROM status_data_pendaftaran_siswa
-							WHERE nama_ibu = "'. $Row[41] .'"
-						');
+	            $dataSiswaReject    = mysqli_query($con, "
+	              	SELECT 
+				    data_pendaftaran_siswa_ditolak.id, 
+				    data_pendaftaran_siswa_ditolak.nama_calon_siswa, 
+				    data_pendaftaran_siswa_ditolak.jenis_kelamin,
+				    data_pendaftaran_siswa_ditolak.tempat_lahir,
+				    data_pendaftaran_siswa_ditolak.tanggal_lahir,
+				    upload_file.nama_file  
+				    FROM data_pendaftaran_siswa_ditolak
+				    LEFT JOIN upload_file
+				    ON data_pendaftaran_siswa_ditolak.id = upload_file.id_siswa_diterima_ditolak
+				    ORDER BY data_pendaftaran_siswa_ditolak.tanggal_formulir_dibuat ASC
+	            ");
 
-						$countIbu = mysqli_num_rows($queryFindDataNamaIbu);
+	          } else {
 
-						if ($countNama == 1) 	{
-							$validDataSiswa = 1;
-						}
+	            $_SESSION['import_fail'] = "gagal";
 
-						if ($countIbu == 1) {
-							$validDataIbu = 1;
-						}
+	            $dataSiswaReject    = mysqli_query($con, "
+	              	SELECT 
+				    data_pendaftaran_siswa_ditolak.id, 
+				    data_pendaftaran_siswa_ditolak.nama_calon_siswa, 
+				    data_pendaftaran_siswa_ditolak.jenis_kelamin,
+				    data_pendaftaran_siswa_ditolak.tempat_lahir,
+				    data_pendaftaran_siswa_ditolak.tanggal_lahir,
+				    upload_file.nama_file  
+				    FROM data_pendaftaran_siswa_ditolak
+				    LEFT JOIN upload_file
+				    ON data_pendaftaran_siswa_ditolak.id = upload_file.id_siswa_diterima_ditolak
+				    ORDER BY data_pendaftaran_siswa_ditolak.tanggal_formulir_dibuat ASC
+	            ");
 
-						$checkNamaCalonSiswa = mysqli_query($con, '
-							SELECT 
-							nama_calon_siswa, nomor_hp_ibu 
-							FROM data_pendaftaran_siswa_diterima 
-							WHERE
-							data_pendaftaran_siswa_diterima.nama_calon_siswa = "'. $Row[1] .'" ');
+	          }
 
-						$countDataCalonSiswa = mysqli_num_rows($checkNamaCalonSiswa);
+	        } else {
 
-						if ($countDataCalonSiswa == 0) {
+	        // Check jika file PDF sudah pernah di upload atau sudah ada
+	          $updateFileUpload = mysqli_query($con, "
+	            UPDATE upload_file 
+	            SET 
+	            nama_file         = '$nameFile'
+	            WHERE id_siswa_diterima_ditolak = '$id_diterima'
+	          ");
 
-							$query = mysqli_query ($con, "
-								INSERT INTO data_pendaftaran_siswa_diterima
-								SET
-								pendaftaran_kelas 									= '1SD',
-								nama_calon_siswa  									= '$calonNamaSiswa',
-								panggilan_calon_siswa								= '$panggilanClnSiswa',
-								nisn 												= '$nisnCalonSiswa',
-								asal_sekolah 										= '$asalSklhClnSiswa',
-								jenis_kelamin          								= '$jkClnSiswa',
-								tempat_lahir 										= '$tmptLhrClnSiswa',
-								tanggal_lahir  										= '$tglLhrClnSiswa',
-								anak_ke 											= '$anak_ke',
-								dari_berapa_saudara 								= '$dariBrpSdr',
-								kk_atau_adik_di_aiis 								= '$kkAdikDiAiis',
-								tingkat_kelas_kk_atau_adik  						= '$tngktKelaskkAdik',
-								nama_kk_atau_adik 									= '$nama_kk_atau_adik',
-								riwayat_penyakit 									= '$riwayat_penyakit',
-								bacaan_tahsin 										= '$bacaan_tahsin',
-								jumlah_juz_dihafal 									= '$jumlah_juz_dihafal',
-								juz_dihafal   										= '$juz_dihafal',
-								hafalan_surat 										= '$hafalan_surat',
-								dapat_berjalan_pada_usia 							= '$berjalanPdUsia',
-								dapat_berbicara_bermakna_pada_usia					= '$bicaraPdUsia',
-								pernah_menjalani_terapi 							= '$pernahTrapi',
-								jenis_terapi 										= '$jenisTerapi',
-								alasan_menjalani_terapi 							= '$alasanTrapi',
-								durasi_terapi 										= '$durasiTerapi',
-								waktu_mulai_dan_waktu_selesai_terapi				= '$wktAwAkhirTrapi',
-								saat_ini_masih_menjalani_terapi 					= '$masihTerapi',
-								keterlambatan_perkembangan 							= '$lmbtPerkembangan',
-								terbiasa_solat_lima_waktu 							= '$trbSolat',
-								orangtua_sudah_lancar_dalam_tahsin					= '$tahsinOrtua',
-								hafalan_tahfidz_orangtua							= '$tahfidzOrtua',
-								peran_orangtua_membantu_anak_menghafal				= '$peranOrtua',
-								anak_terbiasa_menonton_tv_atau_gadget 				= '$terbiasaGadget',
-								berapa_lama_menonton_tv_atau_gadget_dalam_sehari	= '$brpLamaGadget',
-								nama_ayah 											= '$nama_ayah',
-								tempat_lahir_ayah 									= '$tempat_lahir_ayah',
-								tanggal_lahir_ayah 									= '$tanggal_lahir_ayah',
-								agama_ayah 											= '$agama_ayah',
-								pendidikan_terakhir_ayah							= '$pendAy',
-								pekerjaan_ayah 										= '$pekerjaan_ayah',
-								domisili_ayah_saat_ini 								= '$domisiliAyah',
-								nomor_hp_ayah 										= '$hpAyah',
-								nama_ibu 											= '$nama_ibu',
-								tempat_lahir_ibu 									= '$tempat_lahir_ibu',
-								tanggal_lahir_ibu 									= '$tanggal_lahir_ibu',
-								agama_ibu 											= '$agama_ibu',
-								pendidikan_terakhir_ibu								= '$pendIbu',
-								pekerjaan_ibu 										= '$pekerjaan_ibu',
-								domisili_ibu_saat_ini 								= '$domisili_ibu',
-								nomor_hp_ibu 										= '$hpIbu',
-								pendapatan_orangtua 								= '$pendapatanOrtu',
-								rencana_mutasi 										= '$rencana_mutasi',
-								file_pdf_akte 										= '$file_pdf_akte',
-								file_pdf_kk 										= '$file_pdf_kk',
-								ktp_ayah 											= '$ktp_ayah',
-								ktp_ibu 											= '$ktp_ibu',
-								sertif_tahsin  										= '$sertif_tahsin',
-								sertif_tahfidz  									= '$sertif_tahfidz',
-								nominal_infaq										= '$nominalInfaq',
-								nominal_terbilang 									= '$nominalTerbilang'
-							");
+	          if ($updateFileUpload) {
 
-							if ($query) {
+	            $_SESSION['import_success'] = "status_tolak";
 
-								$dataSiswaTelahAcc = mysqli_num_rows(mysqli_query($con, "SELECT * FROM data_pendaftaran_siswa_diterima"));
-								// echo "Import data berhasil";
-								$total = $dataSiswaTelahAcc - $countAcc;
-								$_SESSION['import_success'] = "berhasil";
-								$success_sess = 1;
-								
-								$totalValid = $validDataSiswa + $validDataIbu;
+	            $dataSiswaReject    = mysqli_query($con, "
+	              	SELECT 
+				    data_pendaftaran_siswa_ditolak.id, 
+				    data_pendaftaran_siswa_ditolak.nama_calon_siswa, 
+				    data_pendaftaran_siswa_ditolak.jenis_kelamin,
+				    data_pendaftaran_siswa_ditolak.tempat_lahir,
+				    data_pendaftaran_siswa_ditolak.tanggal_lahir,
+				    upload_file.nama_file  
+				    FROM data_pendaftaran_siswa_ditolak
+				    LEFT JOIN upload_file
+				    ON data_pendaftaran_siswa_ditolak.id = upload_file.id_siswa_diterima_ditolak
+				    ORDER BY data_pendaftaran_siswa_ditolak.tanggal_formulir_dibuat ASC
+	            ");
 
-								if ($totalValid == 2) {
+	          } else {
 
-									$queryUpdateDatas = mysqli_query($con, '
-										UPDATE status_data_pendaftaran_siswa
-										SET status = 1
-										WHERE nama_calon_siswa = "' . $Row[1] .'"
-										AND nama_ibu = "'. $Row[41] .'"
-									'); 
+	            $_SESSION['import_fail'] = "gagal";
 
-									$_SESSION['import_success'] = "berhasil";
-								} else {
-									echo $Row[1] . ' ' . $Row[41];exit;
-								}
+	            $dataSiswaReject    = mysqli_query($con, "
+	              	SELECT 
+				    data_pendaftaran_siswa_ditolak.id, 
+				    data_pendaftaran_siswa_ditolak.nama_calon_siswa, 
+				    data_pendaftaran_siswa_ditolak.jenis_kelamin,
+				    data_pendaftaran_siswa_ditolak.tempat_lahir,
+				    data_pendaftaran_siswa_ditolak.tanggal_lahir,
+				    upload_file.nama_file  
+				    FROM data_pendaftaran_siswa_ditolak
+				    LEFT JOIN upload_file
+				    ON data_pendaftaran_siswa_ditolak.id = upload_file.id_siswa_diterima_ditolak
+				    ORDER BY data_pendaftaran_siswa_ditolak.tanggal_formulir_dibuat ASC
+	            ");
 
-							} else {
-								mysqli_error($con);
-								echo "Gagal";
-							}
+	          }
 
-						}
+	        }
 
-					} else if ($countAcc == 0) {
-
-						$queryFindDataNamaSiswa = mysqli_query($con, ' 
-							SELECT nama_calon_siswa FROM status_data_pendaftaran_siswa
-							WHERE nama_calon_siswa = "'. $Row[1] .'"
-						');
-
-						$countNama = mysqli_num_rows($queryFindDataNamaSiswa);
-
-						$queryFindDataNamaIbu = mysqli_query($con, ' 
-							SELECT nama_ibu FROM status_data_pendaftaran_siswa
-							WHERE nama_ibu = "'. $Row[41] .'"
-						');
-
-						$countIbu = mysqli_num_rows($queryFindDataNamaIbu);
-
-						if ($countNama == 1) 	{
-							$validDataSiswa = 1;
-						}
-
-						if ($countIbu == 1) {
-							$validDataIbu = 1;
-						}
-
-						$query = mysqli_query ($con, "
-							INSERT INTO data_pendaftaran_siswa_diterima
-							SET
-							pendaftaran_kelas 									= '1SD',
-							nama_calon_siswa  									= '$calonNamaSiswa',
-							panggilan_calon_siswa								= '$panggilanClnSiswa',
-							nisn 												= '$nisnCalonSiswa',
-							asal_sekolah 										= '$asalSklhClnSiswa',
-							jenis_kelamin          								= '$jkClnSiswa',
-							tempat_lahir 										= '$tmptLhrClnSiswa',
-							tanggal_lahir  										= '$tglLhrClnSiswa',
-							anak_ke 											= '$anak_ke',
-							dari_berapa_saudara 								= '$dariBrpSdr',
-							kk_atau_adik_di_aiis 								= '$kkAdikDiAiis',
-							tingkat_kelas_kk_atau_adik  						= '$tngktKelaskkAdik',
-							nama_kk_atau_adik 									= '$nama_kk_atau_adik',
-							riwayat_penyakit 									= '$riwayat_penyakit',
-							bacaan_tahsin 										= '$bacaan_tahsin',
-							jumlah_juz_dihafal 									= '$jumlah_juz_dihafal',
-							juz_dihafal   										= '$juz_dihafal',
-							hafalan_surat 										= '$hafalan_surat',
-							dapat_berjalan_pada_usia 							= '$berjalanPdUsia',
-							dapat_berbicara_bermakna_pada_usia					= '$bicaraPdUsia',
-							pernah_menjalani_terapi 							= '$pernahTrapi',
-							jenis_terapi 										= '$jenisTerapi',
-							alasan_menjalani_terapi 							= '$alasanTrapi',
-							durasi_terapi 										= '$durasiTerapi',
-							waktu_mulai_dan_waktu_selesai_terapi				= '$wktAwAkhirTrapi',
-							saat_ini_masih_menjalani_terapi 					= '$masihTerapi',
-							keterlambatan_perkembangan 							= '$lmbtPerkembangan',
-							terbiasa_solat_lima_waktu 							= '$trbSolat',
-							orangtua_sudah_lancar_dalam_tahsin					= '$tahsinOrtua',
-							hafalan_tahfidz_orangtua							= '$tahfidzOrtua',
-							peran_orangtua_membantu_anak_menghafal				= '$peranOrtua',
-							anak_terbiasa_menonton_tv_atau_gadget 				= '$terbiasaGadget',
-							berapa_lama_menonton_tv_atau_gadget_dalam_sehari	= '$brpLamaGadget',
-							nama_ayah 											= '$nama_ayah',
-							tempat_lahir_ayah 									= '$tempat_lahir_ayah',
-							tanggal_lahir_ayah 									= '$tanggal_lahir_ayah',
-							agama_ayah 											= '$agama_ayah',
-							pendidikan_terakhir_ayah							= '$pendAy',
-							pekerjaan_ayah 										= '$pekerjaan_ayah',
-							domisili_ayah_saat_ini 								= '$domisiliAyah',
-							nomor_hp_ayah 										= '$hpAyah',
-							nama_ibu 											= '$nama_ibu',
-							tempat_lahir_ibu 									= '$tempat_lahir_ibu',
-							tanggal_lahir_ibu 									= '$tanggal_lahir_ibu',
-							agama_ibu 											= '$agama_ibu',
-							pendidikan_terakhir_ibu								= '$pendIbu',
-							pekerjaan_ibu 										= '$pekerjaan_ibu',
-							domisili_ibu_saat_ini 								= '$domisili_ibu',
-							nomor_hp_ibu 										= '$hpIbu',
-							pendapatan_orangtua 								= '$pendapatanOrtu',
-							rencana_mutasi 										= '$rencana_mutasi',
-							file_pdf_akte 										= '$file_pdf_akte',
-							file_pdf_kk 										= '$file_pdf_kk',
-							ktp_ayah 											= '$ktp_ayah',
-							ktp_ibu 											= '$ktp_ibu',
-							sertif_tahsin  										= '$sertif_tahsin',
-							sertif_tahfidz  									= '$sertif_tahfidz',
-							nominal_infaq										= '$nominalInfaq',
-							nominal_terbilang 									= '$nominalTerbilang'
-						");
-
-						if ($query) {
-
-							$dataSiswaTelahAcc = mysqli_num_rows(mysqli_query($con, "SELECT * FROM data_pendaftaran_siswa_diterima"));
-							// echo "Import data berhasil";
-							$total = $dataSiswaTelahAcc;
-							
-							$success_sess = 1;
-
-							$totalValid = $validDataSiswa + $validDataIbu;
-
-							if ($totalValid == 2) {
-
-								$queryUpdateDatas = mysqli_query($con, '
-									UPDATE status_data_pendaftaran_siswa
-									SET status = 1
-									WHERE nama_calon_siswa = "' . $Row[1] .'"
-									AND nama_ibu = "'. $Row[41] .'"
-								'); 
-
-								$_SESSION['import_success'] = "berhasil";
-							} else {
-								echo $Row[1] . ' ' . $Row[41];exit;
-							}
-							
-						} else {
-							mysqli_error($con);
-							echo "Gagal";
-						}
-
-					}
-
-				}
-
-			}
-
-		}
-	}
+	      } else {
+	          echo "Error uploading the file. Please try again.";
+	      }
+	    } else {
+	        echo "No file uploaded or there was an upload error.";
+	    }
+  	}
 
 ?>
+
+
+<div class="row">
+    
+  <div class="col-xs-12 col-md-12 col-lg-12">
+
+    <?php if(isset($_SESSION['import_success']) && $_SESSION['import_success'] == 'status_tolak'){?>
+      <div style="display: none;" class="alert alert-warning alert-dismissable"> <?= "File PDF Berhasil Di Upload"; ?>
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <?php unset($_SESSION['import_success']); ?>
+      </div>
+    <?php } ?>
+
+    <?php if(isset($_SESSION['import_fail']) && $_SESSION['import_fail'] == 'gagal'){?>
+      <div style="display: none;" class="alert alert-danger alert-dismissable"> <?= "File PDF Gagal Di Upload !"; ?>
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <?php unset($_SESSION['import_fail']); ?>
+      </div>
+    <?php } ?>
+
+  </div>
+
+</div>
 
 <div class="box box-info">
 
@@ -397,17 +237,11 @@
         <thead>
           <tr style="background-color: lightyellow; font-weight: bold;">
             <th style="text-align: center; border: 1px solid black;" width="5%">NO</th>
-            <th style="text-align: center; border: 1px solid black;"> NAMA CALON SISWA </th>
-            <th style="text-align: center; border: 1px solid black;"> JENIS KELAMIN </th>
-            <th style="text-align: center; border: 1px solid black; width: 220px;"> TEMPAT TANGGAL LAHIR </th>
-            <th style="text-align: center; border: 1px solid black;"> BACAAN TAHSIN </th>
-            <th style="text-align: center; border: 1px solid black; width: 242px;"> BANYAK JUZ YANG DI HAFAL </th>
-            <th style="text-align: center; border: 1px solid black; width: 250px;"> JUZ & SURAT YANG DI HAFAL </th>
-            <th style="text-align: center; border: 1px solid black;"> AKTE KELAHIRAN </th>
-            <th style="text-align: center; border: 1px solid black;"> KARTU KELUARGA </th>
-            <th style="text-align: center; border: 1px solid black;"> KTP AYAH </th>
-            <th style="text-align: center; border: 1px solid black;"> KTP IBU </th>
-            <th style="text-align: center; border: 1px solid black;"> ACTION </th>
+            <th style="text-align: center; border: 1px solid black; width: 10px;"> NAMA CALON SISWA </th>
+            <th style="text-align: center; border: 1px solid black; width: 10px;"> JENIS KELAMIN </th>
+            <th style="text-align: center; border: 1px solid black; width: 10px;"> TEMPAT TANGGAL LAHIR </th>
+            <th style="text-align: center; border: 1px solid black; width: 10px;"> FILE PDF </th>
+            <th style="text-align: center; border: 1px solid black; width: 10px;"> ACTION </th>
             <!-- <th style="text-align: center;"> DAILY </th> -->
             <!-- Terdapat Administrasi Pembiayaan Yang Perlu Di Selesaikan -->
           </tr>
@@ -415,6 +249,46 @@
 
         <tbody>
           
+        	<?php foreach ($dataSiswaReject as $data): ?>
+        			
+        		<tr>
+        			<td> <?= $no++; ?> </td>
+        			<td> <?= $data['nama_calon_siswa']; ?> </td>
+        			<td> <?= $data['jenis_kelamin']; ?> </td>
+              		<td> <?= $data['tempat_lahir']; ?>, <?= str_replace(["00:00:00"], "", tglIndo($data['tanggal_lahir'])) ; ?> </td>
+        			<td> <a href="<?= $basead . 'uploads/ppdb_ditolak/' . $data['nama_file']; ?>" target="blank"> <?= $data['nama_file']; ?> </a> </td>
+        			<td> <button class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter<?= $data['id']; ?>"> <i class="glyphicon glyphicon-upload"></i> UPLOAD PDF </button> </td>
+        		</tr>
+
+	            <div class="modal fade" id="exampleModalCenter<?= $data['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	              <div class="modal-dialog modal-dialog-centered" role="document">
+	                <div class="modal-content">
+	                  <div class="modal-header">
+	                    <h4 class="modal-title" id="exampleModalCenterTitle"> <i class="glyphicon glyphicon-file"></i> UPLOAD PDF </h4>
+	                  </div>
+	                  <div class="modal-body">
+
+	                    <h4 style="margin-top: -10px; margin-bottom: 25px;"> <b> <?= $data['nama_calon_siswa']; ?> </b> </h4>
+
+	                    <form enctype="multipart/form-data" method="post">
+	                      <input type="hidden" name="id_siswa_terima" value="<?= $data['id']; ?>">
+	                      <input type="hidden" name="siswa_diterima" value="<?= $data['nama_calon_siswa']; ?>">
+	                      <div class="form-group">
+	                        <label for="recipient-name" class="col-form-label"> UPLOAD FILE (PDF) </label>
+	                        <input type="file" class="form-control" name="up_file" id="uploadfile" accept=".pdf" value="jsdahsbd" multiple required>
+	                      </div>
+	                  </div>
+	                  <div class="modal-footer">
+	                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	                    <button type="submit" name="upload_file" class="btn btn-success"> <i class="glyphicon glyphicon-upload"></i> Upload </button>
+	                    </form>
+	                  </div>
+	                </div>
+	              </div>
+	            </div>
+
+        	<?php endforeach ?>
+
         </tbody>
 
       </table>
@@ -430,9 +304,37 @@
 	let newIcon = document.getElementById("addIcon");
     newIcon.classList.remove("fa");
     newIcon.classList.add("glyphicon");
-    newIcon.classList.add("glyphicon-ok-sign");
+    newIcon.classList.add("glyphicon-remove-sign");
 
 	document.getElementById('isiMenu').innerHTML = `STATUS CALON SISWA DITOLAK`
+
+	document.querySelectorAll("#uploadfile").forEach(function(input) {
+	    input.addEventListener("change", function() {
+	      const file = this.files[0];
+	      
+	      if (file) {
+	        const validType = file.type === "application/pdf";
+	        const validExt = file.name.toLowerCase().endsWith(".pdf");
+	        const maxSize = 5 * 1024 * 1024; // 5 MB (dalam byte)
+
+	        // Validasi format file
+	        if (!validType || !validExt) {
+	          alert("File harus berformat PDF (.pdf)");
+	          this.value = ""; // reset input
+	          return;
+	        }
+
+	        // Validasi ukuran file
+	        if (file.size > maxSize) {
+	          alert("File melebihi kapasitas maksimal 5MB");
+	          this.value = ""; // reset input
+	          return;
+	        }
+
+	        console.log("File valid:", file.name, "-", (file.size / 1024 / 1024).toFixed(2), "MB");
+	      }
+	    });
+  	});
 
 	$(document).ready( function () {
         $("#list_status").click();

@@ -10,10 +10,10 @@
     upload_file.nama_file  
     FROM data_pendaftaran_siswa_diterima
     LEFT JOIN upload_file
-    ON data_pendaftaran_siswa_diterima.id = upload_file.id_siswa_diterima
-    ORDER BY data_pendaftaran_siswa_diterima.id ASC
+    ON data_pendaftaran_siswa_diterima.id = upload_file.id_siswa_diterima_ditolak
+    ORDER BY data_pendaftaran_siswa_diterima.tanggal_formulir_dibuat ASC
   ");
-  $countAcc  		   = mysqli_num_rows($dataSiswaAcc);
+
   $no      		     = 1;
 
   $timeIsOut 		= 0;
@@ -71,9 +71,9 @@
         
         // Check Jika file PDF belum pernah di upload
         $queryCheckFile = mysqli_query($con, "
-          SELECT id_siswa_diterima, nama_siswa 
+          SELECT id_siswa_diterima_ditolak, nama_siswa 
           FROM upload_file
-          WHERE id_siswa_diterima = '$id_diterima'
+          WHERE id_siswa_diterima_ditolak = '$id_diterima'
         ");
 
         $countCheckFile = mysqli_num_rows($queryCheckFile);
@@ -83,7 +83,7 @@
           $insertFileUpload = mysqli_query($con, "
             INSERT INTO upload_file 
             SET 
-            id_siswa_diterima = '$id_diterima',
+            id_siswa_diterima_ditolak = '$id_diterima',
             nama_siswa        = '$nama_siswa',
             nama_file         = '$nameFile',
             status            = 1
@@ -103,8 +103,8 @@
               upload_file.nama_file  
               FROM data_pendaftaran_siswa_diterima
               LEFT JOIN upload_file
-              ON data_pendaftaran_siswa_diterima.id = upload_file.id_siswa_diterima
-              ORDER BY data_pendaftaran_siswa_diterima.id ASC
+              ON data_pendaftaran_siswa_diterima.id = upload_file.id_siswa_diterima_ditolak
+              ORDER BY data_pendaftaran_siswa_diterima.tanggal_formulir_dibuat ASC
             ");
 
           } else {
@@ -121,8 +121,8 @@
               upload_file.nama_file  
               FROM data_pendaftaran_siswa_diterima
               LEFT JOIN upload_file
-              ON data_pendaftaran_siswa_diterima.id = upload_file.id_siswa_diterima
-              ORDER BY data_pendaftaran_siswa_diterima.id ASC
+              ON data_pendaftaran_siswa_diterima.id = upload_file.id_siswa_diterima_ditolak
+              ORDER BY data_pendaftaran_siswa_diterima.tanggal_formulir_dibuat ASC
             ");
 
           }
@@ -134,7 +134,7 @@
             UPDATE upload_file 
             SET 
             nama_file         = '$nameFile'
-            WHERE id_siswa_diterima = '$id_diterima'
+            WHERE id_siswa_diterima_ditolak = '$id_diterima'
           ");
 
           if ($updateFileUpload) {
@@ -151,8 +151,8 @@
               upload_file.nama_file  
               FROM data_pendaftaran_siswa_diterima
               LEFT JOIN upload_file
-              ON data_pendaftaran_siswa_diterima.id = upload_file.id_siswa_diterima
-              ORDER BY data_pendaftaran_siswa_diterima.id ASC
+              ON data_pendaftaran_siswa_diterima.id = upload_file.id_siswa_diterima_ditolak
+              ORDER BY data_pendaftaran_siswa_diterima.tanggal_formulir_dibuat ASC
             ");
 
           } else {
@@ -169,8 +169,8 @@
               upload_file.nama_file  
               FROM data_pendaftaran_siswa_diterima
               LEFT JOIN upload_file
-              ON data_pendaftaran_siswa_diterima.id = upload_file.id_siswa_diterima
-              ORDER BY data_pendaftaran_siswa_diterima.id ASC
+              ON data_pendaftaran_siswa_diterima.id = upload_file.id_siswa_diterima_ditolak
+              ORDER BY data_pendaftaran_siswa_diterima.tanggal_formulir_dibuat ASC
             ");
 
           }
@@ -248,19 +248,22 @@
         			<td> <?= $data['jenis_kelamin']; ?> </td>
               <td> <?= $data['tempat_lahir']; ?>, <?= str_replace(["00:00:00"], "", tglIndo($data['tanggal_lahir'])) ; ?> </td>
         			<td> <a href="<?= $basead . 'uploads/ppdb_diterima/' . $data['nama_file']; ?>" target="blank"> <?= $data['nama_file']; ?> </a> </td>
-        			<td> <button class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter<?= $data['id']; ?>"> <i class="glyphicon glyphicon-upload"></i> UPLOAD PDF </button> </td>
+        			<td> 
+                <button class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter<?= $data['id']; ?>"> <i class="glyphicon glyphicon-upload"></i> UPLOAD PDF </button>
+                |
+                <button class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter<?= $data['id']; ?>"> <i class="glyphicon glyphicon-trash"></i> HAPUS </button> 
+              </td>
         		</tr>
 
             <div class="modal fade" id="exampleModalCenter<?= $data['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle"> <i class="glyphicon glyphicon-file"></i> UPLOAD PDF </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h4 class="modal-title" id="exampleModalCenterTitle"> <i class="glyphicon glyphicon-file"></i> UPLOAD PDF </h4>
                   </div>
                   <div class="modal-body">
+
+                    <h4 style="margin-top: -10px; margin-bottom: 25px;"> <b> <?= $data['nama_calon_siswa']; ?> </b> </h4>
 
                     <form enctype="multipart/form-data" method="post">
                       <input type="hidden" name="id_siswa_terima" value="<?= $data['id']; ?>">
@@ -331,6 +334,24 @@
         console.log("File valid:", file.name, "-", (file.size / 1024 / 1024).toFixed(2), "MB");
       }
     });
+  });
+
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: "Deleted!",
+        text: "Your file has been deleted.",
+        icon: "success"
+      });
+    }
   });
 
 	$(document).ready( function () {
