@@ -17,6 +17,7 @@
   $no      		     = 1;
 
   $timeIsOut 		= 0;
+  $arr_res    = [];
 
   function generateRandomString($length = 10) {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -185,6 +186,130 @@
     }
   }
 
+  if (isset($_POST['delete_data'])) {
+
+    $arr_res['id']          = $_POST['id_siswa'];
+    $arr_res['nama_siswa']  = $_POST['siswa_dihapus'];
+
+    // Check ID terdaftar atau tidak
+    $queryFindData = mysqli_query($con, "
+      SELECT id, nama_calon_siswa FROM data_pendaftaran_siswa_diterima
+      WHERE id = '$arr_res[id]'
+    ");
+
+    $countData = mysqli_num_rows($queryFindData);
+
+    if ($countData == 1) {
+
+      // check jika siswa sudah pernah upload file PDF
+      $queryCheckFilePdf = mysqli_query($con, "
+        SELECT nama_siswa, nama_file FROM upload_file
+        WHERE id_siswa_diterima_ditolak = '$arr_res[id]' ;
+      ");
+
+      $countDataFile = mysqli_num_rows($queryCheckFilePdf);
+
+      if ($countDataFile == 1) {
+        $getNameFile = mysqli_fetch_assoc($queryCheckFilePdf); 
+
+        $file = "uploads/ppdb_diterima/" . $getNameFile['nama_file'];
+        // echo $file;exit;
+
+        if (file_exists($file)) {
+
+          if (unlink($file)) {
+
+            $queryDelete = mysqli_query($con, "
+              DELETE FROM data_pendaftaran_siswa_diterima
+              WHERE id = '$arr_res[id]'
+            ");
+
+            if ($queryDelete) {
+
+              $dataSiswaAcc    = mysqli_query($con, "
+                SELECT 
+                data_pendaftaran_siswa_diterima.id, 
+                data_pendaftaran_siswa_diterima.nama_calon_siswa, 
+                data_pendaftaran_siswa_diterima.jenis_kelamin,
+                data_pendaftaran_siswa_diterima.tempat_lahir,
+                data_pendaftaran_siswa_diterima.tanggal_lahir,
+                upload_file.nama_file  
+                FROM data_pendaftaran_siswa_diterima
+                LEFT JOIN upload_file
+                ON data_pendaftaran_siswa_diterima.id = upload_file.id_siswa_diterima_ditolak
+                ORDER BY data_pendaftaran_siswa_diterima.tanggal_formulir_dibuat ASC
+              ");
+
+              $_SESSION['delete_student'] = "berhasil";
+
+            }
+          
+          }
+
+        } else {
+            echo "File tidak ditemukan.";exit;
+        }
+
+        // $queryDeleteFile = mysqli_query($con, "
+        //   DELETE FROM upload_file
+        //   WHERE id_siswa_diterima_ditolak = '$arr_res[id]'
+        // ");
+
+        
+
+      } else if ($countDataFile == 0) {
+
+        echo "Belum ada file yang di upload";exit;
+
+        $queryDelete = mysqli_query($con, "
+          DELETE FROM data_pendaftaran_siswa_diterima
+          WHERE id = '$arr_res[id]'
+        ");
+
+        if ($queryDelete) {
+
+          $dataSiswaAcc    = mysqli_query($con, "
+            SELECT 
+            data_pendaftaran_siswa_diterima.id, 
+            data_pendaftaran_siswa_diterima.nama_calon_siswa, 
+            data_pendaftaran_siswa_diterima.jenis_kelamin,
+            data_pendaftaran_siswa_diterima.tempat_lahir,
+            data_pendaftaran_siswa_diterima.tanggal_lahir,
+            upload_file.nama_file  
+            FROM data_pendaftaran_siswa_diterima
+            LEFT JOIN upload_file
+            ON data_pendaftaran_siswa_diterima.id = upload_file.id_siswa_diterima_ditolak
+            ORDER BY data_pendaftaran_siswa_diterima.tanggal_formulir_dibuat ASC
+          ");
+
+          $_SESSION['delete_student'] = "berhasil";
+
+        }
+
+      }
+      
+    } else if ($countData == 0) {
+
+      $dataSiswaAcc    = mysqli_query($con, "
+        SELECT 
+        data_pendaftaran_siswa_diterima.id, 
+        data_pendaftaran_siswa_diterima.nama_calon_siswa, 
+        data_pendaftaran_siswa_diterima.jenis_kelamin,
+        data_pendaftaran_siswa_diterima.tempat_lahir,
+        data_pendaftaran_siswa_diterima.tanggal_lahir,
+        upload_file.nama_file  
+        FROM data_pendaftaran_siswa_diterima
+        LEFT JOIN upload_file
+        ON data_pendaftaran_siswa_diterima.id = upload_file.id_siswa_diterima_ditolak
+        ORDER BY data_pendaftaran_siswa_diterima.tanggal_formulir_dibuat ASC
+      ");
+
+      $_SESSION['delete_student'] = "gagal";
+
+    }
+
+  }
+
 ?>
 
 <div class="row">
@@ -198,10 +323,24 @@
       </div>
     <?php } ?>
 
+    <?php if(isset($_SESSION['delete_student']) && $_SESSION['delete_student'] == 'berhasil'){?>
+      <div style="display: none;" class="alert alert-warning alert-dismissable"> <?= "Data Calon Siswa PPDB dengan ID $arr_res[id] & Nama ". " $arr_res[nama_siswa] Berhasil Dihapus"; ?>
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <?php unset($_SESSION['delete_student']); ?>
+      </div>
+    <?php } ?>
+
     <?php if(isset($_SESSION['import_fail']) && $_SESSION['import_fail'] == 'gagal'){?>
       <div style="display: none;" class="alert alert-danger alert-dismissable"> <?= "File PDF Gagal Di Upload !"; ?>
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         <?php unset($_SESSION['import_fail']); ?>
+      </div>
+    <?php } ?>
+
+    <?php if(isset($_SESSION['delete_student']) && $_SESSION['delete_student'] == 'gagal'){?>
+      <div style="display: none;" class="alert alert-danger alert-dismissable"> <?= "Data Calon Siswa PPDB $arr_res[nama_siswa] Gagal Dihapus !"; ?>
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <?php unset($_SESSION['delete_student']); ?>
       </div>
     <?php } ?>
 
@@ -251,12 +390,12 @@
         			<td> 
                 <button class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter<?= $data['id']; ?>"> <i class="glyphicon glyphicon-upload"></i> UPLOAD PDF </button>
                 |
-                <button class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter<?= $data['id']; ?>"> <i class="glyphicon glyphicon-trash"></i> HAPUS </button> 
+                <button class="btn btn-danger" data-toggle="modal" data-target="#modalHapus<?= $data['id']; ?>"> <i class="glyphicon glyphicon-trash"></i> HAPUS </button> 
               </td>
         		</tr>
 
             <div class="modal fade" id="exampleModalCenter<?= $data['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
                     <h4 class="modal-title" id="exampleModalCenterTitle"> <i class="glyphicon glyphicon-file"></i> UPLOAD PDF </h4>
@@ -276,6 +415,32 @@
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" name="upload_file" class="btn btn-success"> <i class="glyphicon glyphicon-upload"></i> Upload </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal fade" id="modalHapus<?= $data['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalCenterTitle"> <i class="glyphicon glyphicon-trash"></i> KONFIRMASI HAPUS DATA </h4>
+                  </div>
+                  <div class="modal-body">
+
+                    <!-- <h4 style="margin-top: -10px; margin-bottom: 25px;"> <b> <?= $data['nama_calon_siswa']; ?> </b> </h4> -->
+
+                    <form method="post">
+                      <input type="hidden" name="id_siswa" value="<?= $data['id']; ?>">
+                      <input type="hidden" name="siswa_dihapus" value="<?= $data['nama_calon_siswa']; ?>">
+                      <div class="form-group">
+                        <h4> Anda yakin ingin menghapus data calon siswa PPDB <b> <?= $data['nama_calon_siswa']; ?> </b> ? </h4>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" name="delete_data" class="btn btn-danger"> <i class="glyphicon glyphicon-trash"></i> Hapus </button>
                     </form>
                   </div>
                 </div>
@@ -336,37 +501,62 @@
     });
   });
 
-  Swal.fire({
-    title: "Are you sure?",
-    text: "You won't be able to revert this!",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Yes, delete it!"
-  }).then((result) => {
-    if (result.isConfirmed) {
-      Swal.fire({
-        title: "Deleted!",
-        text: "Your file has been deleted.",
-        icon: "success"
-      });
-    }
-  });
-
 	$(document).ready( function () {
-        $("#list_status").click();
-        $("#status_terima").css({
-            "background-color" : "#ccc",
-            "color" : "black"
+    $("#list_status").click();
+    $("#status_terima").css({
+      "background-color" : "#ccc",
+      "color" : "black"
+    });
+
+    $("#isiMenu").css({
+      "margin-left" : "5px",
+      "font-weight" : "bold",
+      "text-transform": "uppercase"
+    });
+
+    document.querySelectorAll('#hps_btn').forEach(button => {
+      button.addEventListener('click', function() {
+        // Ambil data-id tombol yang diklik
+        let id = this.getAttribute('data-id');
+              
+        // Konfirmasi dengan SweetAlert
+        Swal.fire({
+          title: `Apakah Anda yakin ingin menghapus dengan id ${id} ? `,
+          text: "Data ini akan dihapus permanen!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Ya, hapus!',
+          cancelButtonText: 'Batal',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              url   : `facebook.com`,      // The URL to which you are sending the request
+              type  : 'POST',              // Request type: POST
+              data  : {  
+                delete_data : true,
+                id_siswa    : id
+              },
+              success: function(response) {
+                console.log('Success:', response);
+                Swal.fire(
+                  'Dihapus!',
+                  'Data berhasil dihapus.',
+                  'success'
+                );
+                // Logika penghapusan data bisa ditambahkan di sini
+                console.log('Data dengan ID ' + id + ' telah dihapus.');
+              },
+              error: function(xhr, status, error) {
+                console.error('Error:', error);
+              }
+            });
+
+          } 
         });
 
-        $("#isiMenu").css({
-	        "margin-left" : "5px",
-	        "font-weight" : "bold",
-	        "text-transform": "uppercase"
-	    });
-
+      });
     });
+
+  });
 
 </script>

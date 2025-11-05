@@ -781,20 +781,58 @@
 			if (this.value == "LAINNYA") {
 				$(".pekerjaanlainayah").show();
 				$("#pekerjaanlainayah").focus();
+				document.getElementById("pekerjaanlainayah").setAttribute("required", "");
 			} else {
 				$(".pekerjaanlainayah").hide();
 				$("#pekerjaanlainayah").val("");
+				document.getElementById("pekerjaanlainayah").removeAttribute("required");
 			}
+		});
+
+		document.getElementById("nomorhpayah").addEventListener("input", function() {
+		    let value = this.value;
+
+		    // Jika user sudah memasukkan minimal 2 angka
+		    if(value.length >= 2){
+		        if(value.substring(0, 2) !== "08"){
+	      			$("#error-message-hp1").show();
+	      			$(".nomorhp1").val("");
+		        } else {
+					$("#error-message-hp1").hide();
+		        }
+		    } else {
+				$("#error-message-hp1").hide();
+
+		    }
 		});
 
 		$(".pilih_pekerjaan_ibu").on("change", function() {
 			if (this.value == "LAINNYA") {
 				$(".pekerjaanlainibu").show();
 				$("#pekerjaanlainibu").focus();
+				document.getElementById("pekerjaanlainibu").setAttribute("required", "");
 			} else {
 				$(".pekerjaanlainibu").hide();
 				$("#pekerjaanlainibu").val("");
+				document.getElementById("pekerjaanlainibu").removeAttribute("required");
 			}
+		});
+
+		document.getElementById("nomorhpibu").addEventListener("input", function() {
+		    let value = this.value;
+
+		    // Jika user sudah memasukkan minimal 2 angka
+		    if(value.length >= 2){
+		        if(value.substring(0, 2) !== "08"){
+	      			$("#error-message-hp2").show();
+	      			$(".nomorhp2").val("");
+		        } else {
+					$("#error-message-hp2").hide();
+		        }
+		    } else {
+				$("#error-message-hp2").hide();
+
+		    }
 		});
 
 		$(".targetasalsekolaherr").on("change", function() {

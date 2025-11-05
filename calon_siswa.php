@@ -1968,8 +1968,9 @@
 											NOMOR HANDPHONE <small>(Yang terhubung dengan Whatsapp)</small> <sup style="color: red;">*</sup> :
 										</label>
 										<div class="col-md-2">
-											<input required type="text" pattern="[0-9]*" inputmode="numeric" maxlength="13" onkeypress="return onlyNumberKey(event)" class="form-control" name="nomorhpayah" id="nomorhpayah" placeholder="Ex : 08xx">
+											<input required type="text" pattern="[0-9]*" inputmode="numeric" maxlength="13" onkeypress="return onlyNumberKey(event)" class="form-control nomorhp1" name="nomorhpayah" id="nomorhpayah" placeholder="Ex : 08xx">
 										</div>
+										<div id="error-message-hp1" class="error"> Angka depan wajib di isi dengan 08 !</div>
 									</div>
 
 									<hr>
@@ -2075,8 +2076,9 @@
 											NOMOR HANDPHONE <small>(Yang terhubung dengan Whatsapp)</small> <sup style="color: red;">*</sup> :
 										</label>
 										<div class="col-md-2" id="nomorhpibux">
-											<input required type="text" pattern="[0-9]*" inputmode="numeric" maxlength="13" onkeypress="return onlyNumberKey(event)" class="form-control" name="nomorhpibu" id="nomorhpibu" placeholder="Ex : 08xx">
+											<input required type="text" pattern="[0-9]*" inputmode="numeric" maxlength="13" onkeypress="return onlyNumberKey(event)" class="form-control nomorhp2" name="nomorhpibu" id="nomorhpibu" placeholder="Ex : 08xx">
 										</div>
+										<div id="error-message-hp2" class="error"> Angka depan wajib di isi dengan 08 !</div>
 									</div>
 
 									<div class="form-group">
