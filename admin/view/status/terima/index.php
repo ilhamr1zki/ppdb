@@ -14,10 +14,10 @@
     ORDER BY data_pendaftaran_siswa_diterima.tanggal_formulir_dibuat ASC
   ");
 
-  $no      		     = 1;
+  $no      		  = 1;
 
   $timeIsOut 		= 0;
-  $arr_res    = [];
+  $arr_res      =[];
 
   function generateRandomString($length = 10) {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -46,14 +46,44 @@
 
       // Validate file type (only PDF allowed)
       if ($fileExtension !== 'pdf' || $fileMimeType !== 'application/pdf') {
-          echo "Invalid file type. Only PDF files are allowed.";
-          exit; // Stop further processing
+
+        $_SESSION['upload_file_err'] = "invalid_type_file";
+
+        $dataSiswaAcc    = mysqli_query($con, "
+          SELECT 
+          data_pendaftaran_siswa_diterima.id, 
+          data_pendaftaran_siswa_diterima.nama_calon_siswa, 
+          data_pendaftaran_siswa_diterima.jenis_kelamin,
+          data_pendaftaran_siswa_diterima.tempat_lahir,
+          data_pendaftaran_siswa_diterima.tanggal_lahir,
+          upload_file.nama_file  
+          FROM data_pendaftaran_siswa_diterima
+          LEFT JOIN upload_file
+          ON data_pendaftaran_siswa_diterima.id = upload_file.id_siswa_diterima_ditolak
+          ORDER BY data_pendaftaran_siswa_diterima.tanggal_formulir_dibuat ASC
+        ");
+
       }
 
       // Validate file size (must be less than or equal to 5 MB)
       if ($file['size'] > $maxSize) {
-          echo "File size exceeds the 5 MB limit. Please upload a smaller file.";
-          exit; // Stop further processing
+
+        $_SESSION['upload_file_err'] = "file_oversize_limit";
+        
+        $dataSiswaAcc    = mysqli_query($con, "
+          SELECT 
+          data_pendaftaran_siswa_diterima.id, 
+          data_pendaftaran_siswa_diterima.nama_calon_siswa, 
+          data_pendaftaran_siswa_diterima.jenis_kelamin,
+          data_pendaftaran_siswa_diterima.tempat_lahir,
+          data_pendaftaran_siswa_diterima.tanggal_lahir,
+          upload_file.nama_file  
+          FROM data_pendaftaran_siswa_diterima
+          LEFT JOIN upload_file
+          ON data_pendaftaran_siswa_diterima.id = upload_file.id_siswa_diterima_ditolak
+          ORDER BY data_pendaftaran_siswa_diterima.tanggal_formulir_dibuat ASC
+        ");
+
       }
 
       // Define the upload directory
@@ -182,7 +212,23 @@
           echo "Error uploading the file. Please try again.";
       }
     } else {
-        echo "No file uploaded or there was an upload error.";
+
+      $_SESSION['upload_file_err'] = "upload_error";
+
+      $dataSiswaAcc    = mysqli_query($con, "
+        SELECT 
+        data_pendaftaran_siswa_diterima.id, 
+        data_pendaftaran_siswa_diterima.nama_calon_siswa, 
+        data_pendaftaran_siswa_diterima.jenis_kelamin,
+        data_pendaftaran_siswa_diterima.tempat_lahir,
+        data_pendaftaran_siswa_diterima.tanggal_lahir,
+        upload_file.nama_file  
+        FROM data_pendaftaran_siswa_diterima
+        LEFT JOIN upload_file
+        ON data_pendaftaran_siswa_diterima.id = upload_file.id_siswa_diterima_ditolak
+        ORDER BY data_pendaftaran_siswa_diterima.tanggal_formulir_dibuat ASC
+      ");
+
     }
   }
 
@@ -226,21 +272,30 @@
 
             if ($queryDelete) {
 
-              $dataSiswaAcc    = mysqli_query($con, "
-                SELECT 
-                data_pendaftaran_siswa_diterima.id, 
-                data_pendaftaran_siswa_diterima.nama_calon_siswa, 
-                data_pendaftaran_siswa_diterima.jenis_kelamin,
-                data_pendaftaran_siswa_diterima.tempat_lahir,
-                data_pendaftaran_siswa_diterima.tanggal_lahir,
-                upload_file.nama_file  
-                FROM data_pendaftaran_siswa_diterima
-                LEFT JOIN upload_file
-                ON data_pendaftaran_siswa_diterima.id = upload_file.id_siswa_diterima_ditolak
-                ORDER BY data_pendaftaran_siswa_diterima.tanggal_formulir_dibuat ASC
+              $queryDeleteFile = mysqli_query($con, "
+                DELETE FROM upload_file
+                WHERE id_siswa_diterima_ditolak = '$arr_res[id]'
               ");
 
-              $_SESSION['delete_student'] = "berhasil";
+              if ($queryDeleteFile) {
+
+                $dataSiswaAcc    = mysqli_query($con, "
+                  SELECT 
+                  data_pendaftaran_siswa_diterima.id, 
+                  data_pendaftaran_siswa_diterima.nama_calon_siswa, 
+                  data_pendaftaran_siswa_diterima.jenis_kelamin,
+                  data_pendaftaran_siswa_diterima.tempat_lahir,
+                  data_pendaftaran_siswa_diterima.tanggal_lahir,
+                  upload_file.nama_file  
+                  FROM data_pendaftaran_siswa_diterima
+                  LEFT JOIN upload_file
+                  ON data_pendaftaran_siswa_diterima.id = upload_file.id_siswa_diterima_ditolak
+                  ORDER BY data_pendaftaran_siswa_diterima.tanggal_formulir_dibuat ASC
+                ");
+
+                $_SESSION['delete_student'] = "berhasil";
+
+              }
 
             }
           
@@ -250,16 +305,7 @@
             echo "File tidak ditemukan.";exit;
         }
 
-        // $queryDeleteFile = mysqli_query($con, "
-        //   DELETE FROM upload_file
-        //   WHERE id_siswa_diterima_ditolak = '$arr_res[id]'
-        // ");
-
-        
-
       } else if ($countDataFile == 0) {
-
-        echo "Belum ada file yang di upload";exit;
 
         $queryDelete = mysqli_query($con, "
           DELETE FROM data_pendaftaran_siswa_diterima
@@ -324,7 +370,7 @@
     <?php } ?>
 
     <?php if(isset($_SESSION['delete_student']) && $_SESSION['delete_student'] == 'berhasil'){?>
-      <div style="display: none;" class="alert alert-warning alert-dismissable"> <?= "Data Calon Siswa PPDB dengan ID $arr_res[id] & Nama ". " $arr_res[nama_siswa] Berhasil Dihapus"; ?>
+      <div style="display: none;" class="alert alert-warning alert-dismissable"> <?= "Data Calon Siswa PPDB $arr_res[nama_siswa] Berhasil Dihapus"; ?>
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         <?php unset($_SESSION['delete_student']); ?>
       </div>
@@ -341,6 +387,27 @@
       <div style="display: none;" class="alert alert-danger alert-dismissable"> <?= "Data Calon Siswa PPDB $arr_res[nama_siswa] Gagal Dihapus !"; ?>
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         <?php unset($_SESSION['delete_student']); ?>
+      </div>
+    <?php } ?>
+
+    <?php if(isset($_SESSION['upload_file_err']) && $_SESSION['upload_file_err'] == 'upload_error'){?>
+      <div style="display: none;" class="alert alert-danger alert-dismissable"> <?= "Tidak Ada File Yang Di Upload !"; ?>
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <?php unset($_SESSION['upload_file_err']); ?>
+      </div>
+    <?php } ?>
+
+    <?php if(isset($_SESSION['upload_file_err']) && $_SESSION['upload_file_err'] == 'invalid_type_file'){?>
+      <div style="display: none;" class="alert alert-danger alert-dismissable"> <?= "File yang di input tidak valid !"; ?>
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <?php unset($_SESSION['upload_file_err']); ?>
+      </div>
+    <?php } ?>
+
+    <?php if(isset($_SESSION['upload_file_err']) && $_SESSION['upload_file_err'] == 'file_oversize_limit'){?>
+      <div style="display: none;" class="alert alert-danger alert-dismissable"> <?= "Ukuran file yang di upload terlalu besar !"; ?>
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <?php unset($_SESSION['upload_file_err']); ?>
       </div>
     <?php } ?>
 

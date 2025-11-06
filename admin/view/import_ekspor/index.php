@@ -588,8 +588,6 @@
 
 			}
 
-			
-
 		}
 	}
 
@@ -636,13 +634,6 @@
           </div>
         <?php } ?>
 
-        <?php if(isset($_SESSION['form_success']) && $_SESSION['form_success'] == 'type_fail'){?>
-          <div style="display: none;" class="alert alert-danger alert-dismissable"> Silahkan Masukan file bertipe xls, atau xlsx
-             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-             <?php unset($_SESSION['form_success']); ?>
-          </div>
-        <?php } ?>
-
         <?php if(isset($_SESSION['form_success']) && $_SESSION['form_success'] == 'empty_form'){?>
           <div style="display: none;" class="alert alert-danger alert-dismissable"> Tidak Ada File Yang Di Upload
              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -679,8 +670,8 @@
                 </div>
                 <div class="col-sm-4" id="importFileSection" style="display: none;">
                     <div class="form-group">
-                        <label>Import PPDB <span id="status_ppdb">  </span> (xls) </label>
-                        <input type="file" name="isi_file" accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required class="form-control" />
+                        <label>Import PPDB <span id="status_ppdb">  </span> (xlsx, xls) </label>
+                        <input type="file" id="uploadfilestatus" name="isi_file" accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required class="form-control" />
                         
                     </div>
                 </div>
@@ -725,6 +716,34 @@
 
 	    }
   	}
+
+  	document.querySelectorAll("#uploadfilestatus").forEach(function(input) {
+	    input.addEventListener("change", function() {
+	      const file = this.files[0];
+	      
+	      if (file) {
+	        const validType = file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || file.type === "application/vnd.ms-excel";
+	        const validExt = file.name.toLowerCase().endsWith(".xlsx") || file.name.toLowerCase().endsWith(".xls");
+	        const maxSize = 5 * 1024 * 1024; // 5 MB (dalam byte)
+
+	        // Validasi format file
+	        if (!validType || !validExt) {
+	          alert("File harus berformat excel (.xlsx atau xls)");
+	          this.value = ""; // reset input
+	          return;
+	        }
+
+	        // Validasi ukuran file
+	        if (file.size > maxSize) {
+	          alert("File melebihi kapasitas maksimal 5MB");
+	          this.value = ""; // reset input
+	          return;
+	        }
+
+	        console.log("File valid:", file.name, "-", (file.size / 1024 / 1024).toFixed(2), "MB");
+	      }
+	    });
+  	});
 
 	$(document).ready( function () {
 		$("#import_btn").hide();
