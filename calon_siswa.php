@@ -1428,31 +1428,6 @@
 	    	</div>
 		</div>
 
- 	<?php elseif($sesi == 4): ?>
-
-		<div class="container document">
-	    	<div class="row">
-		    	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
-		    		<div class="panel panel-default">
-							<!-- <div class="panel-heading"><h4 id="tahunajar" class="text-center">Tahun Ajaran Aktif : <strong><?php echo $ta_aktif; ?></strong></h4></div> -->
-						<div class="panel-body">
-							<input type="hidden" value="simpan_calon_siswa" name="aksi" id="aksi">
-
-							<div class="form-group">
-								<!-- <label class="col-md-3 control-label"> PENDAFTARAN UNTUK KELAS<sup style="color: red;">*</sup> : </label> -->
-								<div class="col-md-12">
-									<center> <h1> PENDAFTARAN BERHASIL </h1> </center>
-								</div>
-							</div>
-							
-						</div>
-
-					</div>
-		    	</div>
-	    	</div>
-		</div>
-
 	<?php else: ?>
 
 		<div class="container document">

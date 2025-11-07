@@ -119,7 +119,7 @@
                 $("#icnEye").addClass("glyphicon-eye-open");
                 $("#text_pw").text('Show')
             }
-        })
+        });
 
 	});
 </script>

@@ -34,6 +34,11 @@
 	let sertif2Invalid	= `<?= $sertifTahfidzValid; ?>`
 	let infaqInvalid 	= `<?= $invalidInfaq; ?>`
 
+	window.history.pushState(null, null, window.location.href);
+    window.onpopstate = function() {
+        window.history.go(1); // Ini akan memaksa browser untuk tetap di halaman yang sekarang
+    };
+
 	if (emptyAkte == 1) {
 
 		Swal.fire({

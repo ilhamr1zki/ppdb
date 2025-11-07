@@ -69,7 +69,7 @@
       if ($file['size'] > $maxSize) {
 
         $_SESSION['upload_file_err'] = "file_oversize_limit";
-        
+
         $dataSiswaAcc    = mysqli_query($con, "
           SELECT 
           data_pendaftaran_siswa_diterima.id, 
@@ -302,7 +302,41 @@
           }
 
         } else {
-            echo "File tidak ditemukan.";exit;
+
+          $queryDelete = mysqli_query($con, "
+            DELETE FROM data_pendaftaran_siswa_diterima
+            WHERE id = '$arr_res[id]'
+          ");
+
+          if ($queryDelete) {
+
+            $queryDeleteFile = mysqli_query($con, "
+              DELETE FROM upload_file
+              WHERE id_siswa_diterima_ditolak = '$arr_res[id]'
+            ");
+
+            if ($queryDeleteFile) {
+
+              $dataSiswaAcc    = mysqli_query($con, "
+                SELECT 
+                data_pendaftaran_siswa_diterima.id, 
+                data_pendaftaran_siswa_diterima.nama_calon_siswa, 
+                data_pendaftaran_siswa_diterima.jenis_kelamin,
+                data_pendaftaran_siswa_diterima.tempat_lahir,
+                data_pendaftaran_siswa_diterima.tanggal_lahir,
+                upload_file.nama_file  
+                FROM data_pendaftaran_siswa_diterima
+                LEFT JOIN upload_file
+                ON data_pendaftaran_siswa_diterima.id = upload_file.id_siswa_diterima_ditolak
+                ORDER BY data_pendaftaran_siswa_diterima.tanggal_formulir_dibuat ASC
+              ");
+
+              $_SESSION['delete_student'] = "berhasil";
+
+            }
+
+          }
+
         }
 
       } else if ($countDataFile == 0) {

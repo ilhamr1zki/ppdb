@@ -908,11 +908,11 @@
 
 			    $apiFonnte 	= "https://api.fonnte.com/send";
 
-				$curl = curl_init();
+				$curl 		= curl_init();
 
-				$tkn    = "XW5PKf2275Ee3ZxzVowToUGTQELJQJksh9DoMzeyd3BLkL3";
+				$tkn    	= "XW5PKf2275Ee3ZxzVowToUGTQELJQJksh9DoMzeyd3BLkL3";
 
-				$pesan  = "Pendaftaran PPDB Atas Nama _*". $_POST['nama_calon_siswa_review'] ."*_ telah berhasil." . "\n" . "\n" . "_*AKHYAR INTERNATIONAL ISLAMIC SCHOOL*_";
+				$pesan  	= "Pendaftaran PPDB Atas Nama _*". $_POST['nama_calon_siswa_review'] ."*_ telah berhasil." . "\n" . "\n" . "_*AKHYAR INTERNATIONAL ISLAMIC SCHOOL*_";
 
 	          	curl_setopt_array($curl, array(
 		            CURLOPT_URL => $apiFonnte,

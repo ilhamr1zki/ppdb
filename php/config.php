@@ -15,14 +15,14 @@ $user = new Auth($db);
 $con=mysqli_connect($dbhost,$dbuser,$dbpass,$dbname);
 ($GLOBALS["___mysqli_ston"] = mysqli_connect($dbhost, $dbuser, $dbpass));mysqli_select_db($GLOBALS["___mysqli_ston"], $dbname);
 /* css.plugin.hancon <?php echo $base; ?> */
-$base='http://localhost:8080/ppdb_update_sd/';
+$base='http://10.10.10.117:8080/ppdb_update_sd/';
 // $base='http://localhost:8080/spp/';
 // $base='http://localhost:8080/daily_act/';
-$base_pendaftar_ppdb = 'http://localhost:8080/ppdb_update_sd/';
+$base_pendaftar_ppdb = 'http://10.10.10.117:8080/ppdb_update_sd/';
 // $base_jumlahpendaftar_ppdb = 'http://10.10.10.239/ppdb/totalpendaftarppdb';
 /* control(link.redirect) <?php echo $basecon; ?> */
 // $basead='http://localhost:8080/daily_act/admin/';
-$basead='http://localhost:8080/ppdb_update_sd/admin/'; 
+$basead='http://10.10.10.117:8080/ppdb_update_sd/admin/'; 
 /*kelas(link.redirect) <?php echo $basekel; ?>*/
 /* $basegu='https://apps.aiis.sch.id/guru/'; */
 // $basegu='http://localhost/daily_act/guru/';
