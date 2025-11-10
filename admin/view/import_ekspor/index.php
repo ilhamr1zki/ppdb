@@ -216,8 +216,9 @@
 								$_SESSION['import_success'] = "berhasil";
 								
 							} else {
-								mysqli_error($con);
-								echo "Gagal";
+
+								$_SESSION['import_success'] = "gagal";
+
 							}
 
 						} else if ($countAcc != 0) {
@@ -304,10 +305,19 @@
 									tanggal_formulir_dibuat 							= '$tanggalFormDiIsi'
 								");
 
-								$dataSiswaTelahAccInputBaru = mysqli_num_rows(mysqli_query($con, "SELECT * FROM data_pendaftaran_siswa_diterima"));
-								$total = $dataSiswaTelahAccInputBaru - $countAcc;
+								if ($query) {
 
-								$_SESSION['import_success'] = "berhasil";
+									$dataSiswaTelahAccInputBaru = mysqli_num_rows(mysqli_query($con, "SELECT * FROM data_pendaftaran_siswa_diterima"));
+									$total = $dataSiswaTelahAccInputBaru - $countAcc;
+
+									$_SESSION['import_success'] = "berhasil";
+
+								} else {
+
+									$_SESSION['import_success'] = "gagal";
+
+								}
+
 
 							}
 

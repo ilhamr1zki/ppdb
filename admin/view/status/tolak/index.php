@@ -45,7 +45,7 @@
 	      // echo $id_diterima;exit;
 	      $nama_siswa   = mysqli_real_escape_string($con, htmlspecialchars($_POST['siswa_diterima']));
 	      // Set the maximum file size (5 MB = 5 * 1024 * 1024 bytes)
-	      $maxSize = 5 * 1024 * 1024;
+	      $maxSize = 6 * 1024 * 1024;
 
 	      // Get file extension and MIME type
 	      $fileExtension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
@@ -346,7 +346,7 @@
 	      if (file) {
 	        const validType = file.type === "application/pdf";
 	        const validExt = file.name.toLowerCase().endsWith(".pdf");
-	        const maxSize = 5 * 1024 * 1024; // 5 MB (dalam byte)
+	        const maxSize = 6 * 1024 * 1024; // 5 MB (dalam byte)
 
 	        // Validasi format file
 	        if (!validType || !validExt) {
