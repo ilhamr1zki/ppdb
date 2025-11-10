@@ -87,7 +87,7 @@
       }
 
       // Define the upload directory
-      $uploadDir = 'uploads/ppdb_diterima/';
+      $uploadDir = 'uploads/ppdb_diterima/pdf_send_to_otm/';
       // Make sure the upload directory exists
       if (!is_dir($uploadDir)) {
           mkdir($uploadDir, 0777, true); // Create the directory if it doesn't exist
@@ -95,14 +95,14 @@
 
       // Define the path to store the uploaded file
       $filePath = $uploadDir . basename(generateRandomString() . "-". $file['name']);
-      $nameFile = mysqli_real_escape_string($con, htmlspecialchars(str_replace(['uploads/ppdb_diterima/'], '', $filePath)));
+      $nameFile = mysqli_real_escape_string($con, htmlspecialchars(str_replace(['uploads/ppdb_diterima/pdf_send_to_otm/'], '', $filePath)));
 
       // Attempt to move the uploaded file to the desired directory
       if (move_uploaded_file($file['tmp_name'], $filePath)) {
         
         // Check Jika file PDF belum pernah di upload
         $queryCheckFile = mysqli_query($con, "
-          SELECT id_siswa_diterima_ditolak, nama_siswa 
+          SELECT id_siswa_diterima_ditolak, nama_siswa, nama_file 
           FROM upload_file
           WHERE id_siswa_diterima_ditolak = '$id_diterima'
         ");
@@ -160,31 +160,44 @@
 
         } else {
 
-        // Check jika file PDF sudah pernah di upload atau sudah ada
-          $updateFileUpload = mysqli_query($con, "
-            UPDATE upload_file 
-            SET 
-            nama_file         = '$nameFile'
-            WHERE id_siswa_diterima_ditolak = '$id_diterima'
-          ");
+          // check jika siswa sudah pernah upload file PDF
+          $getNameFile = mysqli_fetch_assoc($queryCheckFile);
 
-          if ($updateFileUpload) {
+          $file = "uploads/ppdb_diterima/pdf_send_to_otm/" . $getNameFile['nama_file'];
 
-            $_SESSION['import_success'] = "berhasil";
+          if (file_exists($file)) {
 
-            $dataSiswaAcc    = mysqli_query($con, "
-              SELECT 
-              data_pendaftaran_siswa_diterima.id, 
-              data_pendaftaran_siswa_diterima.nama_calon_siswa, 
-              data_pendaftaran_siswa_diterima.jenis_kelamin,
-              data_pendaftaran_siswa_diterima.tempat_lahir,
-              data_pendaftaran_siswa_diterima.tanggal_lahir,
-              upload_file.nama_file  
-              FROM data_pendaftaran_siswa_diterima
-              LEFT JOIN upload_file
-              ON data_pendaftaran_siswa_diterima.id = upload_file.id_siswa_diterima_ditolak
-              ORDER BY data_pendaftaran_siswa_diterima.tanggal_formulir_dibuat ASC
-            ");
+            if (unlink($file)) {
+
+              // Check jika file PDF sudah pernah di upload atau sudah ada
+              $updateFileUpload = mysqli_query($con, "
+                UPDATE upload_file 
+                SET 
+                nama_file         = '$nameFile'
+                WHERE id_siswa_diterima_ditolak = '$id_diterima'
+              ");
+
+              if ($updateFileUpload) {
+
+                $_SESSION['import_success'] = "berhasil";
+
+                $dataSiswaAcc    = mysqli_query($con, "
+                  SELECT 
+                  data_pendaftaran_siswa_diterima.id, 
+                  data_pendaftaran_siswa_diterima.nama_calon_siswa, 
+                  data_pendaftaran_siswa_diterima.jenis_kelamin,
+                  data_pendaftaran_siswa_diterima.tempat_lahir,
+                  data_pendaftaran_siswa_diterima.tanggal_lahir,
+                  upload_file.nama_file  
+                  FROM data_pendaftaran_siswa_diterima
+                  LEFT JOIN upload_file
+                  ON data_pendaftaran_siswa_diterima.id = upload_file.id_siswa_diterima_ditolak
+                  ORDER BY data_pendaftaran_siswa_diterima.tanggal_formulir_dibuat ASC
+                ");
+
+              }
+
+            }
 
           } else {
 
@@ -258,7 +271,7 @@
       if ($countDataFile == 1) {
         $getNameFile = mysqli_fetch_assoc($queryCheckFilePdf); 
 
-        $file = "uploads/ppdb_diterima/" . $getNameFile['nama_file'];
+        $file = "uploads/ppdb_diterima/pdf_send_to_otm/" . $getNameFile['nama_file'];
         // echo $file;exit;
 
         if (file_exists($file)) {
@@ -487,7 +500,7 @@
         			<td> <?= $data['nama_calon_siswa']; ?> </td>
         			<td> <?= $data['jenis_kelamin']; ?> </td>
               <td> <?= $data['tempat_lahir']; ?>, <?= str_replace(["00:00:00"], "", tglIndo($data['tanggal_lahir'])) ; ?> </td>
-        			<td> <a href="<?= $basead . 'uploads/ppdb_diterima/' . $data['nama_file']; ?>" target="blank"> <?= $data['nama_file']; ?> </a> </td>
+        			<td> <a href="<?= $basead . 'uploads/ppdb_diterima/pdf_send_to_otm/' . $data['nama_file']; ?>" target="blank"> <?= $data['nama_file']; ?> </a> </td>
         			<td> 
                 <button class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter<?= $data['id']; ?>"> <i class="glyphicon glyphicon-upload"></i> UPLOAD PDF </button>
                 |
@@ -509,8 +522,8 @@
                       <input type="hidden" name="id_siswa_terima" value="<?= $data['id']; ?>">
                       <input type="hidden" name="siswa_diterima" value="<?= $data['nama_calon_siswa']; ?>">
                       <div class="form-group">
-                        <label for="recipient-name" class="col-form-label"> UPLOAD FILE (PDF) </label>
-                        <input type="file" class="form-control" name="up_file" id="uploadfile" accept=".pdf" value="jsdahsbd" multiple required>
+                        <label for="recipient-name" class="col-form-label"> UPLOAD FILE (PDF) (MAX 5 MB) </label>
+                        <input type="file" class="form-control" name="up_file" id="uploadfile" accept=".pdf" multiple required>
                       </div>
                   </div>
                   <div class="modal-footer">

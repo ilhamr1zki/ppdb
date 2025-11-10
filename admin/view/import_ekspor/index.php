@@ -62,7 +62,7 @@
 				} else {
 
 					//upload data excel kedalam folder uploads
-					$target_dir = "uploads/".basename($_FILES['isi_file']['name']);
+					$target_dir = "uploads/ppdb_diterima/".basename($_FILES['isi_file']['name']);
 					
 					move_uploaded_file($_FILES['isi_file']['tmp_name'],$target_dir);
 
@@ -326,7 +326,7 @@
 				} else {
 
 					//upload data excel kedalam folder uploads
-					$target_dir = "uploads/".basename($_FILES['isi_file']['name']);
+					$target_dir = "uploads/ppdb_ditolak/".basename($_FILES['isi_file']['name']);
 					
 					move_uploaded_file($_FILES['isi_file']['tmp_name'],$target_dir);
 
