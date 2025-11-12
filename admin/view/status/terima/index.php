@@ -476,6 +476,15 @@
 
     <div class="box-body table-responsive">
 
+      <!-- <button class="btn btn-success btn-sm" id="plhsiswa" data-klik="no"> <i class="glyphicon glyphicon-check" id="iconch"></i> <span id="plh_choose"> Pilih Semua </span> Siswa </button> -->
+      <form method="post" action="send">
+        <input type="hidden" name="is_data" value="acc">
+        <input type="hidden" name="token" value="<?= generateRandomString(25); ?>">
+        <button class="btn btn-sm btn-success" type="submit"> <i class="glyphicon glyphicon-envelope"></i> KIRIM PESAN </button>
+      </form>
+      <br>
+      <br>
+
       <table id="list_siswa_acc" style="text-align: center;" class="table table-bordered table-hover">
 
         <thead>
@@ -568,6 +577,70 @@
       </table>
     </div>
 
+    <div class="modal fade" id="studentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="exampleModalCenterTitle"> <i class="glyphicon glyphicon-check"></i> PILIH SISWA UNTUK DI KIRIM PESAN PDF KE ORANG TUA </h4>
+          </div>
+          <div class="modal-body">
+
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="checkbox" id="selectAll">
+              <label class="form-check-label fw-semibold" for="selectAll">Pilih Semua Siswa</label>
+            </div>
+
+            <br>
+
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover align-middle" id="students_choose">
+                <thead class="table-light text-center">
+                  <tr>
+                    <th>#</th>
+                    <th>Student Name</th>
+                    <th>Jenis Kelamin</th>
+                    <th>Pilih</th>
+                  </tr>
+                </thead>
+                <tbody id="studentTableBody">
+
+                  <?php  
+
+                    $number_inmodal = 1;
+
+                  ?>
+
+                  <?php foreach ($dataSiswaAcc as $data): ?>
+                    
+                    <tr>
+                      <td> <?= $number_inmodal++; ?> </td>
+                      <td> <?= $data['nama_calon_siswa']; ?> </td>
+                      <td> <?= $data['jenis_kelamin']; ?> </td>
+                      <td class="text-center">
+                        <input type="checkbox" class="form-check-input student-checkbox">
+                      </td>
+                    </tr>
+
+                  <?php endforeach ?>
+                  
+                </tbody>
+              </table>
+            </div>
+
+            <nav>
+              <ul class="pagination" id="pagination"></ul>
+            </nav>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" name="upload_file" class="btn btn-success"> <i class="glyphicon glyphicon-envelope"></i> Kirim </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -627,6 +700,27 @@
       "font-weight" : "bold",
       "text-transform": "uppercase"
     });
+
+    // $('#plhsiswa').on('click', function() {
+    //   // Ambil nilai sekarang
+    //   let nilaiSekarang = $(this).attr('data-klik');
+
+    //   // Toggle nilai antara "no" dan "yes"
+    //   if (nilaiSekarang === 'no') {
+    //     $(this).attr('data-klik', 'yes');
+    //     $("#plh_choose").text("Batal Pilih");
+    //     $("#iconch").removeClass("glyphicon-check");
+    //     $("#iconch").addClass("glyphicon-remove");
+    //   } else {
+    //     $(this).attr('data-klik', 'no');
+    //     $("#plh_choose").text("Pilih Semua");
+    //     $("#iconch").removeClass("glyphicon-remove");
+    //     $("#iconch").addClass("glyphicon-check");
+    //   }
+
+    //   // (Opsional) cek hasil di console
+    //   console.log('Nilai data-klik sekarang:', $(this).attr('data-klik'));
+    // });
 
     document.querySelectorAll('#hps_btn').forEach(button => {
       button.addEventListener('click', function() {

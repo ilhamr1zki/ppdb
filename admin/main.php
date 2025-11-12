@@ -1135,6 +1135,10 @@ oncontextmenu="return false">
       "paging": true
     });
 
+    $("#students_choose").DataTable({
+      "paging":true
+    });
+
     $('#example2').DataTable({
       "paging": false,
       "lengthChange": true,

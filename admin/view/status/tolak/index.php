@@ -1,6 +1,6 @@
 <?php  
 	
-	$timeOut        = $_SESSION['expire'];
+		$timeOut        = $_SESSION['expire'];
     
     $timeRunningOut = time() + 5;
 
@@ -262,6 +262,14 @@
     <!-- </div> -->
 
     <div class="box-body table-responsive">
+
+    	<form method="post" action="send">
+        <input type="hidden" name="is_data" value="rej">
+        <input type="hidden" name="token" value="<?= generateRandomString(25); ?>">
+        <button class="btn btn-sm btn-success" type="submit"> <i class="glyphicon glyphicon-envelope"></i> KIRIM PESAN </button>
+      </form>
+      <br>
+      <br>
 
       <table id="list_siswa_acc" style="text-align: center;" class="table table-bordered table-hover">
 

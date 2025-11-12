@@ -1531,7 +1531,7 @@
 
 										<!-- SD -->
 										<div class="col-md-3">
-				                          <input type="date" class="form-control" placeholder="(Tanggal-Bulan-Tahun)" min="2018-01-01" max="2019-02-01" name="tanglahir_anak_sd">
+				                          <input type="date" class="form-control" placeholder="(Tanggal-Bulan-Tahun)" min="2019-02-01" max="2020-02-29" name="tanglahir_anak_sd">
 										</div>
 
 									</div>
