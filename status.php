@@ -429,6 +429,11 @@
 
 <script type="text/javascript">
 
+	window.history.pushState(null, null, window.location.href);
+    window.onpopstate = function() {
+        window.history.go(1); // Ini akan memaksa browser untuk tetap di halaman yang sekarang
+    };
+
 	if (`<?= $showMessage; ?>` == 'success') {
 
 		Swal.fire({

@@ -119,6 +119,19 @@
 		$infaq 				= htmlspecialchars($_POST['infaq']);
 		$terbilang 			= htmlspecialchars($_POST['terbilang']);
 		$mutasi 			= htmlspecialchars($_POST['mutasi']);
+
+		// Baru
+		$alasanAiis 		= htmlspecialchars($_POST['alasan_diaiis']);
+		$pendapatOrtu 		= htmlspecialchars($_POST['pendapat_orangtua']);
+		$kemampuanSosial 	= htmlspecialchars($_POST['kemampuan_sosial']);
+		$kemandirianSiswa 	= htmlspecialchars($_POST['kemandirian_anak']);
+		$kelebihanSiswa 	= htmlspecialchars($_POST['kelebihan_anak']);
+		$terlibatMengasuh 	= htmlspecialchars($_POST['terlibat_mengasuh']);
+		$tahsinAyah			= htmlspecialchars($_POST['tahsin_ayah']);
+		$tahfidzAyah		= htmlspecialchars($_POST['tahfidz_ayah']);
+		$tahsinIbu			= htmlspecialchars($_POST['tahsin_ibu']);
+		$tahfidzIbu			= htmlspecialchars($_POST['tahfidz_ibu']);
+
 		// echo htmlspecialchars($_POST['nama_calon_siswa']);
 
 		$arrDataCalonNamaSiswa[] 			= $namaLengkap;
@@ -350,7 +363,6 @@
 									</div>
 								</div>
 
-									
 								<div class="form-group">
 									<label class="col-md-7 control-label" id="label_daribrp_sdr" for="daribrp_saudara">
 										APAKAH ADA ADIK/KAKAK KANDUNG YANG SUDAH BERSEKOLAH DI AIIS :
@@ -383,70 +395,59 @@
 								<?php endif ?>
 
 								<div class="form-group">
-									<label class="col-md-8 control-label" id="label_riwayat_penyakit" for="rwyt_penyakit">
-										RIWAYAT PENYAKIT ANAK, APAKAH ADA ALERGI :
+									<label class="col-md-7 control-label" id="label_daribrp_sdr" for="daribrp_saudara">
+										APA ALASAN ANDA MEMILIH SEKOLAH AIIS ?
 									</label>
-									<div class="col-md-5">
-										<input type="text" readonly value="<?= $riwayatPenyakit; ?>" class="form-control" placeholder="Ex : Penyakit Anemia (kosongkan jika tidak ada)" name="rwyt_penyakit_review" id="rwyt_penyakit">
+									<div class="col-md-8">
+										<input type="text" value="<?= $alasanAiis; ?>" readonly pattern="[0-9]*" class="form-control">
 									</div>
 								</div>
 
 								<div class="form-group">
-									<label class="col-md-3 control-label" id="label_bacaan_tahsin" for="bacaan_tahsin">
-										TAHSIN / BACA AL-QUR'AN :
+									<label class="col-md-7 control-label" id="label_daribrp_sdr" for="daribrp_saudara">
+										APA YANG AKAN BAPAK DAN IBU LAKUKAN BILA ADA KEBIJAKAN SEKOLAH YANG TIDAK SESUAI DENGAN PEMIKIRAN BAPAK DAN IBU ?
 									</label>
-									<div class="col-md-2">
-										<input readonly type="text" class="form-control" value="<?= $bacaanTahsin; ?>" name="tahsin_rev" id="nisn_calon_siswa">
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label class="col-md-3 control-label" id="label_bacaan_tahsin" for="bacaan_tahsin">
-										BANYAK JUZ DI HAFAL :
-									</label>
-									<div class="col-md-2">
-										<input readonly type="text" class="form-control" value="<?= $brpJuz; ?>" name="tahsin_rev" id="nisn_calon_siswa">
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label class="col-md-3 control-label" id="label_bacaan_tahsin" for="bacaan_tahsin">
-										JUZ YANG DI HAFAL :
-									</label>
-									<div class="col-md-5">
-										<input readonly type="text" class="form-control" value="<?= $juzDihafal; ?>" name="tahsin_rev" id="nisn_calon_siswa">
-									</div>
-								</div>
-
-								<br><br><br><br>
-
-								<div class="form-group">
-									<label class="col-md-3 control-label" id="label_bacaan_tahsin" for="bacaan_tahsin">
-										HAFALAN SURAT TERAKHIR :
-									</label>
-									<div class="col-md-7">
-										<textarea class="form-control" disabled style="resize:vertical; height:125px;"> <?= $suratTerakhir; ?> </textarea>
+									<div class="col-md-8">
+										<input type="text" value="<?= $pendapatOrtu; ?>" readonly pattern="[0-9]*" class="form-control">
 									</div>
 								</div>
 
 								<legend> <i class="glyphicon glyphicon-user"></i> &nbsp; RIWAYAT PERKEMBANGAN ANAK </legend>
 
 								<br>
-								<div class="form-group">
+								<!-- <div class="form-group">
 									<label class="col-md-5 control-label" for="nama_ayah_wali">
 										ANANDA DAPAT BERJALAN PADA USIA :
 									</label>
 									<div class="col-md-3">
 										<input type="text" readonly value="<?= $dapat_berjalan_pada_usia; ?>" class="form-control" name="nama_ayah_wali_review" id="nama_ayah_wali">
 									</div>
-								</div>
+								</div> -->
 
-								<div class="form-group">
+								<!-- <div class="form-group">
 									<label class="col-md-8 control-label" for="temlahir_ayah">
 										ANANDA DAPAT BERBICARA BERMAKNA MIN. 2 KATA PADA USIA : 
 									</label>
 									<div class="col-md-3">
 										<input type="text" readonly class="form-control" value="<?= $dapatBerbicara; ?>" name="temlahir_ayah_review" id="temlahir_ayah">
+									</div>
+								</div> -->
+
+								<div class="form-group">
+									<label class="col-md-8 control-label" id="label_riwayat_penyakit" for="rwyt_penyakit">
+										APAKAH ANANDA MEMILIKI RIWAYAT MASALAH KESEHATAN ? (DARI PROSES HAMIL HINGGA SAAT INI)
+									</label>
+									<div class="col-md-8">
+										<input type="text" readonly value="<?= $riwayatPenyakit; ?>" class="form-control" placeholder="Ex : Penyakit Anemia (kosongkan jika tidak ada)" name="rwyt_penyakit_review" id="rwyt_penyakit">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-md-8 control-label" id="label_riwayat_penyakit" for="rwyt_penyakit">
+										APAKAH ANANDA MEMILIKI RIWAYAT KETERLAMBATAN TUMBUH KEMBANG ? (FASE MERANGKAK/BERDIRI/BERJALAN/BICARA)
+									</label>
+									<div class="col-md-8">
+										<input type="text" readonly value="<?= $telatPerkembangan; ?>" class="form-control" placeholder="Ex : Penyakit Anemia (kosongkan jika tidak ada)" name="rwyt_penyakit_review" id="rwyt_penyakit">
 									</div>
 								</div>
 
@@ -509,11 +510,29 @@
 								<?php endif ?>
 
 								<div class="form-group">
-									<label class="col-md-9 control-label" for="temlahir_ayah">
-										APAKAH ANANDA MEMILIKI KETERLAMBATAN PERKEMBANGAN ATAU MASALAH TUMBUH KEMBANG : 
+									<label class="col-md-8 control-label" for="temlahir_ayah">
+										BAGAIMANA KEMAMPUAN SOSIAL ANANDA DALAM MEMASUKI LINGKUNGAN BARU ? 
 									</label>
-									<div class="col-md-7">
-										<input type="text" readonly class="form-control" value="<?= $telatPerkembangan; ?>" name="temlahir_ayah_review" id="temlahir_ayah">
+									<div class="col-md-8">
+										<input type="text" readonly class="form-control" value="<?= $kemampuanSosial; ?>" name="temlahir_ayah_review" id="temlahir_ayah">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-md-8 control-label" for="temlahir_ayah">
+										BAGAIMANA KEMANDIRIAN ANANDA DALAM KEGIATAN SEHARI-HARI DI RUMAH ? 
+									</label>
+									<div class="col-md-8">
+										<input type="text" readonly class="form-control" value="<?= $kemandirianSiswa; ?>" name="temlahir_ayah_review" id="temlahir_ayah">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-md-8 control-label" for="temlahir_ayah">
+										APA SAJA KELEBIHAN DIRI YANG ANANDA MILIKI ? (BISA SIFAT POSITIF, KEBIASAAN POSITIF ATAU SKILL AKAN SUATU HARI) 
+									</label>
+									<div class="col-md-8">
+										<input type="text" readonly class="form-control" value="<?= $kelebihanSiswa; ?>" name="temlahir_ayah_review" id="temlahir_ayah">
 									</div>
 								</div>
 
@@ -523,33 +542,6 @@
 									</label>
 									<div class="col-md-3">
 										<input type="text" readonly class="form-control" value="<?= $terbiasaSolat; ?>" name="temlahir_ayah_review" id="temlahir_ayah">
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label class="col-md-5 control-label" for="temlahir_ayah">
-										TAHSIN / BACA AL-QUR'AN AYAH BUNDA : 
-									</label>
-									<div class="col-md-3">
-										<input type="text" readonly class="form-control" value="<?= $tahsinOrtu; ?>" name="temlahir_ayah_review" id="temlahir_ayah">
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label class="col-md-5 control-label" for="temlahir_ayah">
-										TAHFIDZ / HAFALAN AL-QUR'AN AYAH BUNDA : 
-									</label>
-									<div class="col-md-3">
-										<input type="text" readonly class="form-control" value="<?= $tahfidzOrtu; ?>" name="temlahir_ayah_review" id="temlahir_ayah">
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label class="col-md-8 control-label" for="temlahir_ayah">
-										PERAN AYAH BUNDA DALAM MEMBANTU PERKEMBANGAN HAFALAN AL-QUR'AN ANANDA : 
-									</label>
-									<div class="col-md-8">
-										<textarea class="form-control" style="height: 125px;" disabled> <?= $peranOrtu; ?> </textarea>
 									</div>
 								</div>
 
@@ -577,6 +569,62 @@
 									</div>
 
 								<?php endif ?>
+
+								<div class="form-group">
+									<label class="col-md-3 control-label" id="label_bacaan_tahsin" for="bacaan_tahsin">
+										TAHSIN / BACA AL-QUR'AN :
+									</label>
+									<div class="col-md-2">
+										<input readonly type="text" class="form-control" value="<?= $bacaanTahsin; ?>" name="tahsin_rev" id="nisn_calon_siswa">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-md-3 control-label" id="label_bacaan_tahsin" for="bacaan_tahsin">
+										BANYAK JUZ DI HAFAL :
+									</label>
+									<div class="col-md-2">
+										<input readonly type="text" class="form-control" value="<?= $brpJuz; ?>" name="tahsin_rev" id="nisn_calon_siswa">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-md-3 control-label" id="label_bacaan_tahsin" for="bacaan_tahsin">
+										JUZ YANG DI HAFAL :
+									</label>
+									<div class="col-md-5">
+										<input readonly type="text" class="form-control" value="<?= $juzDihafal; ?>" name="tahsin_rev" id="nisn_calon_siswa">
+									</div>
+								</div>
+
+								<br><br><br><br>
+
+								<div class="form-group">
+									<label class="col-md-3 control-label" id="label_bacaan_tahsin" for="bacaan_tahsin">
+										HAFALAN SURAT TERAKHIR :
+									</label>
+									<div class="col-md-7">
+										<textarea class="form-control" disabled style="resize:vertical; height:125px;"> <?= $suratTerakhir; ?> </textarea>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-md-5 control-label" for="temlahir_ayah">
+										SIAPA SAJA YANG TERLIBAT DALAM MENGASUH ANANDA ? (DARI SEJAK LAHIR SAMPAI DENGAN SAAT INI) 
+									</label>
+									<div class="col-md-3">
+										<input type="text" readonly class="form-control" value="<?= $terlibatMengasuh; ?>" name="temlahir_ayah_review" id="temlahir_ayah">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-md-8 control-label" for="temlahir_ayah">
+										PERAN AYAH BUNDA DALAM MEMBANTU PERKEMBANGAN HAFALAN AL-QUR'AN ANANDA : 
+									</label>
+									<div class="col-md-8">
+										<textarea class="form-control" style="height: 125px;" disabled> <?= $peranOrtu; ?> </textarea>
+									</div>
+								</div>
 								
 								<br><br><br>
 
@@ -708,6 +756,24 @@
 									</div>
 								</div>
 
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="temlahir_ayah">
+										TAHSIN / BACA AL-QUR'AN AYAH : 
+									</label>
+									<div class="col-md-3">
+										<input type="text" readonly class="form-control" value="<?= $tahsinAyah; ?>" name="temlahir_ayah_review" id="temlahir_ayah">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="temlahir_ayah">
+										TAHFIDZ / HAFALAN AL-QUR'AN AYAH : 
+									</label>
+									<div class="col-md-3">
+										<input type="text" readonly class="form-control" value="<?= $tahfidzAyah; ?>" name="temlahir_ayah_review" id="temlahir_ayah">
+									</div>
+								</div>
+
 								<hr>
 
 								<div class="form-group">
@@ -824,6 +890,24 @@
 									</label>
 									<div class="col-md-3">
 										<input readonly type="text" pattern="[0-9]*" inputmode="numeric" onkeypress="return onlyNumberKey(event)" class="form-control" name="nomorhpibu_review" id="nomorhpibu" value="<?= $noHpIbu; ?>">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="temlahir_ayah">
+										TAHSIN / BACA AL-QUR'AN IBU : 
+									</label>
+									<div class="col-md-3">
+										<input type="text" readonly class="form-control" value="<?= $tahsinIbu; ?>" name="temlahir_ayah_review" id="temlahir_ayah">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="temlahir_ayah">
+										TAHFIDZ / HAFALAN AL-QUR'AN IBU : 
+									</label>
+									<div class="col-md-3">
+										<input type="text" readonly class="form-control" value="<?= $tahfidzIbu; ?>" name="temlahir_ayah_review" id="temlahir_ayah">
 									</div>
 								</div>
 

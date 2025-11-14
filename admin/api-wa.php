@@ -60,7 +60,7 @@
 			foreach ($combined as $index => $row) {
 				$pesan 	= "BISMILLAH" . "\n". "\n" . "SELAMAT !". "\n" ."Ananda a/n " . "*{$row[0]}*" . "\n" . "\n" . "*LOLOS SELEKSI* TAHAP 1" . "\n" . "\n" . "Mohon menunggu informasi selanjutnya di Seleksi TAHAP 2. " . "\n" . "\n" . "_*AKHYAR INTERNATIONAL ISLAMIC SCHOOL*_";
 			    $target = $row[1] . "," . $row[2]; // misalnya nomor ada di kolom ke-3
-			    $pdf 	= $basead . $row[3];
+			    $pdf 	= $url . $row[3];
 
 			    $curl = curl_init();
 			    curl_setopt_array($curl, [
@@ -71,8 +71,8 @@
 			            'target' 	=> $target,
 			            'message' 	=> $pesan,
 			            'url' 		=> $pdf,
-			            'filename'  => 'contoh.pdf',
-			            'delay' 	=> '2'
+			            'filename'  => strtoupper($row[0]),
+			            'delay' 	=> '5'
 			        ],
 			        CURLOPT_HTTPHEADER => [
 			            "Authorization:v5daG91JX3QJnsDeSYnc"
@@ -117,7 +117,7 @@
 			$mothers  		= array_map('trim', explode(',', $resultMother));
 			$fathers  		= array_map('trim', explode(',', $resultFather));
 			$filename 		= array_map('trim', explode(',', $resultFileName));
-			$url  			= $basead. "uploads/ppdb_diterima/pdf_send_to_otm/";
+			$url  			= $basead. "uploads/ppdb_ditolak/pdf_send_to_otm/";
 
 			$combined = [];
 
@@ -135,7 +135,7 @@
 			foreach ($combined as $index => $row) {
 			    $pesan 	= "BISMILLAH" . "\n". "\n" ."Mohon Maaf !". "\n" ."Ananda a/n " ."*{$row[0]}*" . "\n" . "\n" . "*BELUM LOLOS* SELEKSI TAHAP 1" . "\n" . "\n" . "Semoga Ananda senantiasa dapat menempuh pembelajaran yang terbaik dimanapun berada. " . "\n" . "Aamiin" . "\n" . "\n" . "_*AKHYAR INTERNATIONAL ISLAMIC SCHOOL*_";
 			    $target = $row[1] . "," . $row[2]; // misalnya nomor ada di kolom ke-3
-			    $pdf 	= $basead . $row[3];
+			    $pdf 	= $url . $row[3];
 
 			    $curl = curl_init();
 			    curl_setopt_array($curl, [
@@ -146,8 +146,8 @@
 			            'target' 	=> $target,
 			            'message' 	=> $pesan,
 			            'url' 		=> $pdf,
-			            'filename'  => 'contoh.pdf',
-			            'delay' 	=> '2'
+			            'filename'  => strtoupper($row[0]),
+			            'delay' 	=> '5'
 			        ],
 			        CURLOPT_HTTPHEADER => [
 			            "Authorization:v5daG91JX3QJnsDeSYnc"

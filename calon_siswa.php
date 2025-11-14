@@ -764,8 +764,8 @@
 								<br>
 
 								<!-- Data Tambahan Siswa Review -->
+									<legend> <i class="glyphicon glyphicon-file"></i> &nbsp; DATA TAMBAHAN SISWA </legend>
 
-									<legend> <i class="glyphicon glyphicon-file"></i> &nbsp; DATA TAMBAHAN </legend>
 									<div class="form-group">
 										<label class="col-md-3 control-label" id="label_riwayat_penyakit" for="rwyt_penyakit">
 											APAKAH ADA ADIK/KAKAK KANDUNG YANG SUDAH BERSEKOLAH DI AIIS<sup style="color: red;">*</sup> :
@@ -802,78 +802,32 @@
 
 									</div>
 
-									<div class="form-group">
+									<!-- <div class="form-group">
 										<label class="col-md-3 control-label" id="label_riwayat_penyakit" for="rwyt_penyakit">
 											RIWAYAT PENYAKIT ANAK, APAKAH ADA ALERGI ? :
 										</label>
 										<div class="col-md-4 add8px">
 											<input type="text" name="rwyt_penyakit_review" readonly value="<?= $riwayatPenyakit1; ?>" class="form-control" placeholder="Ex : Penyakit Anemia (kosongkan jika tidak ada)">
 										</div>
-									</div>
+									</div> -->
 
-									<div class="form-group">
-										<label class="col-md-3 control-label" id="label_bacaan_tahsin" for="bacaan_tahsin">
-											TAHSIN / BACA AL-QUR'AN<sup style="color: red;">*</sup> :
+									<div class="form-group" id="alasan_diaiis_rev">
+										<label class="col-md-3 control-label" id="label_alasansekolahdiaiis" for="alasansekolahdiaiis_rev">
+											APA ALASAN ANDA MEMILIH SEKOLAH AIIS ?<sup style="color: red;">*</sup> :
 										</label>
-										<div class="col-md-2">
-											<input readonly type="text" class="form-control" value="<?= str_replace(["_"], " ", $tahsinQuran); ?>" name="tahsin_rev">
+										<div class="col-md-8">
+											<input type="text" required class="form-control" value="<?= $alasanSekolahAiis; ?>" readonly name="alasan_sekolahdiaiis_rev" id="alasansekolahdiaiis_rev">
 										</div>
 									</div>
 
-									<?php if ($tahfidzQuran == "belumtahfidz"): ?>
-
-										<div class="form-group">
-											<label class="col-md-3 control-label" id="label_tahfidz" for="pilihan_tahfidz">
-												TAHFIDZ/HAFALAN AL-QUR'AN<sup style="color: red;">*</sup> :
-											</label>
-											<div class="col-md-2">
-												<input type="text" class="form-control" readonly name="pilihan_tahfidz_review" value="BELUM">
-												<input type="hidden" name="berapajuzhafal_review" value="BELUM ADA">
-												<input type="hidden" name="isi_juz_review" value="BELUM ADA">
-												<input type="hidden" name="isi_surat_review" value="BELUM ADA">
-											</div>
+									<div class="form-group" id="div_pmkrn_trhp_aiis_rev">
+										<label class="col-md-3 control-label" id="label_pemikiran_ortu_trhdp_ortu_rev" for="pmkrn_trhp_aiis_rev" style="font-size:12px;">
+											APA YANG AKAN BAPAK DAN IBU LAKUKAN BILA ADA KEBIJAKAN SEKOLAH YANG TIDAK SESUAI DENGAN PEMIKIRAN BAPAK DAN IBU ?<sup style="color: red;">*</sup> :
+										</label>
+										<div class="col-md-8">
+											<input type="text" required class="form-control" readonly value="<?= $pemikiranOrtuTrhdpAiis; ?>" name="pmkrn_ortu_trhdp_aiis_rev" id="pmkrn_trhp_aiis_rev">
 										</div>
-
-									<?php elseif($tahfidzQuran == "sudahtahfidz"): ?>
-
-										<div class="form-group">
-											<label class="col-md-3 control-label" id="label_tahfidz" for="pilihan_tahfidz">
-												TAHFIDZ/HAFALAN AL-QUR'AN<sup style="color: red;">*</sup> :
-											</label>
-											<div class="col-md-2">
-												<input type="text" class="form-control" readonly name="pilihan_tahfidz_review" value="SUDAH">
-											</div>
-										</div>
-
-										<div class="form-group isianberapajuzrev">
-											<label class="col-md-3 control-label" id="label_berapajuz" for="isiberapajuz">
-												BERAPA JUZ<sup style="color: red;">*</sup> :
-											</label>
-											<div class="col-md-2">
-												<input type="text" pattern="[0-9]*" readonly inputmode="numeric" value="<?= $jumlahJuzDihafal; ?>" onkeypress="return onlyNumberKey(event)" class="form-control" placeholder="Ex : 30" name="berapajuzhafal_review" id="isiberapajuz">
-											</div>
-										</div>
-
-										<div class="form-group isianjuzerror">
-											<label class="col-md-3 control-label" id="label_tahfidz" for="errisijuzberapa">
-												JUZ BERAPA SAJA<sup style="color: red;">*</sup> :
-											</label>
-											<div class="col-md-5">
-												<input type="text" value="<?= $juzBerapaSaja; ?>" pattern="[0-9]*" readonly inputmode="numeric" onkeypress="return onlyNumberKey(event)" class="form-control" placeholder="Ex : 30" name="isi_juz_review" id="errisijuzberapa">
-											</div>
-										</div>
-
-										<div class="form-group isiansuraherror">
-											<label class="col-md-3 control-label" id="label_tahfidz" for="err_isian_surat">
-												SURAT TERAKHIR<sup style="color: red;">*</sup> :
-											</label>
-											<div class="col-md-5">
-												<input type="hidden" name="isi_surat_review" value="<?= $isiSuratSkr; ?>">
-												<input type="text" value="<?= $suratTerakhir1; ?>" readonly class="form-control" id="err_isian_surat">
-											</div>
-										</div>
-									
-									<?php endif ?>
+									</div>
 
 									<br>
 									<hr>
@@ -882,21 +836,39 @@
 
 									<br>
 
-									<div class="form-group">
+									<!-- <div class="form-group">
 										<label class="col-md-3 control-label" for="usia_anak_dapat_berjalan">
 											ANANDA DAPAT BERJALAN PADA USIA<sup style="color: red;">*</sup> :
 										</label>
 										<div class="col-md-2 add8px">
 											<input type="text" readonly class="form-control" value="<?= $dapatBerjalan; ?>" name="usia_anak_dapat_berjalan_rev">
 										</div>
-									</div>
+									</div> -->
 
-									<div class="form-group">
+									<!-- <div class="form-group">
 										<label class="col-md-3 control-label" for="dapat_bicara">
 											ANANDA DAPAT BERBICARA BERMAKNA MIN. 2 KATA PADA USIA<sup style="color: red;">*</sup> :
 										</label>
 										<div class="col-md-2 anak_dapat_bicara_rev add10px">
 											<input type="text" readonly class="form-control" value="<?= $dapatBerbicara; ?>" name="anak_dapat_bicara_rev">
+										</div>
+									</div> -->
+
+									<div class="form-group" id="div_riwayat_masalah_kesehatan">
+										<label class="col-md-3 control-label" id="label_rwyt_kshtn" for="rwyt_kshtn_rev" style="font-size:12px;">
+											APAKAH ANANDA MEMILIKI RIWAYAT MASALAH KESEHATAN ? (DARI PROSES HAMIL HINGGA SAAT INI)<sup style="color: red;">*</sup> :
+										</label>
+										<div class="col-md-8">
+											<input type="text" readonly value="<?= $riwayatPenyakitNew; ?>" required class="form-control" name="riwayat_kesehatan_rev" id="rwyt_kshtn_rev">
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-md-3 control-label" for="terlambat_perkembangan_rev" style="font-size:12px;">
+											<?= strtoupper('apakah ananda memiliki riwayat keterlambatan tumbuh kembang ? (fase merangkak/berdiri/berjalan/bicara)'); ?><sup style="color: red;">*</sup>
+										</label>
+										<div class="col-md-5" style="margin-top: 10px;">
+											<input type="text" readonly value="<?= $keterlambatanPerkembangan; ?>" class="form-control" placeholder="Jika tidak ada harap isi dengan TIDAK ADA" name="keterlambatan_perkembangan_rev" id="terlambat_perkembangan_rev">
 										</div>
 									</div>
 
@@ -965,11 +937,29 @@
 									<?php endif; ?>	
 
 									<div class="form-group">
-										<label class="col-md-3 control-label" for="keterlambatan_perkembangan">
-											<?= strtoupper('apakah ananda memiliki keterlambatan perkembangan atau masalah tumbuh kembang'); ?><sup style="color: red;">*</sup>
+										<label class="col-md-3 control-label" for="kemampuan_sosial_anak_rev">
+											<?= strtoupper("bagaimana kemampuan sosial ananda dalam memasuki lingkungan baru ?"); ?><sup style="color: red;">*</sup> :
 										</label>
-										<div class="col-md-5 add10px" style="margin-top: 10px;">
-											<input type="text" readonly class="form-control" name="keterlambatan_perkembangan_rev" value="<?= $terlambatBerkembang; ?>">
+										<div class="col-md-8" style="margin-top: 10px;">
+											<input type="text" readonly required class="form-control" value="<?= $kemampuanSosialAnak; ?>" name="kemampuan_sosial_anak_rev" id="kemampuan_sosial_anak_rev">
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-md-3 control-label" for="kemandirian_anak_rev">
+											<?= strtoupper("bagaimana kemandirian ananda dalam kegiatan sehari-hari di rumah ?"); ?><sup style="color: red;">*</sup> :
+										</label>
+										<div class="col-md-8" style="margin-top: 10px;">
+											<input type="text" readonly required class="form-control" value="<?= $kemandirianAnak; ?>" name="kemandirian_anak_rev" id="kemandirian_anak_rev">
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-md-3 control-label" for="kelebihan_anak_rev" style="font-size: 11px;">
+											<?= strtoupper("apa saja kelebihan diri yang ananda miliki ? (bisa sifat positif, kebiasaan positif atau skill akan suatu hari)"); ?><sup style="color: red;">*</sup> :
+										</label>
+										<div class="col-md-8" style="margin-top: 10px;">
+											<input type="text" readonly required class="form-control" value="<?= $kelebihanAnak; ?>" name="kelebihan_anak_rev" id="kelebihan_anak_rev">
 										</div>
 									</div>
 
@@ -983,33 +973,6 @@
 											<?php elseif($trSolat == "belum"): ?>
 												<input type="text" readonly name="solat_option_rev" class="form-control" value="BELUM TERBIASA">
 											<?php endif ?>
-										</div>
-									</div>
-
-									<div class="form-group">
-										<label class="col-md-3 control-label">
-											<?= strtoupper("TAHSIN / BACA AL-QUR'AN AYAH BUNDA"); ?><sup style="color: red;">*</sup> :
-										</label>
-										<div class="col-md-2" style="margin-top: 10px;">
-											<input type="text" readonly class="form-control" name="ayah_bunda_bacaquran_rev" value="<?= $tahsinOrtu; ?>">
-										</div>
-									</div>
-
-									<div class="form-group">
-										<label class="col-md-3 control-label">
-											<?= strtoupper("TAHFIDZ / HAFALAN AL-QUR'AN AYAH BUNDA"); ?><sup style="color: red;">*</sup> :
-										</label>
-										<div class="col-md-2" style="margin-top: 10px;">
-											<input type="text" readonly name="hafalan_ortu_rev" class="form-control" value="<?= $tahfidzOrtu; ?>">
-										</div>
-									</div>
-
-									<div class="form-group">
-										<label class="col-md-3 control-label" for="peran_ortu">
-											<?= strtoupper("Bagaimana peran ayah bunda dalam membantu perkembangan hafalan Al-Qur'an Ananda"); ?><sup style="color: red;">*</sup> :
-										</label>
-										<div class="col-md-8" style="margin-top: 10px;">
-											<input type="text" readonly class="form-control" name="peran_ortu_rev" value="<?= $peranOrtu; ?>">
 										</div>
 									</div>
 
@@ -1034,6 +997,88 @@
 										</div>
 
 									<?php endif ?>
+
+									<div class="form-group">
+										<label class="col-md-3 control-label" id="label_bacaan_tahsin" for="bacaan_tahsin">
+											TAHSIN / BACA AL-QUR'AN ANANDA<sup style="color: red;">*</sup> :
+										</label>
+										<div class="col-md-2">
+											<input readonly type="text" class="form-control" value="<?= str_replace(["_"], " ", $tahsinQuran); ?>" name="tahsin_rev">
+										</div>
+									</div>
+
+									<?php if ($tahfidzQuran == "belumtahfidz"): ?>
+
+										<div class="form-group">
+											<label class="col-md-3 control-label" id="label_tahfidz" for="pilihan_tahfidz">
+												TAHFIDZ/HAFALAN AL-QUR'AN ANANDA<sup style="color: red;">*</sup> :
+											</label>
+											<div class="col-md-2">
+												<input type="text" class="form-control" readonly name="pilihan_tahfidz_review" value="BELUM">
+												<input type="hidden" name="berapajuzhafal_review" value="BELUM ADA">
+												<input type="hidden" name="isi_juz_review" value="BELUM ADA">
+												<input type="hidden" name="isi_surat_review" value="BELUM ADA">
+											</div>
+										</div>
+
+									<?php elseif($tahfidzQuran == "sudahtahfidz"): ?>
+
+										<div class="form-group">
+											<label class="col-md-3 control-label" id="label_tahfidz" for="pilihan_tahfidz">
+												TAHFIDZ/HAFALAN AL-QUR'AN ANANDA<sup style="color: red;">*</sup> :
+											</label>
+											<div class="col-md-2">
+												<input type="text" class="form-control" readonly name="pilihan_tahfidz_review" value="SUDAH">
+											</div>
+										</div>
+
+										<div class="form-group isianberapajuzrev">
+											<label class="col-md-3 control-label" id="label_berapajuz" for="isiberapajuz">
+												BERAPA JUZ<sup style="color: red;">*</sup> :
+											</label>
+											<div class="col-md-2">
+												<input type="text" pattern="[0-9]*" readonly inputmode="numeric" value="<?= $jumlahJuzDihafal; ?>" onkeypress="return onlyNumberKey(event)" class="form-control" placeholder="Ex : 30" name="berapajuzhafal_review" id="isiberapajuz">
+											</div>
+										</div>
+
+										<div class="form-group isianjuzerror">
+											<label class="col-md-3 control-label" id="label_tahfidz" for="errisijuzberapa">
+												JUZ BERAPA SAJA<sup style="color: red;">*</sup> :
+											</label>
+											<div class="col-md-5">
+												<input type="text" value="<?= $juzBerapaSaja; ?>" pattern="[0-9]*" readonly inputmode="numeric" onkeypress="return onlyNumberKey(event)" class="form-control" placeholder="Ex : 30" name="isi_juz_review" id="errisijuzberapa">
+											</div>
+										</div>
+
+										<div class="form-group isiansuraherror">
+											<label class="col-md-3 control-label" id="label_tahfidz" for="err_isian_surat">
+												SURAT TERAKHIR<sup style="color: red;">*</sup> :
+											</label>
+											<div class="col-md-5">
+												<input type="hidden" name="isi_surat_review" value="<?= $isiSuratSkr; ?>">
+												<input type="text" value="<?= $suratTerakhir1; ?>" readonly class="form-control" id="err_isian_surat">
+											</div>
+										</div>
+									
+									<?php endif ?>
+
+									<div class="form-group">
+										<label class="col-md-3 control-label" for="yang_terlibat_mengasuh_rev">
+											<?= strtoupper("siapa saja yang terlibat dalam mengasuh ananda ? (dari sejak lahir sampai dengan saat ini)"); ?><sup style="color: red;">*</sup> :
+										</label>
+										<div class="col-md-5" style="margin-top: 10px;">
+											<input type="text" readonly required class="form-control" value="<?= $terlibatMengasuh; ?>" name="yang_terlibat_mengasuh_rev" id="yang_terlibat_mengasuh_rev">
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-md-3 control-label" for="peran_ortu">
+											<?= strtoupper("Bagaimana peran ayah bunda dalam membantu perkembangan hafalan Al-Qur'an Ananda"); ?><sup style="color: red;">*</sup> :
+										</label>
+										<div class="col-md-5" style="margin-top: 10px;">
+											<input type="text" readonly class="form-control" name="peran_ortu_rev" value="<?= $peranOrtu; ?>">
+										</div>
+									</div>
 
 								<!-- Akhir Data Tambahan Siswa Review -->
 
@@ -1133,10 +1178,28 @@
 
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="nomorhpayah">
-											NOMOR HANDPHONE<sup style="color: red;">*</sup> :
+											NOMOR HANDPHONE <small>(Yang terhubung dengan Whatsapp)</small><sup style="color: red;">*</sup> :
 										</label>
 										<div class="col-md-2">
 											<input readonly type="text" pattern="[0-9]*" inputmode="numeric" onkeypress="return onlyNumberKey(event)" class="form-control" name="nomorhpayah_review" id="nomorhpayah" value="<?= $nomorHpAyah; ?>" >
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-md-3 control-label">
+											<?= strtoupper("TAHSIN / BACA AL-QUR'AN AYAH"); ?><sup style="color: red;">*</sup> :
+										</label>
+										<div class="col-md-2" style="margin-top: 10px;">
+											<input type="text" readonly class="form-control" name="ayah_bacaquran_rev" value="<?= $tahsinAyah; ?>">
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-md-3 control-label">
+											<?= strtoupper("TAHFIDZ / HAFALAN AL-QUR'AN AYAH"); ?><sup style="color: red;">*</sup> :
+										</label>
+										<div class="col-md-2" style="margin-top: 10px;">
+											<input type="text" readonly name="hafalan_ortu_ayah_rev" class="form-control" value="<?= $tahfidzAyah; ?>">
 										</div>
 									</div>
 
@@ -1231,10 +1294,28 @@
 
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="nomorhpibu">
-											NOMOR HANDPHONE<sup style="color: red;">*</sup> :
+											NOMOR HANDPHONE <small>(Yang terhubung dengan Whatsapp)</small><sup style="color: red;">*</sup> :
 										</label>
 										<div class="col-md-2">
 											<input readonly type="text" pattern="[0-9]*" inputmode="numeric" onkeypress="return onlyNumberKey(event)" class="form-control" name="nomorhpibu_review" id="nomorhpibu" value="<?= $nomorHpIbu; ?>">
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-md-3 control-label">
+											<?= strtoupper("TAHSIN / BACA AL-QUR'AN IBU"); ?><sup style="color: red;">*</sup> :
+										</label>
+										<div class="col-md-2" style="margin-top: 10px;">
+											<input type="text" readonly class="form-control" name="ibu_bacaquran_rev" value="<?= $tahsinIbu; ?>">
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-md-3 control-label">
+											<?= strtoupper("TAHFIDZ / HAFALAN AL-QUR'AN IBU"); ?><sup style="color: red;">*</sup> :
+										</label>
+										<div class="col-md-2" style="margin-top: 10px;">
+											<input type="text" readonly name="hafalan_ortu_ibu_rev" class="form-control" value="<?= $tahfidzIbu; ?>">
 										</div>
 									</div>
 
@@ -1387,12 +1468,12 @@
 
 									<div class="utk_pernyataan">
 										<p id="pernyataan" style="margin-top: -20px;">  
-											Bahwa segala Peraturan dan Ketentuan pada Penerimaan Peserta Didik Baru (PPDB) Akhyar International, termasuk Pernyataan sebagai berikut :
+											Bahwa segala Peraturan dan Ketentuan pada Sistem Penerimaan Murid Baru (SPMB) Akhyar International Islamic School, termasuk Pernyataan sebagai berikut :
 
 											<ol>
 											  <li>Orang Tua / Wali Calon Murid bagi yang dinyatakan lolos TAHAP 1 (ONLINE), akan diinformasikan melakukan PENDAFTARAN TAHAP 2 (OFFLINE) dan akan dihubungi oleh Tim Administrasi untuk siap menyelesaikan Biaya Registrasi (Formulir Pendaftaran).</li>
 											  <li>Orang Tua/Wali Calon Murid wajib menyelesaikan Biaya Masuk (Uang Pangkal) sebesar minimal 50%, 15 hari setelah murid dinyatakan diterima, dilanjutkan sisa nya pada waktu yang telah ditentukan. Jika tidak maka murid dianggap mengundurkan diri.</li>
-											  <li>Orang Tua Calon murid Siap Menerima keputusan dari Panitia penerimaan murid baru tanpa syarat apapun.</li>
+											  <li>Orang Tua Calon murid Siap Menerima keputusan dari Panitia SPMB tanpa syarat apapun.</li>
 											  <li> Orang Tua / Wali Calon Murid menyetujui tanpa syarat bahwa dalam kondisi siswa yang dinyatakan diterima kemudian mengundurkan diri, maka seluruh biaya yang telah dibayarkan dinilai sebagai infaq untuk sekolah yang tidak dapat dikembalikan atau dipindahkan ke calon murid lain, atau diundur ke tahun berikutnya dalam kondisi atau alasan apapun. </li>
 											  <li> Orang Tua / Wali Calon Murid, bersedia berinfaq dan berkomitmen untuk membantu proses pembangunan dan perawatan Gedung serta Fasilitas Sekolah sesuai kesanggupan. </li>
 											</ol>
@@ -1400,7 +1481,7 @@
 										</p>
 
 										<p id="pernyataan">
-											Setelah membaca dan meneliti dengan seksama, dengan ini saya menyatakan mengikuti Peraturan - Ketentuan Panitia PPDB dan pernyataan tersebut diatas dengan sebenarnya dan sejujurnya, ikhlas tanpa tekanan dan paksaan dari pihak manapun, untuk dapat digunakan sebagaimana mestinya.
+											Setelah membaca dan meneliti dengan seksama, dengan ini saya menyatakan mengikuti Peraturan - Ketentuan Panitia SPMB dan pernyataan tersebut diatas dengan sebenarnya dan sejujurnya, ikhlas tanpa tekanan dan paksaan dari pihak manapun, untuk dapat digunakan sebagaimana mestinya.
 										</p>
 										
 										<div class="form-check" id="div_pernyataan">
@@ -1531,7 +1612,7 @@
 
 										<!-- SD -->
 										<div class="col-md-3">
-				                          <input type="date" class="form-control" placeholder="(Tanggal-Bulan-Tahun)" min="2019-02-01" max="2020-02-29" name="tanglahir_anak_sd">
+				                          <input type="date" class="form-control" id="vldt" placeholder="(Tanggal-Bulan-Tahun)" min="2019-02-01" max="2020-02-29" name="tanglahir_anak_sd">
 										</div>
 
 									</div>
@@ -1558,7 +1639,7 @@
 
 									<!-- Data Tambahan Calon Siswa -->
 
-										<legend> <i class="glyphicon glyphicon-file"></i> &nbsp; DATA TAMBAHAN </legend>
+										<legend> <i class="glyphicon glyphicon-file"></i> &nbsp; DATA TAMBAHAN SISWA </legend>
 										<div class="form-group">
 											<label class="col-md-3 control-label" id="label_riwayat_penyakit" for="rwyt_penyakit">
 												APAKAH ADA ADIK/KAKAK KANDUNG YANG SUDAH BERSEKOLAH DI AIIS<sup style="color: red;">*</sup> :
@@ -1593,72 +1674,30 @@
 
 									<!-- Akhir Data Tambahan Calon Siswa -->
 
-									<div class="form-group">
+									<!-- <div class="form-group">
 										<label class="col-md-3 control-label" id="label_riwayat_penyakit" for="rwyt_penyakit">
 											RIWAYAT PENYAKIT ANAK, APAKAH ADA ALERGI ? :
 										</label>
 										<div class="col-md-5">
 											<input type="text" class="form-control" placeholder="Ex : Penyakit Anemia (kosongkan jika tidak ada)" name="rwyt_penyakit" id="rwyt_penyakit">
 										</div>
-									</div>
+									</div> -->
 
-									<div class="form-group">
-										<label class="col-md-3 control-label" id="label_bacaan_tahsin" for="bacaan_tahsin">
-											TAHSIN / BACA AL-QUR'AN<sup style="color: red;">*</sup> :
+									<div class="form-group" id="alasan_diaiis">
+										<label class="col-md-3 control-label" id="label_alasansekolahdiaiis" for="alasansekolahdiaiis">
+											APA ALASAN ANDA MEMILIH SEKOLAH AIIS ?<sup style="color: red;">*</sup> :
 										</label>
-										<div class="col-md-2">
-											<select class="form-control pilihantahsin" required name="bacaan_tahsin">
-												<option value="kosong_tahsin"> -- PILIH -- </option>
-												<?php foreach ($arrIsiTahsin as $data): ?>
-
-													<?php if ($data == "SANGAT_BAIK"): ?>
-														<option value="<?= $data; ?>"> SANGAT BAIK </option>
-													<?php else: ?>
-														<option value="<?= $data; ?>"> <?= $data; ?> </option>
-													<?php endif ?>
-
-												<?php endforeach ?>
-											</select>
+										<div class="col-md-8">
+											<input type="text" required class="form-control" name="alasan_sekolahdiaiis" id="alasansekolahdiaiis">
 										</div>
 									</div>
 
-									<div class="form-group">
-										<label class="col-md-3 control-label" id="label_tahfidz" for="pilihan_tahfidz">
-											TAHFIDZ / HAFALAN AL-QUR'AN<sup style="color: red;">*</sup> :
+									<div class="form-group" id="div_pmkrn_trhp_aiis">
+										<label class="col-md-3 control-label" id="label_pemikiran_ortu_trhdp_ortu" for="pmkrn_trhp_aiis_rev" style="font-size:12px;">
+											APA YANG AKAN BAPAK DAN IBU LAKUKAN BILA ADA KEBIJAKAN SEKOLAH YANG TIDAK SESUAI DENGAN PEMIKIRAN BAPAK DAN IBU ?<sup style="color: red;">*</sup> :
 										</label>
-										<div class="col-md-2">
-											<select required class="form-control target_tahfidz" name="pilihan_tahfidz">
-												<option value="kosong_tahfidz"> -- PILIH -- </option>
-												<option value="belumtahfidz"> BELUM </option>
-												<option value="sudahtahfidz"> SUDAH </option>
-											</select>
-										</div>
-									</div>
-
-									<div class="form-group isianberapajuz">
-										<label class="col-md-3 control-label" id="label_berapajuz" for="isiberapajuz">
-											BERAPA JUZ<sup style="color: red;">*</sup> :
-										</label>
-										<div class="col-md-2">
-											<input type="text" pattern="[0-9]*" required inputmode="numeric" onkeypress="return onlyNumberKey(event)" class="form-control" name="berapajuzhafal" id="isiberapajuz">
-										</div>
-									</div>
-
-									<div class="form-group isianjuz">
-										<label class="col-md-3 control-label" id="label_tahfidz" for="isijuzberapa">
-											JUZ BERAPA SAJA<sup style="color: red;">*</sup> :
-										</label>
-										<div class="col-md-5">
-											<input type="text" class="form-control" placeholder="Ex : JUZ 30, JUZ 29, JUZ 1, JUZ 2" name="isi_juz" id="isijuzberapa">
-										</div>
-									</div>
-
-									<div class="form-group isiansurah">
-										<label class="col-md-3 control-label" id="label_tahfidz" for="isian_surat">
-											SURAT TERAKHIR<sup style="color: red;">*</sup> :
-										</label>
-										<div class="col-md-5">
-											<input type="text" required class="form-control" placeholder="Ex : Surat An-Naba" name="isi_surat" id="isian_surat">
+										<div class="col-md-8">
+											<input type="text" required class="form-control" name="pmkrn_ortu_trhdp_aiis" id="pmkrn_trhp_aiis_rev">
 										</div>
 									</div>
 
@@ -1669,97 +1708,135 @@
 
 									<br>
 
-									<div class="form-group">
+									<!-- <div class="form-group">
 										<label class="col-md-3 control-label" for="usia_anak_dapat_berjalan">
 											ANANDA DAPAT BERJALAN PADA USIA<sup style="color: red;">*</sup> :
 										</label>
 										<div class="col-md-2 add10px">
 											<input type="text" class="form-control" placeholder="Ex : Usia 11 Bulan" name="usia_anak_dapat_berjalan" id="usia_anak_dapat_berjalan">
 										</div>
-									</div>
+									</div> -->
 
-									<div class="form-group">
+									<!-- <div class="form-group">
 										<label class="col-md-3 control-label" for="dapat_bicara">
 											ANANDA DAPAT BERBICARA BERMAKNA MIN. 2 KATA PADA USIA<sup style="color: red;">*</sup> :
 										</label>
 										<div class="col-md-2 add10px">
 											<input type="text" class="form-control" placeholder="Ex : Usia 3 Tahun" name="anak_dapat_bicara" id="dapat_bicara">
 										</div>
-									</div>
+									</div> -->
 
-									<div class="form-group">
-										<label class="col-md-3 control-label">
-											APAKAH ANANDA PERNAH MENJALANI TERAPI<sup style="color: red;">*</sup> :
+									<div class="form-group" id="div_riwayat_masalah_kesehatan">
+										<label class="col-md-3 control-label" id="label_rwyt_kshtn" for="rwyt_kshtn" style="font-size:12px;">
+											APAKAH ANANDA MEMILIKI RIWAYAT MASALAH KESEHATAN ? (DARI PROSES HAMIL HINGGA SAAT INI)<sup style="color: red;">*</sup> :
 										</label>
-										<div class="col-md-4 add10px">
-											<select class="form-control apakah_terapi" name="pernah_terapi">
-												<option value=""> -- PILIH -- </option>
-												<?php foreach ($arrPernahTerapi as $data): ?>
-													<?php if ($data == "PERNAH"): ?>
-														<option value="<?= $data; ?>"> IYA, PERNAH MENJALANI TERAPI </option>
-													<?php else: ?>
-														<option value="<?= $data; ?>"> BELUM PERNAH MENJALANI TERAPI </option>
-													<?php endif ?>
-												<?php endforeach ?>
-											</select>
-										</div>
-									</div>
-
-									<div class="form-group is_terapi">
-										<label class="col-md-3 control-label" for="jenis_terapi">
-											JENIS TERAPI APA<sup style="color: red;">*</sup> :
-										</label>
-										<div class="col-md-3">
-											<input type="text" class="form-control" placeholder="Ex : Terapi Tingkah Laku" name="jenis_terapi" id="jenis_terapi">
-										</div>
-									</div>
-
-									<div class="form-group is_terapi">
-										<label class="col-md-3 control-label" for="alasan_terapi">
-											ALASAN MENJALANI TERAPI TERSEBUT<sup style="color: red;">*</sup> :
-										</label>
-										<div class="col-md-8 add10px">
-											<input type="text" class="form-control" name="alasan_terapi" id="alasan_terapi">
-										</div>
-									</div>
-
-									<div class="form-group is_terapi">
-										<label class="col-md-3 control-label" for="durasi_terapi">
-											DURASI TERAPI TERSEBUT<sup style="color: red;">*</sup> :
-										</label>
-										<div class="col-md-3">
-											<input type="text" class="form-control" placeholder="Ex : Durasi Terapi Selama 3 bulan" name="durasi_terapi" id="durasi_terapi">
-										</div>
-									</div>
-
-									<div class="form-group is_terapi">
-										<label class="col-md-3 control-label" for="waktu_mulai_akhir_terapi">
-											WAKTU MULAI DAN WAKTU SELESAI TERAPI<sup style="color: red;">*</sup> :
-										</label>
-										<div class="col-md-3 add10px">
-											<input type="text" class="form-control" name="waktu_mulai_akhir_terapi" id="waktu_mulai_akhir_terapi">
-										</div>
-									</div>
-
-									<div class="form-group is_terapi">
-										<label class="col-md-3 control-label">
-											APAKAH SAAT INI MASIH MENJALANI TERAPI<sup style="color: red;">*</sup> :
-										</label>
-										<div class="col-md-2 add10px">
-											<select class="form-control" id="masih_atau_tidak_terapi" name="masih_atau_tidak_terapi">
-												<option value=""> -- PILIH -- </option>
-												<option value="masih"> IYA MASIH </option>
-												<option value="tidak"> SUDAH TIDAK </option>
-											</select>
+										<div class="col-md-8">
+											<input type="text" required class="form-control" name="riwayat_penyakit" id="rwyt_kshtn">
 										</div>
 									</div>
 
 									<div class="form-group">
-										<label class="col-md-3 control-label" for="keterlambatan_perkembangan">
-											<?= strtoupper('apakah ananda memiliki keterlambatan perkembangan atau masalah tumbuh kembang'); ?><sup style="color: red;">*</sup>
+										<label class="col-md-3 control-label" for="keterlambatan_perkembangan" style="font-size:12px;">
+											<?= strtoupper('apakah ananda memiliki riwayat keterlambatan tumbuh kembang ? (fase merangkak/berdiri/berjalan/bicara)'); ?><sup style="color: red;">*</sup>
 										</label>
 										<div class="col-md-5" style="margin-top: 10px;">
 											<input type="text" class="form-control" placeholder="Jika tidak ada harap isi dengan TIDAK ADA" name="keterlambatan_perkembangan" id="keterlambatan_perkembangan">
+										</div>
+									</div>
+
+									<!-- Terapi -->
+										<div class="form-group">
+											<label class="col-md-3 control-label">
+												APAKAH ANANDA PERNAH MENJALANI TERAPI<sup style="color: red;">*</sup> :
+											</label>
+											<div class="col-md-4 add10px">
+												<select class="form-control apakah_terapi" name="pernah_terapi">
+													<option value=""> -- PILIH -- </option>
+													<?php foreach ($arrPernahTerapi as $data): ?>
+														<?php if ($data == "PERNAH"): ?>
+															<option value="<?= $data; ?>"> IYA, PERNAH MENJALANI TERAPI </option>
+														<?php else: ?>
+															<option value="<?= $data; ?>"> BELUM PERNAH MENJALANI TERAPI </option>
+														<?php endif ?>
+													<?php endforeach ?>
+												</select>
+											</div>
+										</div>
+
+										<div class="form-group is_terapi">
+											<label class="col-md-3 control-label" for="jenis_terapi">
+												JENIS TERAPI APA<sup style="color: red;">*</sup> :
+											</label>
+											<div class="col-md-3">
+												<input type="text" class="form-control" placeholder="Ex : Terapi Tingkah Laku" name="jenis_terapi" id="jenis_terapi">
+											</div>
+										</div>
+
+										<div class="form-group is_terapi">
+											<label class="col-md-3 control-label" for="alasan_terapi">
+												ALASAN MENJALANI TERAPI TERSEBUT<sup style="color: red;">*</sup> :
+											</label>
+											<div class="col-md-8 add10px">
+												<input type="text" class="form-control" name="alasan_terapi" id="alasan_terapi">
+											</div>
+										</div>
+
+										<div class="form-group is_terapi">
+											<label class="col-md-3 control-label" for="durasi_terapi">
+												DURASI TERAPI TERSEBUT<sup style="color: red;">*</sup> :
+											</label>
+											<div class="col-md-3">
+												<input type="text" class="form-control" placeholder="Ex : Durasi Terapi Selama 3 bulan" name="durasi_terapi" id="durasi_terapi">
+											</div>
+										</div>
+
+										<div class="form-group is_terapi">
+											<label class="col-md-3 control-label" for="waktu_mulai_akhir_terapi">
+												WAKTU MULAI DAN WAKTU SELESAI TERAPI<sup style="color: red;">*</sup> :
+											</label>
+											<div class="col-md-3 add10px">
+												<input type="text" class="form-control" name="waktu_mulai_akhir_terapi" id="waktu_mulai_akhir_terapi">
+											</div>
+										</div>
+
+										<div class="form-group is_terapi">
+											<label class="col-md-3 control-label">
+												APAKAH SAAT INI MASIH MENJALANI TERAPI<sup style="color: red;">*</sup> :
+											</label>
+											<div class="col-md-2 add10px">
+												<select class="form-control" id="masih_atau_tidak_terapi" name="masih_atau_tidak_terapi">
+													<option value=""> -- PILIH -- </option>
+													<option value="masih"> IYA MASIH </option>
+													<option value="tidak"> SUDAH TIDAK </option>
+												</select>
+											</div>
+										</div>
+									<!-- Akhir Terapi -->
+
+									<div class="form-group">
+										<label class="col-md-3 control-label" for="kemampuan_sosial_anak">
+											<?= strtoupper("bagaimana kemampuan sosial ananda dalam memasuki lingkungan baru ?"); ?><sup style="color: red;">*</sup> :
+										</label>
+										<div class="col-md-8" style="margin-top: 10px;">
+											<input type="text" required class="form-control" name="kemampuan_sosial_anak" id="kemampuan_sosial_anak">
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-md-3 control-label" for="kemandirian_anak">
+											<?= strtoupper("bagaimana kemandirian ananda dalam kegiatan sehari-hari di rumah ?"); ?><sup style="color: red;">*</sup> :
+										</label>
+										<div class="col-md-8" style="margin-top: 10px;">
+											<input type="text" required class="form-control" name="kemandirian_anak" id="kemandirian_anak">
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-md-3 control-label" for="kelebihan_anak" style="font-size: 11px;">
+											<?= strtoupper("apa saja kelebihan diri yang ananda miliki ? (bisa sifat positif, kebiasaan positif atau skill akan suatu hari)"); ?><sup style="color: red;">*</sup> :
+										</label>
+										<div class="col-md-8" style="margin-top: 10px;">
+											<input type="text" required class="form-control" name="kelebihan_anak" id="kelebihan_anak">
 										</div>
 									</div>
 
@@ -1778,43 +1855,7 @@
 
 									<div class="form-group">
 										<label class="col-md-3 control-label">
-											<?= strtoupper("TAHSIN / BACA AL-QUR'AN AYAH BUNDA"); ?><sup style="color: red;">*</sup> :
-										</label>
-										<div class="col-md-2" style="margin-top: 10px;">
-											<select class="form-control" required name="ayah_bunda_bacaquran">
-												<option value=""> -- PILIH -- </option>
-												<?php foreach ($arrIsiTahsin as $data): ?>
-													<option value="<?= $data; ?>"> <?= str_replace(["_"], " ", $data); ?> </option>
-												<?php endforeach ?>
-											</select>
-										</div>
-									</div>
-
-									<div class="form-group">
-										<label class="col-md-3 control-label">
-											<?= strtoupper("TAHFIDZ / HAFALAN AL-QUR'AN AYAH BUNDA"); ?><sup style="color: red;">*</sup> :
-										</label>
-										<div class="col-md-2" style="margin-top: 10px;">
-											<select class="form-control" required name="hafalan_ortu">
-												<option value=""> -- PILIH -- </option>
-												<option value="BELUM"> BELUM </option>
-												<option value="SUDAH"> SUDAH </option>
-											</select>
-										</div>
-									</div>
-
-									<div class="form-group">
-										<label class="col-md-3 control-label" for="peran_ortu">
-											<?= strtoupper("Bagaimana peran ayah bunda dalam membantu perkembangan hafalan Al-Qur'an Ananda"); ?><sup style="color: red;">*</sup> :
-										</label>
-										<div class="col-md-8" style="margin-top: 10px;">
-											<input type="text" required class="form-control" name="peran_ortu" id="peran_ortu">
-										</div>
-									</div>
-
-									<div class="form-group">
-										<label class="col-md-3 control-label">
-											<?= strtoupper('Apakah anak terbiasa menonton TV atau menggunakan gadget'); ?><sup style="color: red;">*</sup> :
+											<?= strtoupper('Apakah ananda terbiasa menonton TV atau menggunakan gadget'); ?><sup style="color: red;">*</sup> :
 										</label>
 										<div class="col-md-2" style="margin-top: 10px;">
 											<select class="form-control terbiasa_gadget" required name="terbiasa_gadget">
@@ -1831,6 +1872,88 @@
 										</label>
 										<div class="col-md-3" style="margin-top: 10px;">
 											<input type="text" class="form-control" placeholder="Ex : 30 Menit" name="waktu_bermain_gadget" id="waktu_bermain_gadget">
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-md-3 control-label" id="label_bacaan_tahsin" for="bacaan_tahsin">
+											TAHSIN / BACA AL-QUR'AN ANANDA<sup style="color: red;">*</sup> :
+										</label>
+										<div class="col-md-2">
+											<select class="form-control pilihantahsin" required name="bacaan_tahsin">
+												<option value="kosong_tahsin"> -- PILIH -- </option>
+												<?php foreach ($arrIsiTahsin as $data): ?>
+
+													<?php if ($data == "SANGAT_BAIK"): ?>
+														<option value="<?= $data; ?>"> SANGAT BAIK </option>
+													<?php else: ?>
+														<option value="<?= $data; ?>"> <?= $data; ?> </option>
+													<?php endif ?>
+
+												<?php endforeach ?>
+											</select>
+										</div>
+									</div>
+
+									<!-- Tahfizh -->
+
+										<div class="form-group">
+											<label class="col-md-3 control-label" id="label_tahfidz" for="pilihan_tahfidz">
+												TAHFIDZ / HAFALAN AL-QUR'AN ANANDA<sup style="color: red;">*</sup> :
+											</label>
+											<div class="col-md-2">
+												<select required class="form-control target_tahfidz" name="pilihan_tahfidz">
+													<option value="kosong_tahfidz"> -- PILIH -- </option>
+													<option value="belumtahfidz"> BELUM </option>
+													<option value="sudahtahfidz"> SUDAH </option>
+												</select>
+											</div>
+										</div>
+
+										<div class="form-group isianberapajuz">
+											<label class="col-md-3 control-label" id="label_berapajuz" for="isiberapajuz">
+												BERAPA JUZ<sup style="color: red;">*</sup> :
+											</label>
+											<div class="col-md-2">
+												<input type="text" pattern="[0-9]*" required inputmode="numeric" onkeypress="return onlyNumberKey(event)" class="form-control" name="berapajuzhafal" id="isiberapajuz">
+											</div>
+										</div>
+
+										<div class="form-group isianjuz">
+											<label class="col-md-3 control-label" id="label_tahfidz" for="isijuzberapa">
+												JUZ BERAPA SAJA<sup style="color: red;">*</sup> :
+											</label>
+											<div class="col-md-5">
+												<input type="text" class="form-control" placeholder="Ex : JUZ 30, JUZ 29, JUZ 1, JUZ 2" name="isi_juz" id="isijuzberapa">
+											</div>
+										</div>
+
+										<div class="form-group isiansurah">
+											<label class="col-md-3 control-label" id="label_tahfidz" for="isian_surat">
+												SURAT TERAKHIR<sup style="color: red;">*</sup> :
+											</label>
+											<div class="col-md-5">
+												<input type="text" required class="form-control" placeholder="Ex : Surat An-Naba" name="isi_surat" id="isian_surat">
+											</div>
+										</div>
+
+									<!-- Tahfizh -->
+
+									<div class="form-group">
+										<label class="col-md-3 control-label" for="yang_terlibat_mengasuh">
+											<?= strtoupper("siapa saja yang terlibat dalam mengasuh ananda ? (dari sejak lahir sampai dengan saat ini)"); ?><sup style="color: red;">*</sup> :
+										</label>
+										<div class="col-md-5" style="margin-top: 10px;">
+											<input type="text" required class="form-control" name="yang_terlibat_mengasuh" id="yang_terlibat_mengasuh">
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-md-3 control-label" for="peran_ortu">
+											<?= strtoupper("Bagaimana peran ayah bunda dalam membantu perkembangan hafalan Al-Qur'an Ananda"); ?><sup style="color: red;">*</sup> :
+										</label>
+										<div class="col-md-5" style="margin-top: 10px;">
+											<input type="text" required class="form-control" name="peran_ortu" id="peran_ortu">
 										</div>
 									</div>
 
@@ -1948,6 +2071,33 @@
 										<div id="error-message-hp1" class="error"> Angka depan wajib di isi dengan 08 !</div>
 									</div>
 
+									<div class="form-group">
+										<label class="col-md-3 control-label">
+											<?= strtoupper("TAHSIN / BACA AL-QUR'AN AYAH"); ?><sup style="color: red;">*</sup> :
+										</label>
+										<div class="col-md-2" style="margin-top: 10px;">
+											<select class="form-control" required name="ayah_bacaquran">
+												<option value=""> -- PILIH -- </option>
+												<?php foreach ($arrIsiTahsin as $data): ?>
+													<option value="<?= $data; ?>"> <?= str_replace(["_"], " ", $data); ?> </option>
+												<?php endforeach ?>
+											</select>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-md-3 control-label">
+											<?= strtoupper("TAHFIDZ / HAFALAN AL-QUR'AN AYAH"); ?><sup style="color: red;">*</sup> :
+										</label>
+										<div class="col-md-2" style="margin-top: 10px;">
+											<select class="form-control" required name="hafalan_ortu_ayah">
+												<option value=""> -- PILIH -- </option>
+												<option value="BELUM"> BELUM </option>
+												<option value="SUDAH"> SUDAH </option>
+											</select>
+										</div>
+									</div>
+
 									<hr>
 
 									<div class="form-group">
@@ -2054,6 +2204,33 @@
 											<input required type="text" pattern="[0-9]*" inputmode="numeric" maxlength="13" onkeypress="return onlyNumberKey(event)" class="form-control nomorhp2" name="nomorhpibu" id="nomorhpibu" placeholder="Ex : 08xx">
 										</div>
 										<div id="error-message-hp2" class="error"> Angka depan wajib di isi dengan 08 !</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-md-3 control-label">
+											<?= strtoupper("TAHSIN / BACA AL-QUR'AN IBU"); ?><sup style="color: red;">*</sup> :
+										</label>
+										<div class="col-md-2" style="margin-top: 10px;">
+											<select class="form-control" required name="ibu_bacaquran">
+												<option value=""> -- PILIH -- </option>
+												<?php foreach ($arrIsiTahsin as $data): ?>
+													<option value="<?= $data; ?>"> <?= str_replace(["_"], " ", $data); ?> </option>
+												<?php endforeach ?>
+											</select>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-md-3 control-label">
+											<?= strtoupper("TAHFIDZ / HAFALAN AL-QUR'AN IBU"); ?><sup style="color: red;">*</sup> :
+										</label>
+										<div class="col-md-2" style="margin-top: 10px;">
+											<select class="form-control" required name="hafalan_ortu_ibu">
+												<option value=""> -- PILIH -- </option>
+												<option value="BELUM"> BELUM </option>
+												<option value="SUDAH"> SUDAH </option>
+											</select>
+										</div>
 									</div>
 
 									<div class="form-group">
@@ -2221,12 +2398,12 @@
 
 									<div class="utk_pernyataan">
 										<p id="pernyataan" style="margin-top: -20px;">  
-											Bahwa segala Peraturan dan Ketentuan pada Penerimaan Peserta Didik Baru (PPDB) Akhyar International, termasuk Pernyataan sebagai berikut :
+											Bahwa segala Peraturan dan Ketentuan pada Sistem Penerimaan Murid Baru (SPMB) Akhyar International Islamic School, termasuk Pernyataan sebagai berikut :
 
 											<ol>
 											  <li>Orang Tua / Wali Calon Murid bagi yang dinyatakan lolos TAHAP 1 (ONLINE), akan diinformasikan melakukan PENDAFTARAN TAHAP 2 (OFFLINE) dan akan dihubungi oleh Tim Administrasi untuk siap menyelesaikan Biaya Registrasi (Formulir Pendaftaran).</li>
 											  <li>Orang Tua/Wali Calon Murid wajib menyelesaikan Biaya Masuk (Uang Pangkal) sebesar minimal 50%, 15 hari setelah murid dinyatakan diterima, dilanjutkan sisa nya pada waktu yang telah ditentukan. Jika tidak maka murid dianggap mengundurkan diri.</li>
-											  <li>Orang Tua Calon murid Siap Menerima keputusan dari Panitia penerimaan murid baru tanpa syarat apapun.</li>
+											  <li>Orang Tua Calon murid Siap Menerima keputusan dari Panitia SPMB tanpa syarat apapun.</li>
 											  <li> Orang Tua / Wali Calon Murid menyetujui tanpa syarat bahwa dalam kondisi siswa yang dinyatakan diterima kemudian mengundurkan diri, maka seluruh biaya yang telah dibayarkan dinilai sebagai infaq untuk sekolah yang tidak dapat dikembalikan atau dipindahkan ke calon murid lain, atau diundur ke tahun berikutnya dalam kondisi atau alasan apapun. </li>
 											  <li> Orang Tua / Wali Calon Murid, bersedia berinfaq dan berkomitmen untuk membantu proses pembangunan dan perawatan Gedung serta Fasilitas Sekolah sesuai kesanggupan. </li>
 											</ol>
@@ -2234,7 +2411,7 @@
 										</p>
 
 										<p id="pernyataan">
-											Setelah membaca dan meneliti dengan seksama, dengan ini saya menyatakan mengikuti Peraturan - Ketentuan Panitia PPDB dan pernyataan tersebut diatas dengan sebenarnya dan sejujurnya, ikhlas tanpa tekanan dan paksaan dari pihak manapun, untuk dapat digunakan sebagaimana mestinya.
+											Setelah membaca dan meneliti dengan seksama, dengan ini saya menyatakan mengikuti Peraturan - Ketentuan Panitia SPMB dan pernyataan tersebut diatas dengan sebenarnya dan sejujurnya, ikhlas tanpa tekanan dan paksaan dari pihak manapun, untuk dapat digunakan sebagaimana mestinya.
 										</p>
 										
 										<div class="form-check" id="div_pernyataan">
@@ -2249,7 +2426,7 @@
 							</div>
 
 							<div class="panel-footer text-center">
-								<button type="submit" name="proses" id="proses_simpan" class="btn btn-success"> <i class="glyphicon glyphicon-refresh"></i> CHECK ULANG </button>
+								<button type="submit" name="proses" id="proses_simpan" onclick="validasiTanggal()" class="btn btn-success"> <i class="glyphicon glyphicon-refresh"></i> CHECK ULANG </button>
 							</div>
 
 						</form>

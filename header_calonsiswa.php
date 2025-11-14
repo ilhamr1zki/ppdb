@@ -155,14 +155,29 @@
 			$namaAdikAtauKK 			= "TIDAK ADA";
 		}
 
-		$riwayatPenyakit    = mysqli_real_escape_string($con, htmlspecialchars($_POST['rwyt_penyakit'])) . "tidakaadapenyakit";
-		$riwayatPenyakit1   = htmlspecialchars($_POST['rwyt_penyakit']);
+		// Versi lama
+		// $riwayatPenyakit    = mysqli_real_escape_string($con, htmlspecialchars($_POST['rwyt_penyakit'])) . "tidakaadapenyakit";
+		// $riwayatPenyakit1   = htmlspecialchars($_POST['rwyt_penyakit']);
 
-		if ($riwayatPenyakit == "tidakaadapenyakit") {
-			$riwayatPenyakit = "TIDAK ADA RIWAYAT PENYAKIT";
-		} else {
-			$riwayatPenyakit = str_replace(["tidakaadapenyakit"], "", $riwayatPenyakit);
-		}
+		// if ($riwayatPenyakit == "tidakaadapenyakit") {
+		// 	$riwayatPenyakit = "TIDAK ADA RIWAYAT PENYAKIT";
+		// } else {
+		// 	$riwayatPenyakit = str_replace(["tidakaadapenyakit"], "", $riwayatPenyakit);
+		// }
+		// Akhir Versi lama
+
+		$riwayatPenyakitNew 		= htmlspecialchars($_POST['riwayat_penyakit']);
+
+		$keterlambatanPerkembangan 	= htmlspecialchars($_POST['keterlambatan_perkembangan']). "kosong";
+
+    	if ($keterlambatanPerkembangan == "kosong") {
+    		$keterlambatanPerkembangan = "TIDAK";
+    	} else {
+    		$keterlambatanPerkembangan = str_replace(["kosong"], "", $keterlambatanPerkembangan);
+    	}
+
+		$alasanSekolahAiis 		= htmlspecialchars($_POST['alasan_sekolahdiaiis']);
+		$pemikiranOrtuTrhdpAiis = htmlspecialchars($_POST['pmkrn_ortu_trhdp_aiis']);
 
 		$dicari 			= "script";
 		$dicari1 			= 'window';
@@ -188,27 +203,10 @@
         	$tanggalLahirSiswa 	=  date("Y-m-d", strtotime(htmlspecialchars($_POST['tanglahir_anak_sd'])));
         	$tanggalLahirSiswa1 = format_tgl_indo($tanggalLahirSiswa);
 
-        	$tahsinQuran        = htmlspecialchars($_POST['bacaan_tahsin']);
-			$jumlahJuzDihafal   = htmlspecialchars($_POST['berapajuzhafal']);
-			$juzBerapaSaja      = htmlspecialchars($_POST['isi_juz']);
-			$tahfidzQuran       = htmlspecialchars($_POST['pilihan_tahfidz']);
-			// echo $tahfidzQuran;exit;
-
-			if ($tahfidzQuran != "belumtahfidz") {
-
-				$isiSuratSkr  	= mysqli_real_escape_string($con, htmlspecialchars($_POST['isi_surat']));
-				$suratTerakhir1 = htmlspecialchars($_POST['isi_surat']);
-
-			} else {
-
-				$tahfidzQuran;
-
-			}
-
 			########## RIWAYAT PERKEMBANGAN ##########
 
-				$dapatBerjalan 		= htmlspecialchars($_POST['usia_anak_dapat_berjalan']);
-	        	$dapatBerbicara 	= htmlspecialchars($_POST['anak_dapat_bicara']);
+				// $dapatBerjalan 		= htmlspecialchars($_POST['usia_anak_dapat_berjalan']);
+	        	// $dapatBerbicara 	= htmlspecialchars($_POST['anak_dapat_bicara']);
 	        	$pernahTerapi 		= htmlspecialchars($_POST['pernah_terapi']);
 	        	$jenisTerapi 		= "";
 	        	$alasanTerapi 		= "";
@@ -233,26 +231,12 @@
 
 	        	} 
 
-	        	$terlambatBerkembang 	= htmlspecialchars($_POST['keterlambatan_perkembangan']). "kosong";
-
-	        	if ($terlambatBerkembang == "kosong") {
-	        		$terlambatBerkembang = "TIDAK";
-	        	} else {
-	        		$terlambatBerkembang = str_replace(["kosong"], "", $terlambatBerkembang);
-	        	}
+	        	$kemampuanSosialAnak 	= htmlspecialchars($_POST['kemampuan_sosial_anak']);
+	        	$kemandirianAnak 		= htmlspecialchars($_POST['kemandirian_anak']);
+	        	$kelebihanAnak 			= htmlspecialchars($_POST['kelebihan_anak']);
 
 	        	$trSolat	= htmlspecialchars($_POST['solat_option']);
 
-	        	$tahsinOrtu 			= htmlspecialchars($_POST['ayah_bunda_bacaquran']);
-
-	        	if ($tahsinOrtu == "SANGAT_BAIK") {
-	        		$tahsinOrtu = "SANGAT BAIK";
-	        	} else {
-	        		$tahsinOrtu = htmlspecialchars($_POST['ayah_bunda_bacaquran']);
-	        	}
-
-	        	$tahfidzOrtu 			= htmlspecialchars($_POST['hafalan_ortu']);
-	        	$peranOrtu 				= htmlspecialchars($_POST['peran_ortu']);
 	        	$terbiasaGadget 		= htmlspecialchars($_POST['terbiasa_gadget']);
 	        	$waktuBermainGadget 	= "";
 	        	$waktuBermainGadget 	= htmlspecialchars($_POST['waktu_bermain_gadget']);
@@ -262,6 +246,26 @@
 	        	} else {
 	        		$waktuBermainGadget = "TIDAK";
 	        	}
+
+	        	$tahsinQuran        = htmlspecialchars($_POST['bacaan_tahsin']);
+				$jumlahJuzDihafal   = htmlspecialchars($_POST['berapajuzhafal']);
+				$juzBerapaSaja      = htmlspecialchars($_POST['isi_juz']);
+				$tahfidzQuran       = htmlspecialchars($_POST['pilihan_tahfidz']);
+				// echo $tahfidzQuran;exit;
+
+				if ($tahfidzQuran != "belumtahfidz") {
+
+					$isiSuratSkr  	= mysqli_real_escape_string($con, htmlspecialchars($_POST['isi_surat']));
+					$suratTerakhir1 = htmlspecialchars($_POST['isi_surat']);
+
+				} else {
+
+					$tahfidzQuran;
+
+				}
+
+				$terlibatMengasuh = htmlspecialchars($_POST['yang_terlibat_mengasuh']);
+				$peranOrtu 		  = htmlspecialchars($_POST['peran_ortu']);
 
 			########## AKHIR RIWAYAT PERKEMBANGAN ##########
 
@@ -307,6 +311,18 @@
 				$alamatAyah 		= mysqli_real_escape_string($con, htmlspecialchars($_POST['alamat_ayah']));
 				$alamatAyah1 		= htmlspecialchars($_POST['alamat_ayah']);
 				$nomorHpAyah  		= htmlspecialchars($_POST['nomorhpayah']);
+
+				// Ayah
+	        	$tahsinAyah 		= htmlspecialchars($_POST['ayah_bacaquran']);
+
+	        	if ($tahsinAyah == "SANGAT_BAIK") {
+	        		$tahsinAyah = "SANGAT BAIK";
+	        	} else {
+	        		$tahsinAyah = htmlspecialchars($_POST['ayah_bacaquran']);
+	        	}
+
+	        	$tahfidzAyah 		= htmlspecialchars($_POST['hafalan_ortu_ayah']);
+	        	// Akhir Ayah
 
 				########## Ibu ###########
 				$namaIbu 	  		= mysqli_real_escape_string($con, strtoupper(htmlspecialchars($_POST['nama_ibu'])));
@@ -357,6 +373,18 @@
 					$alamatIbu 			= mysqli_real_escape_string($con, htmlspecialchars($_POST['alamat_ibu']));
 					$alamatIbu1 		= htmlspecialchars($_POST['alamat_ibu']);
 					$nomorHpIbu  		= htmlspecialchars($_POST['nomorhpibu']);
+
+					// Ibu
+		        	$tahsinIbu 		= htmlspecialchars($_POST['ibu_bacaquran']);
+
+		        	if ($tahsinIbu == "SANGAT_BAIK") {
+		        		$tahsinIbu = "SANGAT BAIK";
+		        	} else {
+		        		$tahsinIbu = htmlspecialchars($_POST['ibu_bacaquran']);
+		        	}
+
+		        	$tahfidzIbu 		= htmlspecialchars($_POST['hafalan_ortu_ibu']);
+		        	// Akhir Ibu
 
 					$pendapatanOrtu     = htmlspecialchars($_POST['pendapatan_ortu']);
 					$rencanaMutasi 		= htmlspecialchars($_POST['rencana_mutasi']);
@@ -690,7 +718,7 @@
 				$finalNamaAdikAtauKK 			= "TIDAK ADA";
 			}
 
-			$finalRiwayatPenyakit    	= mysqli_real_escape_string($con, htmlspecialchars($_POST['rwyt_penyakit_review'])) . "tidakaadapenyakit";
+			// $finalRiwayatPenyakit    	= mysqli_real_escape_string($con, htmlspecialchars($_POST['rwyt_penyakit_review'])) . "tidakaadapenyakit";
 
 			if ($finalAsalSekolah == null) {
 				$finalAsalSekolah = "-";
@@ -700,35 +728,24 @@
 
 			// echo $finalAsalSekolah;exit;
 
-			if ($finalRiwayatPenyakit == "tidakaadapenyakit") {
-				$finalRiwayatPenyakit = "TIDAK ADA RIWAYAT PENYAKIT";
-			} else {
-				$finalRiwayatPenyakit = str_replace(["tidakaadapenyakit"], "", $finalRiwayatPenyakit);
-			}
+			// if ($finalRiwayatPenyakit == "tidakaadapenyakit") {
+			// 	$finalRiwayatPenyakit = "TIDAK ADA RIWAYAT PENYAKIT";
+			// } else {
+			// 	$finalRiwayatPenyakit = str_replace(["tidakaadapenyakit"], "", $finalRiwayatPenyakit);
+			// }
 
 			// echo $finalRiwayatPenyakit;exit;
 
-			$finalTahsinQuran 			= htmlspecialchars($_POST['tahsin_rev']);
-			$finalPilihanTahfidz 		= htmlspecialchars($_POST['pilihan_tahfidz_review']);
-
-			if ($finalPilihanTahfidz != "BELUM") {
-
-				$finalJumlahJuzDihafal      = htmlspecialchars($_POST['berapajuzhafal_review']);
-				$finalJuzYangDiHafal       	= htmlspecialchars($_POST['isi_juz_review']);
-				$finalSuratYangDihafal      = htmlspecialchars($_POST['isi_surat_review']);
-
-			} else {
-
-				$finalJumlahJuzDihafal      = "BELUM ADA";
-				$finalJuzYangDiHafal       	= "BELUM ADA";
-				$finalSuratYangDihafal      = "BELUM ADA";
-
-			}
+			$finalAlasanSklhAiis 		= mysqli_real_escape_string($con, htmlspecialchars($_POST['alasan_sekolahdiaiis_rev']));
+			$finalPndptOrtuTrhdpAiis 	= mysqli_real_escape_string($con, htmlspecialchars($_POST['pmkrn_ortu_trhdp_aiis_rev']));
 
 			### Riwayat Perkembangan ###
 
-				$finalDapatBerjalan 		= mysqli_real_escape_string($con, htmlspecialchars($_POST['usia_anak_dapat_berjalan_rev']));
-				$finalDapatBerbicara  		= mysqli_real_escape_string($con, htmlspecialchars($_POST['anak_dapat_bicara_rev']));
+				$finalRiwayatPenyakitNew 	= mysqli_real_escape_string($con, htmlspecialchars($_POST['riwayat_kesehatan_rev']));
+				$finalKeterlambatan 		= mysqli_real_escape_string($con, htmlspecialchars($_POST['keterlambatan_perkembangan_rev']));
+
+				// $finalDapatBerjalan 		= mysqli_real_escape_string($con, htmlspecialchars($_POST['usia_anak_dapat_berjalan_rev']));
+				// $finalDapatBerbicara  		= mysqli_real_escape_string($con, htmlspecialchars($_POST['anak_dapat_bicara_rev']));
 				$finalPernahTerapi 			= mysqli_real_escape_string($con, htmlspecialchars($_POST['pernah_terapi_rev']));
 				$finalJenisTerapi 			= "";
 		    	$finalAlasanTerapi 			= "";
@@ -755,11 +772,10 @@
 
 				}
 
-				$finalKeterlambatan 		= mysqli_real_escape_string($con, htmlspecialchars($_POST['keterlambatan_perkembangan_rev']));
+				$finalKemampuanSosial 		= mysqli_real_escape_string($con, htmlspecialchars($_POST['kemampuan_sosial_anak_rev']));
+				$finalKemandirian 			= mysqli_real_escape_string($con, htmlspecialchars($_POST['kemandirian_anak_rev']));
+				$finalKelebihanAnak 		= mysqli_real_escape_string($con, htmlspecialchars($_POST['kelebihan_anak_rev']));
 				$finalTerbiasaSolat 		= mysqli_real_escape_string($con, htmlspecialchars($_POST['solat_option_rev']));
-				$finalTahsinOrtu 			= mysqli_real_escape_string($con, htmlspecialchars($_POST['ayah_bunda_bacaquran_rev']));
-				$finalTahfidzOrtu 			= mysqli_real_escape_string($con, htmlspecialchars($_POST['hafalan_ortu_rev']));
-				$finalPeranOrtu 			= mysqli_real_escape_string($con, htmlspecialchars($_POST['peran_ortu_rev']));
 
 				$finalWaktuBermainGadget 	= "";
 				$finalTerbiasaGadget    	= mysqli_real_escape_string($con,htmlspecialchars($_POST['terbiasa_gadget_rev']));
@@ -769,6 +785,26 @@
 				} else {
 					$finalWaktuBermainGadget = "TIDAK";
 				}
+
+				$finalTahsinQuran 			= htmlspecialchars($_POST['tahsin_rev']);
+				$finalPilihanTahfidz 		= htmlspecialchars($_POST['pilihan_tahfidz_review']);
+
+				if ($finalPilihanTahfidz != "BELUM") {
+
+					$finalJumlahJuzDihafal      = htmlspecialchars($_POST['berapajuzhafal_review']);
+					$finalJuzYangDiHafal       	= htmlspecialchars($_POST['isi_juz_review']);
+					$finalSuratYangDihafal      = htmlspecialchars($_POST['isi_surat_review']);
+
+				} else {
+
+					$finalJumlahJuzDihafal      = "BELUM ADA";
+					$finalJuzYangDiHafal       	= "BELUM ADA";
+					$finalSuratYangDihafal      = "BELUM ADA";
+
+				}
+
+				$finalTerlibatMengasuh 		= mysqli_real_escape_string($con, htmlspecialchars($_POST['yang_terlibat_mengasuh_rev']));
+				$finalPeranOrtu 			= mysqli_real_escape_string($con, htmlspecialchars($_POST['peran_ortu_rev']));
 
 			### Akhir Riwayat Perkembangan ###
 
@@ -787,6 +823,8 @@
 			// echo $finalPekerjaanAyah;exit;
 			$finalAlamatAyah 		= mysqli_real_escape_string($con, htmlspecialchars($_POST['alamat_ayah_review']));
 			$finalNomorHpAyah  		= htmlspecialchars($_POST['nomorhpayah_review']);
+			$finalTahsinAyah 		= mysqli_real_escape_string($con, htmlspecialchars($_POST['ayah_bacaquran_rev']));
+			$finalTahfidzAyah 		= mysqli_real_escape_string($con, htmlspecialchars($_POST['hafalan_ortu_ayah_rev']));
 
 			########## Ibu ###########
 			$finalNamaIbu 	  		= mysqli_real_escape_string($con, strtoupper(htmlspecialchars($_POST['nama_ibu_review'])));
@@ -803,6 +841,8 @@
 
 			$finalAlamatIbu 		= mysqli_real_escape_string($con, htmlspecialchars($_POST['alamat_ibu_review']));
 			$finalNomorHpIbu  		= htmlspecialchars($_POST['nomorhpibu_review']);
+			$finalTahsinIbu 		= mysqli_real_escape_string($con, htmlspecialchars($_POST['ibu_bacaquran_rev']));
+			$finalTahfidzIbu 		= mysqli_real_escape_string($con, htmlspecialchars($_POST['hafalan_ortu_ibu_rev']));
 
 			$finalPendapatanOrtu    = htmlspecialchars($_POST['pendapatan_ortu_review']);
 			$finalRencanaMutasi 	= htmlspecialchars($_POST['rencana_mutasi_review']);
@@ -857,26 +897,28 @@
 				kk_atau_adik_di_aiis 								= '$finalAdaAdik_KakakDiAiis',
 				tingkat_kelas_kk_atau_adik  						= '$finalTingkatKelasAdikAtauKakak',
 				nama_kk_atau_adik 									= '$finalNamaAdikAtauKK',
-				riwayat_penyakit 									= '$finalRiwayatPenyakit',
-				bacaan_tahsin 										= '$finalTahsinQuran',
-				jumlah_juz_dihafal 									= '$finalJumlahJuzDihafal',
-				juz_dihafal   										= '$finalJuzYangDiHafal',
-				hafalan_surat 										= '$finalSuratYangDihafal',
-				dapat_berjalan_pada_usia 							= '$finalDapatBerjalan',
-				dapat_berbicara_bermakna_pada_usia					= '$finalDapatBerbicara',
+				alasan_diaiis 										= '$finalAlasanSklhAiis',
+				pendapat_orangtua 									= '$finalPndptOrtuTrhdpAiis',
+				riwayat_penyakit 									= '$finalRiwayatPenyakitNew',
+				keterlambatan_perkembangan							= '$finalKeterlambatan',
 				pernah_menjalani_terapi 							= '$finalPernahTerapi',
 				jenis_terapi 										= '$finalJenisTerapi',
 				alasan_menjalani_terapi 							= '$finalAlasanTerapi',
 				durasi_terapi 										= '$finalDurasiTerapi',
-				waktu_mulai_dan_waktu_selesai_terapi				= '$finalMulaiSelesaiTrp',
-				saat_ini_masih_menjalani_terapi 					= '$finalMasihTerapi',
-				keterlambatan_perkembangan 							= '$finalKeterlambatan',
+				kemampuan_sosial  									= '$finalKemampuanSosial',
+				Kemandirian_anak									= '$finalKemandirian',
+				kelebihan_anak 										= '$finalKelebihanAnak',
 				terbiasa_solat_lima_waktu 							= '$finalTerbiasaSolat',
-				orangtua_sudah_lancar_dalam_tahsin					= '$finalTahsinOrtu',
-				hafalan_tahfidz_orangtua							= '$finalTahfidzOrtu',
-				peran_orangtua_membantu_anak_menghafal				= '$finalPeranOrtu',
 				anak_terbiasa_menonton_tv_atau_gadget 				= '$finalTerbiasaGadget',
 				berapa_lama_menonton_tv_atau_gadget_dalam_sehari	= '$finalWaktuBermainGadget',
+				bacaan_tahsin 										= '$finalTahsinQuran',
+				jumlah_juz_dihafal 									= '$finalJumlahJuzDihafal',
+				juz_dihafal   										= '$finalJuzYangDiHafal',
+				hafalan_surat 										= '$finalSuratYangDihafal',
+				terlibat_mengasuh 									= '$finalTerlibatMengasuh',
+				peran_orangtua_membantu_anak_menghafal				= '$finalPeranOrtu',
+				waktu_mulai_dan_waktu_selesai_terapi				= '$finalMulaiSelesaiTrp',
+				saat_ini_masih_menjalani_terapi 					= '$finalMasihTerapi',
 				nama_ayah 											= '$finalNamaAyah',
 				tempat_lahir_ayah 									= '$finalTempatLahirAyah',
 				tanggal_lahir_ayah 									= '$finalTanggalLahirAyah',
@@ -885,6 +927,8 @@
 				pekerjaan_ayah 										= '$finalPekerjaanAyah',
 				domisili_ayah_saat_ini 								= '$finalAlamatAyah',
 				nomor_hp_ayah 										= '$finalNomorHpAyah',
+				tahsin_ayah 										= '$finalTahsinAyah',
+				tahfidz_ayah 										= '$finalTahfidzAyah',
 				nama_ibu 											= '$finalNamaIbu',
 				tempat_lahir_ibu 									= '$finalTempatLahirIbu',
 				tanggal_lahir_ibu 									= '$finalTanggalLahirIbu',
@@ -893,6 +937,8 @@
 				pekerjaan_ibu 										= '$finalPekerjaanIbu',
 				domisili_ibu_saat_ini 								= '$finalAlamatIbu',
 				nomor_hp_ibu 										= '$finalNomorHpIbu',
+				tahsin_ibu 											= '$finalTahsinIbu',
+				tahfidz_ibu 										= '$finalTahfidzIbu',
 				pendapatan_orangtua 								= '$finalPendapatanOrtu',
 				rencana_mutasi 										= '$finalRencanaMutasi',
 				file_pdf_akte 										= '$finalUploadAkte',
@@ -1043,6 +1089,10 @@
 		"IRT",
 		"LAINNYA"
 	];
+
+	$getTahunAjaran = mysqli_fetch_assoc(mysqli_query($con, "
+		SELECT thn_ajaran FROM tahun_ajaran WHERE status = 'aktif'
+	"));
 
 ?>
 
@@ -1409,7 +1459,7 @@
 	    			<h3 class="text-center" id="jdl" style="font-weight: bold;">
 	    				FORM PENDAFTARAN AKHYAR INTERNATIONAL ISLAMIC SCHOOL - SD
 	    			</h3>
-	    			<div class="panel-heading"><h4 id="tahunajar" class="text-center">Tahun Ajaran : <strong>2026 - 2027</strong></h4></div>
+	    			<div class="panel-heading"><h4 id="tahunajar" class="text-center">Tahun Ajaran : <strong> <?= $getTahunAjaran['thn_ajaran']; ?> </strong></h4></div>
 		    	</div>
 	    	</div>
 

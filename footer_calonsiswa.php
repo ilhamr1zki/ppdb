@@ -535,6 +535,33 @@
         return true;
     }
 
+    function validasiTanggal() {
+      // Ambil tanggal input dari elemen input
+      var tanggalInput = document.getElementById('vldt').value;
+
+      // Batas tanggal
+      var tanggalMin = new Date('2019-02-01');  // Tanggal batas bawah
+      var tanggalMax = new Date('2020-02-29');  // Tanggal batas atas
+
+      // Konversi input tanggal menjadi objek Date
+      var tanggal = new Date(tanggalInput);
+
+      // Cek apakah input tanggal valid
+      if (isNaN(tanggal)) {
+        alert("Format tanggal tidak valid. Harap masukkan tanggal dalam format YYYY-MM-DD.");
+        return;
+      }
+
+      // Cek apakah tanggal input dalam rentang yang diizinkan
+      if (tanggal >= tanggalMin && tanggal <= tanggalMax) {
+      	console.log("date is valid");
+      } else {
+        alert("Usia Anak anda melebihi batas usia maximal 7 tahun 5 bulan atau batas minimum 6 tahun 5 bulan pada saat Bulan Juli 2026");
+        document.getElementById('vldt').focus();
+        event.preventDefault();
+      }
+    }
+
     const showErrSizeFileTooBig = (size, nmfile) => {
 
     	Swal.fire({

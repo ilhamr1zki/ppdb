@@ -116,7 +116,17 @@
       data_pendaftaran_siswa.sertif_tahsin as sertif_tahsin,
       data_pendaftaran_siswa.sertif_tahfidz as sertif_tahfidz,
       data_pendaftaran_siswa.nominal_infaq as infaq,
-      data_pendaftaran_siswa.nominal_terbilang as terbilang
+      data_pendaftaran_siswa.nominal_terbilang as terbilang,
+      data_pendaftaran_siswa.alasan_diaiis as alasan_diaiis,
+      data_pendaftaran_siswa.pendapat_orangtua as pendapat_orangtua,
+      data_pendaftaran_siswa.kemampuan_sosial as kemampuan_sosial,
+      data_pendaftaran_siswa.kemandirian_anak as kemandirian_anak,
+      data_pendaftaran_siswa.kelebihan_anak as kelebihan_anak,
+      data_pendaftaran_siswa.terlibat_mengasuh as terlibat_mengasuh,
+      data_pendaftaran_siswa.tahsin_ayah as tahsin_ayah,
+      data_pendaftaran_siswa.tahfidz_ayah as tahfidz_ayah,
+      data_pendaftaran_siswa.tahsin_ibu as tahsin_ibu,
+      data_pendaftaran_siswa.tahfidz_ibu as tahfidz_ibu
       FROM data_pendaftaran_siswa
       ORDER BY data_pendaftaran_siswa.tanggal_formulir_dibuat DESC 
     ");
@@ -347,6 +357,18 @@
                     <input type="hidden" name="terbiasa_gadget" value="<?= $data['anak_terbiasa_menonton_tv_atau_gadget']; ?>">
                     <input type="hidden" name="durasi_gadget" value="<?= $data['berapa_lama_menonton_tv_atau_gadget_dalam_sehari']; ?>">
                     <input type="hidden" name="mutasi" value="<?= $data['mutasi']; ?>">
+
+                    <!-- Inputan Baru -->
+                    <input type="hidden" name="alasan_diaiis" value="<?= $data['alasan_diaiis']; ?>">
+                    <input type="hidden" name="pendapat_orangtua" value="<?= $data['pendapat_orangtua']; ?>">
+                    <input type="hidden" name="kemampuan_sosial" value="<?= $data['kemampuan_sosial']; ?>">
+                    <input type="hidden" name="kemandirian_anak" value="<?= $data['kemandirian_anak']; ?>">
+                    <input type="hidden" name="kelebihan_anak" value="<?= $data['kelebihan_anak']; ?>">
+                    <input type="hidden" name="terlibat_mengasuh" value="<?= $data['terlibat_mengasuh']; ?>">
+                    <input type="hidden" name="tahsin_ayah" value="<?= $data['tahsin_ayah']; ?>">
+                    <input type="hidden" name="tahfidz_ayah" value="<?= $data['tahfidz_ayah']; ?>">
+                    <input type="hidden" name="tahsin_ibu" value="<?= $data['tahsin_ibu']; ?>">
+                    <input type="hidden" name="tahfidz_ibu" value="<?= $data['tahfidz_ibu']; ?>">
 
                     <input type="hidden" name="infaq" value="<?= $data['infaq']; ?>">
                     <input type="hidden" name="terbilang" value="<?= $data['terbilang']; ?>">

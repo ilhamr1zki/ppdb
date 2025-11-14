@@ -39,6 +39,11 @@
 	    language: "id"
 	});
 
+	window.history.pushState(null, null, window.location.href);
+    window.onpopstate = function() {
+        window.history.go(1); // Ini akan memaksa browser untuk tetap di halaman yang sekarang
+    };
+
 	// mencegah user ketika refresh halaman dan mengirim data yang sama pada halaman yang sama
 	if (window.history.replaceState) {
 	  window.history.replaceState(null, null, window.location.href);

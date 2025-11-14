@@ -74,26 +74,30 @@
                  <th style="text-align: center;"> kk_atau_adik_di_aiis </th>
                  <th style="text-align: center;"> tingkat_kelas_kk_atau_adik </th>
                  <th style="text-align: center;"> nama_kk_atau_adik </th>
-                 <th style="text-align: center;"> riwayat_penyakit </th>
-                 <th style="text-align: center;"> bacaan_tahsin </th>
-                 <th style="text-align: center;"> jumlah_juz_dihafal </th>
-                 <th style="text-align: center;"> juz_dihafal </th>
-                 <th style="text-align: center;"> hafalan_surat </th>
-                 <th style="text-align: center;"> dapat_berjalan_pada_usia </th>
-                 <th style="text-align: center;"> dapat_berbicara_bermakna_pada_usia </th>
+                 <th style="text-align: center;"> alasan_memilih_sekolah_diaiis </th>
+                 <th style="text-align: center;"> pendapat_orangtua_mengenai_kebijakan_sekolah </th>
+                 <th style="text-align: center;"> riwayat_penyakit_proses_hamil_hingga_saat_ini </th>
+                 <th style="text-align: center;"> riwayat_penyakit_keterlambatan_tumbuh_kembang </th>
                  <th style="text-align: center;"> pernah_menjalani_terapi </th>
                  <th style="text-align: center;"> jenis_terapi </th>
                  <th style="text-align: center;"> alasan_menjalani_terapi </th>
                  <th style="text-align: center;"> durasi_terapi </th>
                  <th style="text-align: center;"> waktu_mulai_dan_waktu_selesai_terapi </th>
                  <th style="text-align: center;"> saat_ini_masih_menjalani_terapi </th>
-                 <th style="text-align: center;"> keterlambatan_perkembangan </th>
+                 <th style="text-align: center;"> kemampuan_sosial_anak_terhadap_lingkungan_baru </th>
+                 <th style="text-align: center;"> kemandirian_ananda </th>
+                 <th style="text-align: center;"> kelebihan_ananda </th>
                  <th style="text-align: center;"> terbiasa_solat_lima_waktu </th>
-                 <th style="text-align: center;"> orangtua_sudah_lancar_dalam_tahsin </th>
-                 <th style="text-align: center;"> hafalan_tahfidz_orangtua </th>
-                 <th style="text-align: center;"> peran_orangtua_membantu_anak_menghafal </th>
                  <th style="text-align: center;"> anak_terbiasa_menonton_tv_atau_gadget </th>
                  <th style="text-align: center;"> berapa_lama_menonton_tv_atau_gadget_dalam_sehari </th>
+                 <th style="text-align: center;"> bacaan_tahsin </th>
+                 <th style="text-align: center;"> jumlah_juz_dihafal </th>
+                 <th style="text-align: center;"> juz_dihafal </th>
+                 <th style="text-align: center;"> hafalan_surat </th>
+                 <!-- <th style="text-align: center;"> dapat_berjalan_pada_usia </th> -->
+                 <!-- <th style="text-align: center;"> dapat_berbicara_bermakna_pada_usia </th> -->
+                 <th style="text-align: center;"> yang_terlibat_dalam_mengasuh_ananda </th>
+                 <th style="text-align: center;"> peran_orangtua_membantu_anak_menghafal </th>
                  <th style="text-align: center;"> nama_ayah </th>
                  <th style="text-align: center;"> tempat_lahir_ayah </th>
                  <th style="text-align: center;"> tanggal_lahir_ayah </th>
@@ -102,6 +106,8 @@
                  <th style="text-align: center;"> pekerjaan_ayah </th>
                  <th style="text-align: center;"> domisili_ayah_saat_ini </th>
                  <th style="text-align: center;"> nomor_hp_ayah </th>
+                 <th style="text-align: center;"> tahsin_ayah </th>
+                 <th style="text-align: center;"> tahfidz_ayah </th>
                  <th style="text-align: center;"> nama_ibu </th>
                  <th style="text-align: center;"> tempat_lahir_ibu </th>
                  <th style="text-align: center;"> tanggal_lahir_ibu </th>
@@ -110,6 +116,8 @@
                  <th style="text-align: center;"> pekerjaan_ibu </th>
                  <th style="text-align: center;"> domisili_ibu_saat_ini </th>
                  <th style="text-align: center;"> nomor_hp_ibu </th>
+                 <th style="text-align: center;"> tahsin_ibu </th>
+                 <th style="text-align: center;"> tahfidz_ibu </th>
                  <th style="text-align: center;"> pendapatan_orangtua </th>
                  <th style="text-align: center;"> rencana_mutasi </th>
                  <th style="text-align: center;"> file_pdf_akte </th>
@@ -141,26 +149,30 @@
                         <td style="text-align: center;"> <?= $data['kk_atau_adik_di_aiis']; ?> </td>
                         <td style="text-align: center;"> <?= $data['tingkat_kelas_kk_atau_adik']; ?> </td>
                         <td style="text-align: center;"> <?= $data['nama_kk_atau_adik']; ?> </td>
+                        <td style="text-align: center;"> <?= $data['alasan_diaiis']; ?> </td>
+                        <td style="text-align: center;"> <?= $data['pendapat_orangtua']; ?> </td>
                         <td style="text-align: center;"> <?= $data['riwayat_penyakit']; ?> </td>
-                        <td style="text-align: center;"> <?= $data['bacaan_tahsin']; ?> </td>
-                        <td style="text-align: center;"> <?= $data['jumlah_juz_dihafal']; ?> </td>
-                        <td style="text-align: center;"> <?= $data['juz_dihafal']; ?> </td>
-                        <td style="text-align: center;"> <?= $data['hafalan_surat']; ?> </td>
-                        <td style="text-align: center;"> <?= $data['dapat_berjalan_pada_usia']; ?> </td>
-                        <td style="text-align: center;"> <?= $data['dapat_berbicara_bermakna_pada_usia']; ?> </td>
+                        <td style="text-align: center;"> <?= $data['keterlambatan_perkembangan']; ?> </td>
                         <td style="text-align: center;"> <?= $data['pernah_menjalani_terapi']; ?> </td>
                         <td style="text-align: center;"> <?= $data['jenis_terapi']; ?> </td>
                         <td style="text-align: center;"> <?= $data['alasan_menjalani_terapi']; ?> </td>
                         <td style="text-align: center;"> <?= $data['durasi_terapi']; ?> </td>
                         <td style="text-align: center;"> <?= $data['waktu_mulai_dan_waktu_selesai_terapi']; ?> </td>
                         <td style="text-align: center;"> <?= $data['saat_ini_masih_menjalani_terapi']; ?> </td>
-                        <td style="text-align: center;"> <?= $data['keterlambatan_perkembangan']; ?> </td>
+                        <td style="text-align: center;"> <?= $data['kemampuan_sosial']; ?> </td>
+                        <td style="text-align: center;"> <?= $data['kemandirian_anak']; ?> </td>
+                        <td style="text-align: center;"> <?= $data['kelebihan_anak']; ?> </td>
                         <td style="text-align: center;"> <?= $data['terbiasa_solat_lima_waktu']; ?> </td>
-                        <td style="text-align: center;"> <?= $data['orangtua_sudah_lancar_dalam_tahsin']; ?> </td>
-                        <td style="text-align: center;"> <?= $data['hafalan_tahfidz_orangtua']; ?> </td>
-                        <td style="text-align: center;"> <?= $data['peran_orangtua_membantu_anak_menghafal']; ?> </td>
                         <td style="text-align: center;"> <?= $data['anak_terbiasa_menonton_tv_atau_gadget']; ?> </td>
                         <td style="text-align: center;"> <?= $data['berapa_lama_menonton_tv_atau_gadget_dalam_sehari']; ?> </td>
+                        <td style="text-align: center;"> <?= $data['bacaan_tahsin']; ?> </td>
+                        <td style="text-align: center;"> <?= $data['jumlah_juz_dihafal']; ?> </td>
+                        <td style="text-align: center;"> <?= $data['juz_dihafal']; ?> </td>
+                        <td style="text-align: center;"> <?= $data['hafalan_surat']; ?> </td>
+                        <!-- <td style="text-align: center;"> <?= $data['dapat_berjalan_pada_usia']; ?> </td> -->
+                        <!-- <td style="text-align: center;"> <?= $data['dapat_berbicara_bermakna_pada_usia']; ?> </td> -->
+                        <td style="text-align: center;"> <?= $data['terlibat_mengasuh']; ?> </td>
+                        <td style="text-align: center;"> <?= $data['peran_orangtua_membantu_anak_menghafal']; ?> </td>
                         <td style="text-align: center;"> <?= $data['nama_ayah']; ?> </td>
                         <td style="text-align: center;"> <?= $data['tempat_lahir_ayah']; ?> </td>
                         <td style="text-align: center;"> <?= $data['tanggal_lahir_ayah']; ?> </td>
@@ -169,6 +181,8 @@
                         <td style="text-align: center;"> <?= $data['pekerjaan_ayah']; ?> </td>
                         <td style="text-align: center;"> <?= $data['domisili_ayah_saat_ini']; ?> </td>
                         <td style="text-align: center;"> <?= $data['nomor_hp_ayah']; ?> </td>
+                        <td style="text-align: center;"> <?= $data['tahsin_ayah']; ?> </td>
+                        <td style="text-align: center;"> <?= $data['tahfidz_ayah']; ?> </td>
                         <td style="text-align: center;"> <?= $data['nama_ibu']; ?> </td>
                         <td style="text-align: center;"> <?= $data['tempat_lahir_ibu']; ?> </td>
                         <td style="text-align: center;"> <?= $data['tanggal_lahir_ibu']; ?> </td>
@@ -177,6 +191,8 @@
                         <td style="text-align: center;"> <?= $data['pekerjaan_ibu']; ?> </td>
                         <td style="text-align: center;"> <?= $data['domisili_ibu_saat_ini']; ?> </td>
                         <td style="text-align: center;"> <?= $data['nomor_hp_ibu']; ?> </td>
+                        <td style="text-align: center;"> <?= $data['tahsin_ibu']; ?> </td>
+                        <td style="text-align: center;"> <?= $data['tahfidz_ibu']; ?> </td>
                         <td style="text-align: center;"> <?= $data['pendapatan_orangtua']; ?> </td>
                         <td style="text-align: center;"> <?= $data['rencana_mutasi']; ?> </td>
                         <td style="text-align: center;"> <a href="<?= $base . 'upload/akte_kelahiran/' . $data['file_pdf_akte']; ?>"> <?= $base . 'upload/akte_kelahiran/' . $data['file_pdf_akte']; ?> </a> </td>
