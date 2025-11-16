@@ -140,9 +140,7 @@
 						$ktp_ibu 			= mysqli_real_escape_string($con, htmlspecialchars($Row[60]));
 						$sertif_tahsin 		= mysqli_real_escape_string($con, htmlspecialchars($Row[61]));
 						$sertif_tahfidz 	= mysqli_real_escape_string($con, htmlspecialchars($Row[62]));
-						$nominalInfaq 		= mysqli_real_escape_string($con, htmlspecialchars($Row[63]));
-						$nominalTerbilang 	= mysqli_real_escape_string($con, htmlspecialchars($Row[64]));
-						$tanggalFormDiIsi 	= mysqli_real_escape_string($con, htmlspecialchars($Row[65]));
+						$tanggalFormDiIsi 	= mysqli_real_escape_string($con, htmlspecialchars($Row[63]));
 
 						$id 				= generateRandomString(25);
 
@@ -433,9 +431,7 @@
 						$ktp_ibu 			= mysqli_real_escape_string($con, htmlspecialchars($Row[60]));
 						$sertif_tahsin 		= mysqli_real_escape_string($con, htmlspecialchars($Row[61]));
 						$sertif_tahfidz 	= mysqli_real_escape_string($con, htmlspecialchars($Row[62]));
-						$nominalInfaq 		= mysqli_real_escape_string($con, htmlspecialchars($Row[63]));
-						$nominalTerbilang 	= mysqli_real_escape_string($con, htmlspecialchars($Row[64]));
-						$tanggalFormDiIsi 	= mysqli_real_escape_string($con, htmlspecialchars($Row[65]));
+						$tanggalFormDiIsi 	= mysqli_real_escape_string($con, htmlspecialchars($Row[63]));
 
 						$id 				= generateRandomString(25);
 
@@ -498,8 +494,6 @@
 								ktp_ibu 											= '$ktp_ibu',
 								sertif_tahsin  										= '$sertif_tahsin',
 								sertif_tahfidz  									= '$sertif_tahfidz',
-								nominal_infaq										= '$nominalInfaq',
-								nominal_terbilang 									= '$nominalTerbilang',
 								tanggal_formulir_dibuat 							= '$tanggalFormDiIsi',
 								alasan_diaiis 										= '$alasanDiAiis',
 								pendapat_orangtua 									= '$pendapatOrtu',
@@ -601,8 +595,6 @@
 									ktp_ibu 											= '$ktp_ibu',
 									sertif_tahsin  										= '$sertif_tahsin',
 									sertif_tahfidz  									= '$sertif_tahfidz',
-									nominal_infaq										= '$nominalInfaq',
-									nominal_terbilang 									= '$nominalTerbilang',
 									tanggal_formulir_dibuat 							= '$tanggalFormDiIsi',
 									alasan_diaiis 										= '$alasanDiAiis',
 									pendapat_orangtua 									= '$pendapatOrtu',

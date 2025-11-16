@@ -77,7 +77,7 @@
                  <th style="text-align: center;"> alasan_memilih_sekolah_diaiis </th>
                  <th style="text-align: center;"> pendapat_orangtua_mengenai_kebijakan_sekolah </th>
                  <th style="text-align: center;"> riwayat_penyakit_proses_hamil_hingga_saat_ini </th>
-                 <th style="text-align: center;"> riwayat_penyakit_keterlambatan_tumbuh_kembang </th>
+                 <th style="text-align: center;"> riwayat_tumbuh_kembang </th>
                  <th style="text-align: center;"> pernah_menjalani_terapi </th>
                  <th style="text-align: center;"> jenis_terapi </th>
                  <th style="text-align: center;"> alasan_menjalani_terapi </th>
@@ -126,8 +126,6 @@
                  <th style="text-align: center;"> ktp_ibu </th>
                  <th style="text-align: center;"> sertif_tahsin </th>
                  <th style="text-align: center;"> sertif_tahfidz </th>
-                 <th style="text-align: center;"> nominal_infaq </th>
-                 <th style="text-align: center;"> nominal_terbilang </th>
                  <th style="text-align: center;"> tanggal_formulir_dibuat </th>
               </tr>
             </thead>
@@ -220,9 +218,6 @@
                             <td style="text-align: center;"> <strong> - </strong> </td>
 
                         <?php endif ?>
-
-                        <td style="text-align: center;"> <?= $data['nominal_infaq']; ?> </td>
-                        <td style="text-align: center;"> <?= $data['nominal_terbilang']; ?> </td>
 
                         <td style="text-align: center;"> <?= $data['tanggal_formulir_dibuat']; ?> </td>
                         
